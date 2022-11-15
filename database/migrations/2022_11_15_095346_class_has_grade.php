@@ -14,14 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('class_has_grade', function (Blueprint $table) {
-            $table->integer('class_id')->unsigned();
-            $table->integer('grade_id')->unsigned();
-    
-            $table->unique(['class_id', 'grade_id']);
-            $table->foreign('class_id')->references('id')->on('class')
-                ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('grade_id')->references('id')->on('grade')
-                ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('class_id')->constrained('class');
+            $table->foreignId('grade_id')->constrained('grade');
         });
     }
 

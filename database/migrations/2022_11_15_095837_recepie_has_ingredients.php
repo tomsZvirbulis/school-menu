@@ -14,14 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('recepie_has_ingredients', function (Blueprint $table) {
-            $table->integer('recepie_id')->unsigned();
-            $table->integer('ingredients_id')->unsigned();
-    
-            $table->unique(['recepie_id', 'ingredients_id']);
-            $table->foreign('recepie_id')->references('id')->on('recepie')
-                ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('ingredients_id')->references('id')->on('ingredients')
-                ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('recepie_id')->constrained('recepie');
+            $table->foreignId('ingredients_id')->constrained('ingredients');
         });
     }
 
