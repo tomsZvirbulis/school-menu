@@ -23,6 +23,8 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
+            'company_id' => ['required', 'integer', 'max:255'],
+            'company_type' => ['required', 'integer', 'max:255'],
             'email' => [
                 'required',
                 'string',
@@ -33,9 +35,16 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
+        if ($input['company_type'] == 1) {
+            $type = 'school_id';
+        } else {
+            $type = 'caterer_id';
+        };
+
         return User::create([
             'first_name' => $input['first_name'],
             'last_name' => $input['last_name'],
+            $type => $input['company_id'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);

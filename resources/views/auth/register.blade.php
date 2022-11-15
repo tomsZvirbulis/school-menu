@@ -62,9 +62,9 @@
                 <div class="row">
                   <div class="col-12">
   
-                    <select class="select form-control-lg" required>
-                      <option value="2">School</option>
-                      <option value="3">Caterer</option>
+                    <select name='company_type' class="select form-control-lg" required>
+                      <option value="1">School</option>
+                      <option value="2">Caterer</option>
                     </select>
 
                     <div class="form-outline mt-4">
@@ -77,9 +77,15 @@
                 
   
                 <div class="mt-4 pt-2">
-                  <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+                  <input class="btn btn-primary btn-lg" type="submit" value="Register" />
                 </div>
-  
+                
+                <div class='mt-4 pt-2'>
+                    <a href='login'>
+                        Login
+                    </a>
+                </div>
+
               </form>
             </div>
           </div>
