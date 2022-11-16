@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('city');
             $table->string('district');
             $table->string('country');
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
             $table->string('postal_code');
         });
     }
