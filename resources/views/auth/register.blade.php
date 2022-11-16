@@ -13,6 +13,24 @@
                   <div class="col-md-6 mb-4">
   
                     <div class="form-outline">
+                      <input name='company_name' type="text" id="company_name" class="form-control form-control-lg" required />
+                      <label class="form-label" for="company_name">Company name</label>
+                    </div>
+  
+                  </div>
+                  <div class="col-md-6 mb-4">
+  
+                    <select name='company_type' class="select form-control-lg" required>
+                      <option value="1">School</option>
+                      <option value="2">Caterer</option>
+                    </select>
+  
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+  
+                    <div class="form-outline">
                       <input name='first_name' type="text" id="firstName" class="form-control form-control-lg" required />
                       <label class="form-label" for="firstName">First Name</label>
                     </div>
@@ -58,19 +76,64 @@
       
                       </div>
                   </div>
-  
-                <div class="row">
-                  <div class="col-12">
-  
-                    <select name='company_type' class="select form-control-lg" required>
-                      <option value="1">School</option>
-                      <option value="2">Caterer</option>
-                    </select>
 
-                    <div class="form-outline mt-4">
-                        <input name='company_id' type="number" id="company_id" class="form-control form-control-lg" required />
-                        <label class="form-label" for="id">Company ID</label>
-                      </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+  
+                    <div class="form-outline">
+                      <input name='address' type="text" id="address" class="form-control form-control-lg" required />
+                      <label class="form-label" for="address">Address</label>
+                    </div>
+  
+                  </div>
+
+                  <div class="col-md-6 mb-4">
+  
+                    <div class="form-outline">
+                      <input name='address2' type="text" id="address2" placeholder="Apt" class="form-control form-control-lg" />
+                      <label class="form-label" for="address2">Address 2</label>
+                    </div>
+  
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+  
+                    <div class="form-outline">
+                      <input name='city' type="text" id="city" class="form-control form-control-lg" required />
+                      <label class="form-label" for="city">City</label>
+                    </div>
+  
+                  </div>
+
+                  <div class="col-md-6 mb-4">
+  
+                    <div class="form-outline">
+                      <input name='district' type="text" id="district" class="form-control form-control-lg" />
+                      <label class="form-label" for="district">District</label>
+                    </div>
+  
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+  
+                    <div class="form-outline">
+                      <input name='country' type="text" id="country" class="form-control form-control-lg" required />
+                      <label class="form-label" for="country">Country</label>
+                    </div>
+  
+                  </div>
+
+                  <div class="col-md-6 mb-4">
+  
+                    <div class="form-outline">
+                      <input name='post_code' type="text" id="post_code" class="form-control form-control-lg" />
+                      <label class="form-label" for="post_code">Post code</label>
+                    </div>
   
                   </div>
                 </div>
@@ -81,9 +144,7 @@
                 </div>
                 
                 <div class='mt-4 pt-2'>
-                    <a href='login'>
-                        Login
-                    </a>
+                    Already a user: <a href='login'>Login</a>
                 </div>
 
               </form>

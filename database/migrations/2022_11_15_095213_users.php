@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
+            $table->boolean('master')->default(0);
             $table->string('email')->unique();
             $table->unsignedBigInteger('caterer_id')->nullable();
             $table->foreign('caterer_id')->references('id')->on('caterer');
