@@ -1,3 +1,5 @@
 @extends('layouts.main')
 
-<div>Home</div>
+@section('content')
+    <div>Home</div>
+@endsection

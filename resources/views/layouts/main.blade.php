@@ -9,10 +9,7 @@
     <title>Document</title>
 </head>
 <body>
-    
-
-    @section('content')
-
-    @endsection
+    @yield('navbar')
+    @yield('content')
 </body>
 </html>
