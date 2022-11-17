@@ -1,0 +1,17 @@
+.reg-worker {
+    border: 1px rgba(0, 0, 0, .15) solid;
+    border-radius: 15px;
+    width: 40vw;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.reg-worker > form {
+    margin: 0;
+}
+
+.user {
+    display: flex;
+    justify-content: center;
+}
