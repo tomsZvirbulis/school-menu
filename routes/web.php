@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,4 +23,6 @@ Route::get('/home', function () {
     return view('home');
 });
 
-Route::get('/user', [UserController::class, 'index']);
+Route::get('user', [WorkerController::class, 'data']);
+Route::post('/createworker', [WorkerController::class, 'create'])->name('createWorker');
+// Route::get('/user', [UserController::class, 'index']);

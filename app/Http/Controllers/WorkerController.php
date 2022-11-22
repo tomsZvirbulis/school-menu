@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class WorkerController extends Controller
 {
@@ -20,6 +23,12 @@ class WorkerController extends Controller
         
     }
 
+    public function data() {
+        // $data = ['first_name', 'last_name', 'email', 'password', 'confirm_password'];
+        // return view('user', compact('data'));
+        return view('user');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -27,7 +36,20 @@ class WorkerController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::user()->caterer_id !=null) {
+            $company = 'caterer_id';
+            $company_id = Auth::user()->caterer_id;
+        } else {
+            $company = 'school_id';
+            $company_id = Auth::user()->school_id;
+        };
+
+        if (request('password') === request('confirm_password')) {
+            $hashed = Hash::make(request('password'));
+            DB::insert('insert into users (first_name, last_name, master, email, password, '.$company.') values ("'.request('first_name').'",
+                "'.request('last_name').'", 0, "'.request('email').'", "'.$hashed.'", '.$company_id.')');
+        };
+
     }
 
     /**
