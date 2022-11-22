@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('name');
             $table->float('prep_time');
             $table->float('cook_time');
-            $table->integer('aclories');
+            $table->integer('calories');
+            $table->unsignedBigInteger('ingredient_id')->nullable();
+            $table->foreign('ingredient_id')->references('id')->on('ingredient');
             $table->unsignedBigInteger('caterer_id')->nullable();
             $table->foreign('caterer_id')->references('id')->on('caterer');
         });

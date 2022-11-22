@@ -47,14 +47,14 @@
                 </div>
             
                 <!-- Submit button -->
-                <button onClick='handleLogout()' type="submit" class="btn btn-primary btn-block">Register worker</button>
+                <button onClick='handleSubmit()' type="submit" class="btn btn-primary btn-block">Register worker</button>
             </form>
         </div>
     </div>
     <script>
         const form = document.getElementById('worker-form');
 
-        const handleLogout = () => {
+        const handleSubmit = () => {
             event.preventDefault();
             form.submit();
         }
