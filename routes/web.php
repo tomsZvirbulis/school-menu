@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkerController;
+use App\Http\Controllers\RecepiesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +24,10 @@ Route::get('/home', function () {
     return view('home');
 });
 
+//  USER routes
 Route::get('user/{caterer_id}', [WorkerController::class, 'data']);
 Route::post('/createworker', [WorkerController::class, 'createWorker'])->name('createWorker');
 Route::post('/createschool', [WorkerController::class, 'createSchool'])->name('createSchool');
-// Route::get('/user', [UserController::class, 'index']);
+
+// RECEPIE routes
+Route::get('/recepies', [RecepiesController::class, 'getRecepies']);

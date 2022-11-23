@@ -11,11 +11,18 @@
                 
                 <h1>Register new school</h1>
                 <!-- 2 column grid layout with text inputs for the first and last names -->
+
                 <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
-                        <input type="text" id="form6Example1" name='school_name' class="form-control" />
-                        <label class="form-label" for="form6Example1">School name</label>
+                        <input type="text" id="form6Example1" name='first_name' class="form-control" />
+                        <label class="form-label" for="form6Example1">First name</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-outline">
+                        <input type="text" id="form6Example2" class="form-control" name='last_name' />
+                        <label class="form-label" for="form6Example2">Last name</label>
                         </div>
                     </div>
                 </div>
@@ -24,6 +31,15 @@
                 <div class="form-outline mb-4">
                     <input type="email" id="form6Example5" name='email' class="form-control" />
                     <label class="form-label" for="form6Example5">Email</label>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="form-outline">
+                        <input type="text" id="form6Example1" name='school_name' class="form-control" />
+                        <label class="form-label" for="form6Example1">School name</label>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -154,7 +170,7 @@
                 <div class="col-md-6 mb-4">
   
                         @if (count($schools) > 0)
-                            <select name='company_type' class="select form-control-lg" required>
+                            <select name='school_id' class="select form-control-lg" required>
                                 @foreach ($schools as $school)
                                     <option value={{ $school->id }}>{{ $school->name }}</option>
                                 @endforeach

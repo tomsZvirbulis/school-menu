@@ -51,11 +51,12 @@ class WorkerController extends Controller
         $addressId = getLastId('address');
         $caterer = Auth::user()->caterer_id;
         
-
         if (request('password') === request('confirm_password')) {
             $hashed = Hash::make(request('password'));
-            DB::insert('insert into school (name, address_id, caterer) values ("'.request('name').'",
-                '.$addressId.', '.$caterer.')');
+            DB::insert('insert into school (name, address_id, caterer) values ("'.request('school_name').'",'.$addressId[0]->id.', '.$caterer.')');
+            $school_id = getLastId('school');
+            DB::insert('insert into users (first_name, last_name, master, email, password, school_id) values ("'.request('first_name').'",
+                    "'.request('last_name').'", 1, "'.request('email').'", "'.$hashed.'", '.$school_id[0]->id.')');
         };
     }
 
@@ -64,13 +65,14 @@ class WorkerController extends Controller
         if (Auth::user()->caterer_id !=null && Auth::user()->master == 1) {
             $company = 'caterer_id';
             $company_id = Auth::user()->caterer_id;
+            if (request('password') === request('confirm_password')) {
+                $hashed = Hash::make(request('password'));
+                DB::insert('insert into users (first_name, last_name, master, email, password, '.$company.', assigned_school) values ("'.request('first_name').'",
+                    "'.request('last_name').'", 0, "'.request('email').'", "'.$hashed.'", '.$company_id.', ?)', [request('school_id')]);
+            };
         }
 
-        if (request('password') === request('confirm_password')) {
-            $hashed = Hash::make(request('password'));
-            DB::insert('insert into users (first_name, last_name, master, email, password, '.$company.') values ("'.request('first_name').'",
-                "'.request('last_name').'", 0, "'.request('email').'", "'.$hashed.'", '.$company_id.')');
-        };
+        
 
     }
 
