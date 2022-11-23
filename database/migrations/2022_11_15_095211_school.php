@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('address_id');
             $table->foreign('address_id')->references('id')->on('address');
+            $table->unsignedBigInteger('caterer');
+            $table->foreign('caterer')->references('id')->on('caterer');
         });
     }
 

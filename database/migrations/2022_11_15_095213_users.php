@@ -23,6 +23,8 @@ return new class extends Migration
             $table->foreign('caterer_id')->references('id')->on('caterer');
             $table->unsignedBigInteger('school_id')->nullable();
             $table->foreign('school_id')->references('id')->on('school');
+            $table->unsignedBigInteger('assigned_school')->nullable();
+            $table->foreign('assigned_school')->references('id')->on('school');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

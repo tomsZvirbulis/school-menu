@@ -20,7 +20,7 @@ return new class extends Migration
             $table->float('cook_time');
             $table->integer('calories');
             $table->unsignedBigInteger('ingredient_id')->nullable();
-            $table->foreign('ingredient_id')->references('id')->on('ingredient');
+            $table->foreign('ingredient_id')->references('id')->on('ingredients');
             $table->unsignedBigInteger('caterer_id')->nullable();
             $table->foreign('caterer_id')->references('id')->on('caterer');
         });

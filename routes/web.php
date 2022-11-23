@@ -23,6 +23,7 @@ Route::get('/home', function () {
     return view('home');
 });
 
-Route::get('user', [WorkerController::class, 'data']);
-Route::post('/createworker', [WorkerController::class, 'create'])->name('createWorker');
+Route::get('user/{caterer_id}', [WorkerController::class, 'data']);
+Route::post('/createworker', [WorkerController::class, 'createWorker'])->name('createWorker');
+Route::post('/createschool', [WorkerController::class, 'createSchool'])->name('createSchool');
 // Route::get('/user', [UserController::class, 'index']);
