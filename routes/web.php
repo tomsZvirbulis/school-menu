@@ -31,3 +31,4 @@ Route::post('/createschool', [WorkerController::class, 'createSchool'])->name('c
 
 // RECEPIE routes
 Route::get('/recepies', [RecepiesController::class, 'getRecepies']);
+Route::post('/createrecepie', [RecepiesController::class, 'createRecepies'])->name('createRecepie');

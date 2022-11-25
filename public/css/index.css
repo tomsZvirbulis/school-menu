@@ -1,5 +1,12 @@
 html {
     overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.normal-padding {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .left {
@@ -36,4 +43,51 @@ html {
 
 .loged-in > h3 > a {
     text-decoration: none;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal > button {
+    align-self: flex-end;
+}
+
+.hide {
+    display: none;
+}
+
+.show-modal {
+    display: flex;
+}
+
+.recepies {
+    padding: 3rem;
+}
+
+#recepie-modal {
+    width: 40%;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 4rem;
+    margin: 20vh 0;
+    margin-left: 30vw;
+    height: auto;
+}
+
+.close-btn {
+    margin-bottom: 2rem;
+}
+
+.error {
+    color: red;
+}
+
+.error-input {
+    border: 1px solid red;
+}
+
+#ingred-btn {
+    margin-bottom: 2rem;
 }

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->integer('calories');
             $table->integer('servings');
             $table->unsignedBigInteger('ingredient_id')->nullable();
-            $table->unsignedBigInteger('ingredient_count');
             $table->foreign('ingredient_id')->references('id')->on('ingredients');
             $table->unsignedBigInteger('caterer_id')->nullable();
             $table->foreign('caterer_id')->references('id')->on('caterer');

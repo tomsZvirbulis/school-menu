@@ -32,6 +32,10 @@ class RecepiesController extends Controller
         return view('recepies', ['recepies'=>$res]);
     }
 
+    public function createRecepies(Request $request) {
+        dd($request);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

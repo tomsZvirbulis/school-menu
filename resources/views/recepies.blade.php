@@ -1,10 +1,12 @@
 @extends('layouts.main')
-
 @section('content')
+<link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <div class="recepies">
         <button type="button" class="btn btn-success" onclick="addRecepie()">Add recepie</button>
-        <div calss='model'>
-            <form action='/test'>
+        <div id='recepie-modal' class='modal hide normal-padding'>
+            <button onclick="handleClose()" class='btn btn-danger close-btn'><i class="bi bi-x-lg"></i></button>
+            <form id='recepie-form' action{{route('createRecepie')}} method='POST'>
+              @csrf
                 <!-- 2 column grid layout with text inputs for the first and last names -->
                 <div class="row mb-4">
                   <div class="col">
@@ -50,20 +52,9 @@
 
                 </div>
                 
-                <!-- Message input -->
-                <div class="form-outline mb-4">
-                  <textarea class="form-control" id="form6Example7" rows="4"></textarea>
-                  <label class="form-label" for="form6Example7">Additional information</label>
-                </div>
-              
-                <!-- Checkbox -->
-                <div class="form-check d-flex justify-content-center mb-4">
-                  <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" checked />
-                  <label class="form-check-label" for="form6Example8"> Create an account? </label>
-                </div>
               
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">Place order</button>
+                <button type="submit" class="btn btn-primary btn-block mb-4">Add</button>
               </form>
         </div>
         <table>
@@ -76,28 +67,69 @@
     </div>
 <script>
     const addRecepie = () => {
+      $('#recepie-modal').addClass('show-modal').removeClass('hide')
+    }
 
+    const handleClose = () => {
+      $('#recepie-modal').addClass('hide').removeClass('show-modal')
     }
 
     $('#ingred-btn').click(function () {
         event.preventDefault();
-        let str1 = `<div><h2 class="form-label">Ingredient #${$('#ingred-input div').length+1}</h2><label class="form-label" for="ingred-name">Ingredient name</label><input name="ingred-name" type="number" id="ingred-name" class="form-control" />`
-        let str = `<div><h2 class="form-label">Ingredient #${$('#ingred-input div').length+1}</h2><div class="row mb-4">
+        let str = `<div><h2 class="form-label">Ingredient #${$('#ingred-input > div').length+1}</h2><div class="row mb-4">
             <div class="row mb-4">
                     <div class="col">
                       <div class="form-outline">
-                        <label class="form-label" for="ingred-name">Ingredient name</label>
-                        <input name='calories' type="number" id="ingred-name" class="form-control" />
+                        <label class="form-label" for="ingred-name-${$('#ingred-input > div').length+1}">Ingredient name</label>
+                        <input name='ingred-name-${$('#ingred-input > div').length+1}' type="text" id="ingred-name-${$('#ingred-input > div').length+1}" class="form-control" />
                       </div>
                     </div>
                     <div class="col">
                       <div class="form-outline">
-                        <label class="form-label" for="servings">Servings</label>
-                        <input name='servings' type="number" id="servings" class="form-control" />
+                        <label class="form-label" for="count-${$('#ingred-input > div').length+1}">Count</label>
+                        <input name='count-${$('#ingred-input > div').length+1}' type="number" id="count-${$('#ingred-input > div').length+1}" class="form-control" />
                       </div>
                     </div>
                 </div></div>`
         $('#ingred-input').append(str)
+    })
+
+    $('#recepie-form').submit(function () {
+      event.preventDefault()
+      $('.error').remove()
+      let formData = $('#recepie-form').serializeArray();
+      let error = 0;
+      let newData = [];
+      formData.map((dat) => {
+        if (dat.value == '') {
+          ++error
+          $(`[name=${dat.name}]`).parent().append('<h4 class="error">Field cannot be empty</h4>')
+          $(`[name=${dat.name}]`).addClass('error-input')
+        } else {
+          $(`[name=${dat.name}]`).removeClass('error-input')
+        }
+      })
+      console.log({data: JSON.stringify(formData)})
+      if (error === 0) {
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $.ajax({
+          url: "{{url('createrecepie')}}",
+          type: "POST",
+          data: JSON.stringify({data: formData}),
+          traditional: true,
+          contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+          success: function( response ) {
+            console.log(response)
+          },
+          error: function(response) {
+            console.log(response)
+          }
+        });
+      }
     })
 </script>
 @endsection
