@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('recepie');
+            $table->foreign('recepie')->references('id')->on('recepie');
             $table->string('name');
             $table->integer('count');
         });

@@ -60,7 +60,7 @@
         <table>
             @foreach ($recepies as $recepie)
                 <tr>
-                    <td></td>
+                    <td>{{$recepie->name}}</td>
                 </tr>
             @endforeach
         </table>
@@ -76,7 +76,7 @@
 
     $('#ingred-btn').click(function () {
         event.preventDefault();
-        let str = `<div><h2 class="form-label">Ingredient #${$('#ingred-input > div').length+1}</h2><div class="row mb-4">
+        let str = `<div id='ingred-cont-${$('#ingred-input > div').length+1}'><h2 class="form-label">Ingredient #${$('#ingred-input > div').length+1}</h2><div class="row mb-4">
             <div class="row mb-4">
                     <div class="col">
                       <div class="form-outline">
@@ -90,9 +90,14 @@
                         <input name='count-${$('#ingred-input > div').length+1}' type="number" id="count-${$('#ingred-input > div').length+1}" class="form-control" />
                       </div>
                     </div>
-                </div></div>`
+                </div><button onClick='closeIngred(${$('#ingred-input > div').length+1})' class="btn btn-danger"><i class="bi bi-x-lg"></i></button></div>`
         $('#ingred-input').append(str)
     })
+
+    function closeIngred(id) {
+      event.preventDefault();
+      $(`#ingred-cont-${id}`).remove()
+    }
 
     $('#recepie-form').submit(function () {
       event.preventDefault()
@@ -109,6 +114,7 @@
           $(`[name=${dat.name}]`).removeClass('error-input')
         }
       })
+      console.log(formData)
       console.log({data: JSON.stringify(formData)})
       if (error === 0) {
         $.ajaxSetup({
@@ -119,9 +125,8 @@
         $.ajax({
           url: "{{url('createrecepie')}}",
           type: "POST",
-          data: JSON.stringify({data: formData}),
+          data: {"data": JSON.stringify(formData)},
           traditional: true,
-          contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
           success: function( response ) {
             console.log(response)
           },

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Recepie;
@@ -22,7 +23,7 @@ class RecepiesController extends Controller
     public function getRecepies() {
 
         if (Auth::user()->caterer_id !== null) {
-            $res = Recepie::all();
+            $res = Recepie::where('caterer_id', Auth::user()->caterer_id)->get();
         } else if (Auth::user()->school_id !== null) {
             $cater_id = School::where('id', Auth::user()->school_id)->get();
             dd($cater_id[0]);
@@ -33,7 +34,21 @@ class RecepiesController extends Controller
     }
 
     public function createRecepies(Request $request) {
-        dd($request);
+        $raw_data = $request->all();
+        $decoded_data = json_decode($raw_data['data']);
+        if (count($decoded_data)-1 <= 5) {
+            return ['error' => 'ingredient needed'];
+        }
+
+        function getLastId($tableName) {
+            return DB::select('select id from '.$tableName.' order by id DESC limit 1;');
+        }
+
+        DB::insert('insert into recepie (name, prep_time, cook_time, calories, servings, caterer_id) values ("'.$decoded_data[1]->value.'", '.$decoded_data[2]->value.', '.$decoded_data[3]->value.', '.$decoded_data[4]->value.','.$decoded_data[5]->value.', '.Auth::user()->caterer_id.');');
+        $recepie_id = getLastId('recepie');
+        for ($id = 6; $id < count($decoded_data); $id +=2) {
+            DB::insert('insert into ingredients (recepie, name, count) values ('.$recepie_id[0]->id.',"'.$decoded_data[$id]->value.'", '.$decoded_data[$id+1]->value.')');
+        }
     }
 
     /**
