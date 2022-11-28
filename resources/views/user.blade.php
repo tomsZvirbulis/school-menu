@@ -176,7 +176,7 @@
                                 @endforeach
                             </select>
                         @else
-                                <h1>none</h1>
+                                <h1>No schools</h1>
                         @endif  
   
                 </div>

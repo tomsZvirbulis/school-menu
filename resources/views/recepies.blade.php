@@ -73,7 +73,7 @@
                     <td>{{$recepie->prep_time}} min</td>
                     <td>{{$recepie->calories}}</td>
                     <td><button class="btn btn-warning"><i class="bi bi-pencil-square"></i></button></td>
-                    <td><button class="btn btn-danger"><i class="bi bi-x-lg"></i></button></td>
+                    <td><button onClick='handleRecepieDelete({{$recepie->id}})' class="btn btn-danger"><i class="bi bi-x-lg"></i></button></td>
                 </tr>
             @endforeach
         </table>
@@ -86,6 +86,22 @@
     const handleClose = () => {
       $('#recepie-modal').addClass('hide').removeClass('show-modal')
       $('#ingred-input').empty()
+    }
+
+    const handleRecepieDelete = (id) => {
+      $.ajax({
+        url: `{{url('delete/${id}')}}`,
+        type: 'delete',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+        success: function( response ) {
+            console.log(response)
+          },
+          error: function(response) {
+            console.log(response)
+          }
+      })
     }
 
     $('#ingred-btn').click(function () {

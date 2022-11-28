@@ -34,6 +34,9 @@ class RecepiesController extends Controller
     }
 
     public function createRecepies(Request $request) {
+        if (Auth::user()->master !== 1) {
+            return ['error' => 'insufficent permision'];
+        }
         $raw_data = $request->all();
         $decoded_data = json_decode($raw_data['data']);
         if (count($decoded_data)-1 <= 5) {
@@ -52,6 +55,13 @@ class RecepiesController extends Controller
         return ['msg' => 'recepie added'];
     }
 
+
+    public function delete($id) {
+        if (Auth::user()->master == 1 && Auth::user()->caterer_id != null) {
+            DB::delete('delete from ingredients where recepie ='.$id.';');
+            DB::delete('delete from recepie where id ='.$id.';');
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -114,3 +114,15 @@ tr > th, tr > td {
 th {
     border: 1px solid black;
 }
+
+#week-cont {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    justify-content: space-evenly
+}
+
+#week-cont > div {
+    width: 16vw;
+    height: 16vh;
+}

@@ -33,6 +33,7 @@ Route::post('/createschool', [WorkerController::class, 'createSchool'])->name('c
 // RECEPIE routes
 Route::get('/recepies', [RecepiesController::class, 'getRecepies']);
 Route::post('/createrecepie', [RecepiesController::class, 'createRecepies'])->name('createRecepie');
+Route::delete('/delete/{id}', [RecepiesController::class, 'delete'])->name('deleteRecepie');
 
 // MENU routes
 Route::get('/menu', [MenuController::class, 'index']);
