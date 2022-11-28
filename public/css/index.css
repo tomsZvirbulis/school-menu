@@ -20,6 +20,11 @@ html {
     display: flex;
 }
 
+#recepie-table {
+    margin-top: 2rem;
+    width: 80%;
+}
+
 .navbar {
     padding: 1rem;
     height: 5rem;
@@ -67,6 +72,8 @@ html {
 }
 
 #recepie-modal {
+    background-color: white;
+    position: absolute;
     width: 40%;
     border: 1px solid black;
     border-radius: 15px;
@@ -90,4 +97,20 @@ html {
 
 #ingred-btn {
     margin-bottom: 2rem;
+}
+
+.ingr-cont {
+    align-items: flex-end;
+}
+
+tr {
+    border: 1px solid black;
+}
+
+tr > th, tr > td {
+    padding: .5rem;
+}
+
+th {
+    border: 1px solid black;
 }

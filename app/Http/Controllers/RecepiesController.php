@@ -49,6 +49,7 @@ class RecepiesController extends Controller
         for ($id = 6; $id < count($decoded_data); $id +=2) {
             DB::insert('insert into ingredients (recepie, name, count) values ('.$recepie_id[0]->id.',"'.$decoded_data[$id]->value.'", '.$decoded_data[$id+1]->value.')');
         }
+        return ['msg' => 'recepie added'];
     }
 
     /**

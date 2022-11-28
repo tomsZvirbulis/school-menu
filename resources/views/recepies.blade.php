@@ -57,10 +57,23 @@
                 <button type="submit" class="btn btn-primary btn-block mb-4">Add</button>
               </form>
         </div>
-        <table>
-            @foreach ($recepies as $recepie)
+        <table id='recepie-table'>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Cook time</th>
+              <th>Prep time</th>
+              <th>Calories</th>
+            </tr>
+            @foreach ($recepies as $key => $recepie)
                 <tr>
+                    <td>{{$key+1}}</td>
                     <td>{{$recepie->name}}</td>
+                    <td>{{$recepie->cook_time}} min</td>
+                    <td>{{$recepie->prep_time}} min</td>
+                    <td>{{$recepie->calories}}</td>
+                    <td><button class="btn btn-warning"><i class="bi bi-pencil-square"></i></button></td>
+                    <td><button class="btn btn-danger"><i class="bi bi-x-lg"></i></button></td>
                 </tr>
             @endforeach
         </table>
@@ -72,12 +85,13 @@
 
     const handleClose = () => {
       $('#recepie-modal').addClass('hide').removeClass('show-modal')
+      $('#ingred-input').empty()
     }
 
     $('#ingred-btn').click(function () {
         event.preventDefault();
         let str = `<div id='ingred-cont-${$('#ingred-input > div').length+1}'><h2 class="form-label">Ingredient #${$('#ingred-input > div').length+1}</h2><div class="row mb-4">
-            <div class="row mb-4">
+            <div class="ingr-cont row mb-4">
                     <div class="col">
                       <div class="form-outline">
                         <label class="form-label" for="ingred-name-${$('#ingred-input > div').length+1}">Ingredient name</label>
@@ -90,7 +104,8 @@
                         <input name='count-${$('#ingred-input > div').length+1}' type="number" id="count-${$('#ingred-input > div').length+1}" class="form-control" />
                       </div>
                     </div>
-                </div><button onClick='closeIngred(${$('#ingred-input > div').length+1})' class="btn btn-danger"><i class="bi bi-x-lg"></i></button></div>`
+                    <button style='width: 2.5rem;' onClick='closeIngred(${$('#ingred-input > div').length+1})' class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
+                </div></div>`
         $('#ingred-input').append(str)
     })
 
@@ -114,8 +129,6 @@
           $(`[name=${dat.name}]`).removeClass('error-input')
         }
       })
-      console.log(formData)
-      console.log({data: JSON.stringify(formData)})
       if (error === 0) {
         $.ajaxSetup({
           headers: {
@@ -128,7 +141,7 @@
           data: {"data": JSON.stringify(formData)},
           traditional: true,
           success: function( response ) {
-            console.log(response)
+            alert(response.msg)
           },
           error: function(response) {
             console.log(response)

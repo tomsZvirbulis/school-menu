@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\RecepiesController;
@@ -32,3 +33,6 @@ Route::post('/createschool', [WorkerController::class, 'createSchool'])->name('c
 // RECEPIE routes
 Route::get('/recepies', [RecepiesController::class, 'getRecepies']);
 Route::post('/createrecepie', [RecepiesController::class, 'createRecepies'])->name('createRecepie');
+
+// MENU routes
+Route::get('/menu', [MenuController::class, 'index']);
