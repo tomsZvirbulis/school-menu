@@ -1,7 +1,7 @@
 @extends('layouts.main')
 <link rel="stylesheet" href="{{ asset('css/user.css') }}">
 @section('content')
-@if (Auth::user()->master == 1 && (Auth::user()->caterer_id != null || Auth::user()->school_id != null))
+@if (Auth::user()->master == 1 && Auth::user()->caterer_id != null)
 <div id="forms">
     {{-- register school --}}
     <div class="user">
@@ -118,7 +118,7 @@
                 </div>
             
                 <!-- Submit button -->
-                <button onClick='handleSubmit(school)' type="submit" class="btn btn-primary btn-block">Register worker</button>
+                <button onClick='handleSubmit(school)' type="submit" class="btn btn-primary btn-block">Register school</button>
             </form>
         </div>
     </div>
@@ -225,5 +225,81 @@
     @endif
 </div>
 @endif
+@if (Auth::user()->school_id !=null)
+<div id="forms">
+    {{-- register school --}}
+    <div class="user">
+        <div class="reg-school">
+            <form id='class-form' action={{route('addClass')}} method='POST'>
+                @csrf
+                
+                <h1>Add class</h1>
+                <!-- 2 column grid layout with text inputs for the first and last names -->
 
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="form-outline">
+                        <input type="text" id="class_name" name='class_name' class="form-control" />
+                        <label class="form-label" for="class_name">Name</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-outline">
+                        <input type="number" id="student_count" class="form-control" name='student_count' />
+                        <label class="form-label" for="student_count">Student count</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="form-outline">
+                        <input type="number" id="grade" name='grade' class="form-control" />
+                        <label class="form-label" for="grade">Grade</label>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Submit button -->
+                <button onClick='handleSubmit(school)' type="submit" class="btn btn-primary btn-block">Add class</button>
+            </form>
+
+        </div>
+    </div>
+    <script>
+        const workerForm = document.getElementById('worker-form');
+        const schoolForm = document.getElementById('school-form')
+
+        const ajaxQuery = () => {
+            $.ajaxSetup({
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                        url: "{{url('"+url+"')}}",
+                        type: "POST",
+                        data: $('#class-form').serialize(),
+                        success: function( response ) {
+                            alert('worker registered')
+                        }
+            });
+        }
+
+        const handleSubmit = (name) => {
+            event.preventDefault();
+            if (name === 'worker') {
+                ajaxQuery('worker-form', 'createworkers')
+            } else {
+                ajaxQuery('school-form', 'createschool')
+            }
+            
+        }
+    </script>
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    @endif
+</div>
+@endif
 @endsection

@@ -2,10 +2,10 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Address;
 use Illuminate\Support\Facades\DB;
 use App\Models\Caterer;
 use App\Models\User;
-use App\Models\School;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -45,7 +45,14 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 
         // inserts address data
-        DB::insert('insert into address (address, address2, city, country, district, postal_code) values (?, ?, ?, ?, ?, ?)', [$input['address'], $input['address2'], $input['city'], $input['country'], $input['district'], $input['post_code']]);
+        Address::insert([
+            'address' => $input['address'],   
+            'address2' => $input['address2'],
+            'city' => $input['city'],
+            'country' => $input['country'],
+            'district' => $input['district'],
+            'postal_code' => $input['post_code'],
+        ]);
 
         function getLastId($tableName) {
             return DB::select('select id from '.$tableName.' order by id DESC limit 1;');
@@ -53,7 +60,10 @@ class CreateNewUser implements CreatesNewUsers
 
         $usedId = getLastId('address');
 
-        DB::insert('insert into caterer (name, address_id) values (?, ?)', [$input['company_name'], $usedId[0]->id]);
+        Caterer::insert([
+            'name' => $input['company_name'],
+            'address_id' => $usedId[0]->id,
+        ]);
         $companyId = getLastId('caterer');
 
 

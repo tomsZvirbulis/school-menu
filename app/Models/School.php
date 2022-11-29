@@ -12,4 +12,9 @@ class School extends Model
     protected $table = 'school';
     protected $primaryKey  = 'id';
     public $incrementing = true;
+
+    protected $fillable = [
+        'name',
+        'address_id',
+    ];
 }

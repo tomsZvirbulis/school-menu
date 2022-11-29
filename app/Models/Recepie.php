@@ -12,4 +12,13 @@ class Recepie extends Model
     protected $table = 'recepie';
     protected $primaryKey  = 'id';
     public $incrementing = true;
+
+    protected $fillable = [
+        'name',
+        'prep_time',
+        'cook_time',
+        'calories',
+        'servings',
+        'caterer_id',
+    ];
 }

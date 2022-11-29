@@ -102,6 +102,7 @@
             console.log(response)
           }
       })
+      location.reload()
     }
 
     $('#ingred-btn').click(function () {
@@ -157,7 +158,8 @@
           data: {"data": JSON.stringify(formData)},
           traditional: true,
           success: function( response ) {
-            alert(response.msg)
+            console.log(response.msg)
+            location.reload()
           },
           error: function(response) {
             console.log(response)

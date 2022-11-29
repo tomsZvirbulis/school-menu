@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\School;
+use App\Models\User;
 
 class WorkerController extends Controller
 {
@@ -21,16 +23,6 @@ class WorkerController extends Controller
     }
 
 
-    public function data($caterer_id) {
-        if (Auth::user()->master == 1 && Auth::user()->caterer_id == $caterer_id) {
-            $res = School::where("caterer", $caterer_id)->get();
-        } else {
-            $res = array();
-        }
-        
-        return view('user', ['schools' => $res]);
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -40,35 +32,57 @@ class WorkerController extends Controller
 
     public function createSchool() {
         if (Auth::user()->caterer_id !=null && Auth::user()->master == 1)  {
-            $company = 'caterer_id';
-            $company_id = Auth::user()->caterer_id;
-        }
 
-        function getLastId($tableName) {
-            return DB::select('select id from '.$tableName.' order by id DESC limit 1;');
+            function getLastId($tableName) {
+                return DB::select('select id from '.$tableName.' order by id DESC limit 1;');
+            }
+            Address::insert([
+                'address' => request('address'),   
+                'address2' => request('address2'),
+                'city' => request('city'), 
+                'country' => request('country'), 
+                'district' => request('district'), 
+                'postal_code' => request('post_code'),
+            ]);
+            $addressId = getLastId('address');
+            $caterer = Auth::user()->caterer_id;
+            
+            if (request('password') === request('confirm_password')) {
+                $hashed = Hash::make(request('password'));
+                School::insert([
+                    'name' => request('school_name'),
+                    'address_id' => $addressId[0]->id,
+                    'caterer' => $caterer,
+                ]);
+                $school_id = getLastId('school');
+                User::insert([
+                    'first_name' => request('first_name'),
+                    'last_name' => request('last_name'),
+                    'master' => 1,
+                    'email' => request('email'),
+                    'password' => $hashed,
+                    'school_id' => $school_id[0]->id,
+                ]);
+            };
+            return ['msg' => 'school added'];
         }
-        DB::insert('insert into address (address, address2, city, country, district, postal_code) values (?, ?, ?, ?, ?, ?)', [request('address'), request('address2'), request('city'), request('country'), request('district'), request('post_code')]);
-        $addressId = getLastId('address');
-        $caterer = Auth::user()->caterer_id;
-        
-        if (request('password') === request('confirm_password')) {
-            $hashed = Hash::make(request('password'));
-            DB::insert('insert into school (name, address_id, caterer) values ("'.request('school_name').'",'.$addressId[0]->id.', '.$caterer.')');
-            $school_id = getLastId('school');
-            DB::insert('insert into users (first_name, last_name, master, email, password, school_id) values ("'.request('first_name').'",
-                    "'.request('last_name').'", 1, "'.request('email').'", "'.$hashed.'", '.$school_id[0]->id.')');
-        };
     }
 
     public function createWorker()
     {
         if (Auth::user()->caterer_id !=null && Auth::user()->master == 1) {
-            $company = 'caterer_id';
             $company_id = Auth::user()->caterer_id;
             if (request('password') === request('confirm_password')) {
                 $hashed = Hash::make(request('password'));
-                DB::insert('insert into users (first_name, last_name, master, email, password, '.$company.', assigned_school) values ("'.request('first_name').'",
-                    "'.request('last_name').'", 0, "'.request('email').'", "'.$hashed.'", '.$company_id.', ?)', [request('school_id')]);
+                User::insert([
+                    'first_name' => request('first_name'),
+                    'last_name' => request('last_name'),
+                    'master' => 0,
+                    'email' => request('email'),
+                    'password' => $hashed,
+                    'caterer_id' => $company_id,
+                    'assigned_school' => request('school_id'),
+                ]);
             };
         }
 

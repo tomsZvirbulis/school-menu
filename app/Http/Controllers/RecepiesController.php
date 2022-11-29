@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ingredients;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,10 +48,21 @@ class RecepiesController extends Controller
             return DB::select('select id from '.$tableName.' order by id DESC limit 1;');
         }
 
-        DB::insert('insert into recepie (name, prep_time, cook_time, calories, servings, caterer_id) values ("'.$decoded_data[1]->value.'", '.$decoded_data[2]->value.', '.$decoded_data[3]->value.', '.$decoded_data[4]->value.','.$decoded_data[5]->value.', '.Auth::user()->caterer_id.');');
+        Recepie::insert([
+            'name' => $decoded_data[1]->value,
+            'prep_time' => $decoded_data[2]->value,
+            'cook_time' => $decoded_data[3]->value,
+            'calories' => $decoded_data[4]->value,
+            'servings' => $decoded_data[5]->value,
+            'caterer_id' => Auth::user()->caterer_id,
+        ]);
         $recepie_id = getLastId('recepie');
         for ($id = 6; $id < count($decoded_data); $id +=2) {
-            DB::insert('insert into ingredients (recepie, name, count) values ('.$recepie_id[0]->id.',"'.$decoded_data[$id]->value.'", '.$decoded_data[$id+1]->value.')');
+            Ingredients::insert([
+                'recepie' => $recepie_id[0]->id,
+                'name' => $decoded_data[$id]->value,
+                'count' => $decoded_data[$id+1]->value,
+            ]);
         }
         return ['msg' => 'recepie added'];
     }
@@ -58,8 +70,8 @@ class RecepiesController extends Controller
 
     public function delete($id) {
         if (Auth::user()->master == 1 && Auth::user()->caterer_id != null) {
-            DB::delete('delete from ingredients where recepie ='.$id.';');
-            DB::delete('delete from recepie where id ='.$id.';');
+            Ingredients::where('recepie', $id)->delete();
+            Recepie::where('id', $id)->delete();
         }
     }
     /**

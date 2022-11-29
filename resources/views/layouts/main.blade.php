@@ -39,7 +39,7 @@
                     <div class="hidden fixed top-0 right-0 sm:block">
                         @auth
                             <div class="loged-in">
-                                <h3><a href='/user/{{Auth::user()->caterer_id}}'>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a></h3>
+                                <h3><a href='/user'>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a></h3>
                                 <button onClick="handleLogout()" class='btn btn-danger'><i class="bi bi-box-arrow-right"></i></button>
                             </div>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST">

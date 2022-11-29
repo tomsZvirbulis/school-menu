@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MenuController extends Controller
 {
@@ -14,6 +15,12 @@ class MenuController extends Controller
     public function index()
     {
         return view('menu');
+    }
+
+    public function getLocal() {
+        if (Auth::user()->caterer_id != null) {
+            
+        }
     }
 
     /**

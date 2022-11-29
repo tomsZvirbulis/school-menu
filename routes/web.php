@@ -26,7 +26,8 @@ Route::get('/home', function () {
 });
 
 //  USER routes
-Route::get('user/{caterer_id}', [WorkerController::class, 'data']);
+Route::get('user', [UserController::class, 'data']);
+Route::post('/addclass', [UserController::class, 'addClass'])->name('addClass');
 Route::post('/createworker', [WorkerController::class, 'createWorker'])->name('createWorker');
 Route::post('/createschool', [WorkerController::class, 'createSchool'])->name('createSchool');
 
@@ -37,3 +38,4 @@ Route::delete('/delete/{id}', [RecepiesController::class, 'delete'])->name('dele
 
 // MENU routes
 Route::get('/menu', [MenuController::class, 'index']);
+Route::post('/getlocalmenu', [MenuController::class, 'getLocal'])->name('getLocal');

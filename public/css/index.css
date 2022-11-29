@@ -126,3 +126,11 @@ th {
     width: 16vw;
     height: 16vh;
 }
+
+#contain {
+    padding: 2rem;
+}
+
+#week-cont > div > div {
+    height: 100%;
+}
