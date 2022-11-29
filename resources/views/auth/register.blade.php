@@ -50,26 +50,6 @@
                     </div>
                   </div>
 
-                  <div class="row">
-                      <div class="col-md-6 mb-4 pb-2">
-      
-                        <div class="form-outline">
-                          <input name='password' type="password" id="password" class="form-control form-control-lg" required />
-                          <label class="form-label" for="emailAddress">Password</label>
-                        </div>
-      
-                      </div>
-
-                      <div class="col-md-6 mb-4 pb-2">
-      
-                          <div class="form-outline">
-                            <input name='password_confirmation' type="password" id="password_confirmation" class="form-control form-control-lg" required />
-                            <label class="form-label" for="emailAddress">Confirm password</label>
-                          </div>
-        
-                        </div>
-                    </div>
-
 
                   <div class="row">
                     <div class="col-md-6 mb-4">
@@ -129,6 +109,25 @@
                       </div>
     
                     </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-4 pb-2">
+    
+                      <div class="form-outline">
+                        <input name='password' type="password" id="password" class="form-control form-control-lg" required />
+                        <label class="form-label" for="emailAddress">Password</label>
+                      </div>
+    
+                    </div>
+
+                    <div class="col-md-6 mb-4 pb-2">
+    
+                        <div class="form-outline">
+                          <input name='password_confirmation' type="password" id="password_confirmation" class="form-control form-control-lg" required />
+                          <label class="form-label" for="emailAddress">Confirm password</label>
+                        </div>
+      
+                      </div>
                   </div>
                   
     

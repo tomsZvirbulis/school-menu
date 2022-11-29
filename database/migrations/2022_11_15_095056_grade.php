@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('grade', function (Blueprint $table) {
             $table->id();
-            $table->integer('year');
+            $table->integer('minYear');
+            $table->integer('maxYear');
             $table->float('calories');
         });
     }

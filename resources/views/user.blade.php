@@ -169,9 +169,9 @@
 
                 <div class="col-md-6 mb-4">
   
-                        @if (count($schools) > 0)
+                        @if (count($data) > 0)
                             <select name='school_id' class="select form-control-lg" required>
-                                @foreach ($schools as $school)
+                                @foreach ($data as $school)
                                     <option value={{ $school->id }}>{{ $school->name }}</option>
                                 @endforeach
                             </select>
@@ -251,12 +251,16 @@
                     </div>
                 </div>
                 <div class="row mb-4">
-                    <div class="col">
-                        <div class="form-outline">
-                        <input type="number" id="grade" name='grade' class="form-control" />
-                        <label class="form-label" for="grade">Grade</label>
-                        </div>
-                    </div>
+                    <label class="form-label" for="grade_id">Grade</label>
+                    @if (count($data) > 0)
+                            <select name='grade_id' class="select form-control-lg" required>
+                                @foreach ($data as $grade)
+                                    <option value={{ $grade->id }}>{{ $grade->minYear}} - {{ $grade->maxYear }}</option>
+                                @endforeach
+                            </select>
+                        @else
+                                <h1>No grades</h1>
+                        @endif 
                 </div>
             
                 <!-- Submit button -->
