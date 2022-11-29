@@ -29,6 +29,15 @@ class UserController extends Controller
             if (Auth::user()->caterer_id != null) {
                 $res = School::where("caterer", Auth::user()->caterer_id)->get();
             } else {
+                $class_res = Classes::where('school_id', Auth::user()->school_id)->get();
+                // dd($class_res);
+                $ress = array();
+                foreach ($class_res as $class_id) {
+                    dd(Grade::with('class')->get()->toArray());
+                    dd(ClassHasGrade::where('class_id', $class_id->id));
+                    // dd(ClassHasGrade::where('class_id', $class_id->id));
+                }
+                dd($ress);
                 $res = Grade::all();
             }
             
@@ -52,11 +61,11 @@ class UserController extends Controller
                 'name' => $data['class_name'],
             ]);
             $class = GetLastId('class');
-            dd(array(request('grade_id')));
-            ClassHasGrade::insert([
-                'class_id' => $class,
-                'grade_id' => request('grade_id'),
-            ]);
+
+            $grade = Grade::find(request('grade_id'));
+ 
+            $grade->class()->attach($class[0]->id);
+            
         }
     }
 

@@ -229,6 +229,7 @@
 <div id="forms">
     {{-- register school --}}
     <div class="user">
+        
         <div class="reg-school">
             <form id='class-form' action={{route('addClass')}} method='POST'>
                 @csrf

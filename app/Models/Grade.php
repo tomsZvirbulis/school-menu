@@ -18,8 +18,8 @@ class Grade extends Model
         'calories',
     ];
 
-    public function roles()
+    public function class()
     {
-        return $this->belongsToMany(Role::class, 'class_has_grade');
+        return $this->belongsToMany(Classes::class, 'class_has_grade', 'grade_id', 'class_id');
     }
 }

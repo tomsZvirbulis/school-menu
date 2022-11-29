@@ -18,8 +18,4 @@ class Classes extends Model
         'name',
     ];
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'class_has_grade');
-    }
 }
