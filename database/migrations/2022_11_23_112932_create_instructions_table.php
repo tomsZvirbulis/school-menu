@@ -16,9 +16,6 @@ return new class extends Migration
         Schema::create('instructions', function (Blueprint $table) {
             $table->id();
             $table->string('instruction');
-            $table->integer('position');
-            $table->unsignedBigInteger('recepie');
-            $table->foreign('recepie')->references('id')->on('recepie');
             $table->timestamps();
         });
     }

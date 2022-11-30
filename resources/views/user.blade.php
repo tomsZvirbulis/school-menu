@@ -227,9 +227,30 @@
 @endif
 @if (Auth::user()->school_id !=null)
 <div id="forms">
+    <div>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Class</th>
+                <th>Students</th>
+                <th>Grade</th>
+                <th>Calories</th>
+            </tr>
+            @if ($class_grade)
+                @foreach ($class_grade as $key => $list_data)
+                    <tr>
+                        <td><b>{{$key+1}}</td>
+                        <td>{{$list_data['name']}}</td>
+                        <td>{{$list_data['student_count']}}</td>
+                        <td>{{$list_data['grade'][0]['minYear']}} - {{$list_data['grade'][0]['maxYear']}}</td>
+                        <td>{{$list_data['grade'][0]['calories']}}</td>
+                    </tr>
+                @endforeach
+            @endif
+        </table>
+    </div>
     {{-- register school --}}
     <div class="user">
-        
         <div class="reg-school">
             <form id='class-form' action={{route('addClass')}} method='POST'>
                 @csrf
@@ -253,7 +274,7 @@
                 </div>
                 <div class="row mb-4">
                     <label class="form-label" for="grade_id">Grade</label>
-                    @if (count($data) > 0)
+                    @if ($data && count($data) > 0)
                             <select name='grade_id' class="select form-control-lg" required>
                                 @foreach ($data as $grade)
                                     <option value={{ $grade->id }}>{{ $grade->minYear}} - {{ $grade->maxYear }}</option>
@@ -285,7 +306,7 @@
                         type: "POST",
                         data: $('#class-form').serialize(),
                         success: function( response ) {
-                            alert('worker registered')
+                            location.reload()
                         }
             });
         }

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Recepie;
+use App\Models\Instructions;
 use App\Models\School;
 
 class RecepiesController extends Controller
@@ -22,12 +23,13 @@ class RecepiesController extends Controller
     }
 
     public function getRecepies() {
-
+        if (!Auth::user()) {
+            return redirect()->route('login');
+        }
         if (Auth::user()->caterer_id !== null) {
             $res = Recepie::where('caterer_id', Auth::user()->caterer_id)->get();
         } else if (Auth::user()->school_id !== null) {
-            $cater_id = School::where('id', Auth::user()->school_id)->get();
-            dd($cater_id[0]);
+            $res = false;
         }
         
 
@@ -47,6 +49,10 @@ class RecepiesController extends Controller
         function getLastId($tableName) {
             return DB::select('select id from '.$tableName.' order by id DESC limit 1;');
         }
+
+        Instructions::insert([
+            
+        ]);
 
         Recepie::insert([
             'name' => $decoded_data[1]->value,

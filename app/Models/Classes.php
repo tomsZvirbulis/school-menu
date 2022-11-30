@@ -18,4 +18,8 @@ class Classes extends Model
         'name',
     ];
 
+    public function grade()
+    {
+        return $this->belongsToMany(Grade::class, 'class_has_grade', 'class_id', 'grade_id');
+    }
 }

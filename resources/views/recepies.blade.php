@@ -1,6 +1,7 @@
 @extends('layouts.main')
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+@if ($recepies)
     <div class="recepies">
         <button type="button" class="btn btn-success" onclick="addRecepie()">Add recepie</button>
         <div id='recepie-modal' class='modal hide normal-padding'>
@@ -45,6 +46,15 @@
                         <label class="form-label" for="servings">Servings</label>
                       </div>
                     </div>
+                </div>
+
+                <div class="row mb-4">
+                  <div class="col">
+                    <div class="form-outline">
+                      <label for="instructions" class="form-label">Example textarea</label>
+                      <textarea class="form-control" name='instructions' id="instructions" rows="3"></textarea>
+                    </div>
+                  </div>
                 </div>
 
                 <button type="button" class="btn btn-success" id='ingred-btn'>Add ingredient</button>
@@ -168,4 +178,10 @@
       }
     })
 </script>
+@endif
+@if (!$recepies) 
+<div>
+  <h1>You can't view recepies</h1>
+</div>
+@endif
 @endsection

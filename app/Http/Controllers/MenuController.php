@@ -14,6 +14,9 @@ class MenuController extends Controller
      */
     public function index()
     {
+        if (!Auth::user()) {
+            return redirect()->route('login');
+        }
         return view('menu');
     }
 

@@ -64,7 +64,7 @@ class WorkerController extends Controller
                     'school_id' => $school_id[0]->id,
                 ]);
             };
-            return ['msg' => 'school added'];
+            return redirect('/user');
         }
     }
 
@@ -83,6 +83,7 @@ class WorkerController extends Controller
                     'caterer_id' => $company_id,
                     'assigned_school' => request('school_id'),
                 ]);
+                return redirect('/user');
             };
         }
 
