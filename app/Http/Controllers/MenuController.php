@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classes;
+use App\Models\Recepie;
+use App\Models\School;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,9 +24,23 @@ class MenuController extends Controller
     }
 
     public function getLocal() {
-        if (Auth::user()->caterer_id != null) {
-            
+        if (Auth::user()->caterer_id == null) {
+            return ['error' => 'insufficient permision'];
         }
+
+        if (Auth::user()->assigned_school == null) {
+            return ['error' => 'You are not a worker'];
+        }
+        $recepies = Recepie::where('caterer_id', Auth::user()->caterer_id)->get();
+        if (count($recepies) < 5) {
+            return ['error' => 'Not enough recepies'];
+        }
+        $schools = School::where('id', Auth::user()->assigned_school)->get();
+        $classes = Classes::where('school_id', Auth::user()->assigned_school)->get();
+        if (count($classes) < 1) {
+            return ['error' => 'No classes'];
+        }
+        return $classes;
     }
 
     /**

@@ -44,8 +44,10 @@ class UserController extends Controller
             $res = array();
         }
 
-        if ($res) {
+        if (isset($resHas)) {
             return view('user', ['data' => $res, 'class_grade' => $resHas]);
+        } else {
+            return view('user', ['data' => $res]);
         }
     }
 

@@ -51,19 +51,21 @@ class RecepiesController extends Controller
         }
 
         Instructions::insert([
-            
+            'instruction' => $decoded_data[6]->value,
         ]);
 
+        $instr = getLastId('instructions');
         Recepie::insert([
             'name' => $decoded_data[1]->value,
             'prep_time' => $decoded_data[2]->value,
             'cook_time' => $decoded_data[3]->value,
             'calories' => $decoded_data[4]->value,
             'servings' => $decoded_data[5]->value,
+            'instruction' => $instr[0]->id,
             'caterer_id' => Auth::user()->caterer_id,
         ]);
         $recepie_id = getLastId('recepie');
-        for ($id = 6; $id < count($decoded_data); $id +=2) {
+        for ($id = 7; $id < count($decoded_data); $id +=2) {
             Ingredients::insert([
                 'recepie' => $recepie_id[0]->id,
                 'name' => $decoded_data[$id]->value,
