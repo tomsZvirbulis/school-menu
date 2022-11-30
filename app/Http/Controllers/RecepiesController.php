@@ -82,6 +82,13 @@ class RecepiesController extends Controller
             Recepie::where('id', $id)->delete();
         }
     }
+
+    public function getRecepie($id) {
+
+        // if (Auth::user()->caterer_id)
+        Recepie::where('id', $id);
+        return view('recepie');
+    }
     /**
      * Show the form for creating a new resource.
      *

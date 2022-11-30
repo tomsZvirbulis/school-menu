@@ -78,7 +78,7 @@
             @foreach ($recepies as $key => $recepie)
                 <tr>
                     <td>{{$key+1}}</td>
-                    <td>{{$recepie->name}}</td>
+                    <td><a href='/recepie/{{$recepie->id}}'>{{$recepie->name}}</a></td>
                     <td>{{$recepie->cook_time}} min</td>
                     <td>{{$recepie->prep_time}} min</td>
                     <td>{{$recepie->calories}}</td>
