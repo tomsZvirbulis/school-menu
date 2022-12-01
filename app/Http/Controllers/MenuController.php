@@ -7,6 +7,7 @@ use App\Models\Recepie;
 use App\Models\School;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -37,11 +38,33 @@ class MenuController extends Controller
         }
         $schools = School::where('id', Auth::user()->assigned_school)->get();
         $classes = Classes::where('school_id', Auth::user()->assigned_school)->get();
-        $possible_recepies = array();
         if (count($classes) < 1) {
             return ['error' => 'No classes'];
         }
-        echo $classes;
+
+        $grade_ids = DB::select('select distinct(chg.grade_id) from school
+        inner join class on class.school_id = '.Auth::user()->assigned_school.'
+        inner join class_has_grade chg on chg.class_id = class.id;');
+
+        $class_info = array();
+        foreach ($grade_ids as $grade) {
+            $class_info[] = DB::select('select grade.minYear, grade.maxYear, grade.calories, sum(class.student_count) as total_students from class_has_grade chg 
+            inner join class on class.id = chg.class_id
+            inner join grade on grade.id = chg.grade_id and grade.id = '.$grade->grade_id.';')[0];
+        }
+        $possible_recepies = array();
+        $real_recepies = array();
+        foreach ($class_info as $class_val) {
+            $possible_recepies[] = array('calories' => $class_val->calories);
+            $real_recepies[] = array('calories' => $class_val->calories);
+            foreach ($recepies as $recepie) {
+                echo $possible_recepies[0]['calories'];
+                if ($recepie->calories >= $class_val->calories) {
+                    $possible_recepies[$class_val->calories][] = $recepie;
+                }
+            } 
+        }
+ 
         // return $classes;
     }
 
