@@ -32,7 +32,7 @@ class MenuController extends Controller
         if (Auth::user()->assigned_school == null) {
             return ['error' => 'You are not a worker'];
         }
-        $recepies = Recepie::where('caterer_id', Auth::user()->caterer_id)->get();
+        $recepies = DB::select('select * from recepie where caterer_id ='.Auth::user()->caterer_id);
         if (count($recepies) < 5) {
             return ['error' => 'Not enough recepies'];
         }
@@ -54,16 +54,18 @@ class MenuController extends Controller
         }
         $possible_recepies = array();
         $real_recepies = array();
-        foreach ($class_info as $class_val) {
+        foreach ($class_info as $key => $class_val) {
             $possible_recepies[] = array('calories' => $class_val->calories);
             $real_recepies[] = array('calories' => $class_val->calories);
             foreach ($recepies as $recepie) {
-                echo $possible_recepies[0]['calories'];
-                if ($recepie->calories >= $class_val->calories) {
-                    $possible_recepies[$class_val->calories][] = $recepie;
+                // var_dump($recepie);
+                if ($recepie->calories < $class_val->calories) {
+                    echo '22';
+                    $possible_recepies[$key][] = $recepie;
                 }
             } 
         }
+        var_dump($possible_recepies);
  
         // return $classes;
     }
