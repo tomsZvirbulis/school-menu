@@ -37,10 +37,12 @@ class MenuController extends Controller
         }
         $schools = School::where('id', Auth::user()->assigned_school)->get();
         $classes = Classes::where('school_id', Auth::user()->assigned_school)->get();
+        $possible_recepies = array();
         if (count($classes) < 1) {
             return ['error' => 'No classes'];
         }
-        return $classes;
+        echo $classes;
+        // return $classes;
     }
 
     /**

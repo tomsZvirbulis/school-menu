@@ -85,9 +85,12 @@ class RecepiesController extends Controller
 
     public function getRecepie($id) {
 
-        // if (Auth::user()->caterer_id)
-        Recepie::where('id', $id);
-        return view('recepie');
+        if (Auth::user()->caterer_id) {
+            $res = Recepie::where('id', $id)->get();
+            if ($res->toArray()[0]['caterer_id'] == Auth::user()->caterer_id) {
+                return view('recepie', ['data' => $res]);
+            }
+        }
     }
     /**
      * Show the form for creating a new resource.
