@@ -107,12 +107,13 @@
           },
         success: function( response ) {
             console.log(response)
+            location.reload()
           },
           error: function(response) {
-            console.log(response)
+            alert(response.responseJSON.error)
           }
       })
-      location.reload()
+
     }
 
     $('#ingred-btn').click(function () {
@@ -172,7 +173,7 @@
             location.reload()
           },
           error: function(response) {
-            console.log(response)
+            alert(response.responseJSON.error)
           }
         });
       }

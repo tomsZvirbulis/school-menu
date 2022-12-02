@@ -26,20 +26,20 @@ class MenuController extends Controller
 
     public function getLocal() {
         if (Auth::user()->caterer_id == null) {
-            return ['error' => 'insufficient permision'];
+            return response()->json(['error' => 'Insufficient permisions!'], 500);
         }
 
         if (Auth::user()->assigned_school == null) {
-            return ['error' => 'You are not a worker'];
+            return response()->json(['error' => 'You are not a worker!'], 500);
         }
         $recepies = DB::select('select * from recepie where caterer_id ='.Auth::user()->caterer_id);
         if (count($recepies) < 5) {
-            return ['error' => 'Not enough recepies'];
+            return response()->json(['error' => 'Not enought recepies!'], 500);
         }
         $schools = School::where('id', Auth::user()->assigned_school)->get();
         $classes = Classes::where('school_id', Auth::user()->assigned_school)->get();
         if (count($classes) < 1) {
-            return ['error' => 'No classes'];
+            return response()->json(['error' => 'No school classes!'], 500);
         }
 
         $grade_ids = DB::select('select distinct(chg.grade_id) from school
@@ -60,12 +60,16 @@ class MenuController extends Controller
             foreach ($recepies as $recepie) {
                 // var_dump($recepie);
                 if ($recepie->calories < $class_val->calories) {
-                    echo '22';
                     $possible_recepies[$key][] = $recepie;
                 }
             } 
+            while (count($real_recepies[$key])-1 < 5) {
+                $rand_num = rand(0, abs(count($real_recepies[$key])-2));
+                $real_recepies[$key][] = $possible_recepies[$key][$rand_num];
+            }
+            var_dump($real_recepies[$key]);
         }
-        var_dump($possible_recepies);
+        
  
         // return $classes;
     }

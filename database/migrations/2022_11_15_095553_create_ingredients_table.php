@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('restrictions', function (Blueprint $table) {
-            $table->foreignId('class_id')->constrained('class');
-            $table->foreignId('ingredients_id')->constrained('ingredients');
+        Schema::create('ingredients', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('recepie');
+            $table->foreign('recepie')->references('id')->on('recepie');
+            $table->unsignedBigInteger('ingredient_category');
+            $table->foreign('ingredient_category')->references('id')->on('ingredient_category');
             $table->string('name');
+            $table->integer('count');
         });
     }
 

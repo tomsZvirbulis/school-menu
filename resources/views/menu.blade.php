@@ -47,7 +47,7 @@
                 success: function( response ) {
                     console.log(response)          },
                 error: function(response) {
-                    console.log(response)
+                    alert(response.responseJSON.error)
                 }
             })
         }

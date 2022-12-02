@@ -38,12 +38,12 @@ class RecepiesController extends Controller
 
     public function createRecepies(Request $request) {
         if (Auth::user()->master !== 1) {
-            return ['error' => 'insufficent permision'];
+            return response()->json(['error' => 'Insufficient permisions'], 500);
         }
         $raw_data = $request->all();
         $decoded_data = json_decode($raw_data['data']);
         if (count($decoded_data)-1 <= 5) {
-            return ['error' => 'ingredient needed'];
+            return response()->json(['error' => 'Ingredient needed'], 500);
         }
 
         function getLastId($tableName) {
@@ -80,6 +80,8 @@ class RecepiesController extends Controller
         if (Auth::user()->master == 1 && Auth::user()->caterer_id != null) {
             Ingredients::where('recepie', $id)->delete();
             Recepie::where('id', $id)->delete();
+        } else {
+            return response()->json(['error' => 'Insufficient permisions'], 500);
         }
     }
 
