@@ -28,12 +28,13 @@ class RecepiesController extends Controller
         }
         if (Auth::user()->caterer_id !== null) {
             $res = Recepie::where('caterer_id', Auth::user()->caterer_id)->get();
+            $ingredients = Ingredients::all();
         } else if (Auth::user()->school_id !== null) {
             $res = false;
         }
         
 
-        return view('recepies', ['recepies'=>$res]);
+        return view('recepies', ['recepies'=>$res, 'ingredients' => $ingredients]);
     }
 
     public function createRecepies(Request $request) {

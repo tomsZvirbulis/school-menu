@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('recepie_has_ingredient', function (Blueprint $table) {
             $table->foreignId('recepie')->constrained('recepie');
             $table->foreignId('ingredient')->constrained('ingredients');
+            $table->integer('count');
         });
     }
 

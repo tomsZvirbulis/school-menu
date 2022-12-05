@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,11 +16,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        foreach (range(1, 25) as $index) {
+            DB::insert('insert into ingredient_category (name) values (?)', [Str::random(10)]);
+        }
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        foreach (range(1,100) as $index) {
+            DB::insert('insert into ingredients (ingredient_category, name) values (?, ?)', [random_int(1, 25) ,Str::random(10)]);
+        }
+
+    }
+
+    public function ingred() {
+
+        
     }
 }
