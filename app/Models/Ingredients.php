@@ -17,4 +17,10 @@ class Ingredients extends Model
         'name',
         'count',
     ];
+
+    public function recepie()
+    {
+
+        return $this->belongsToMany(Recepie::class, 'recepie_has_ingredient', 'ingredients', 'recepie');
+    }
 }

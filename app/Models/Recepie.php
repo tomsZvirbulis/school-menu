@@ -22,4 +22,10 @@ class Recepie extends Model
         'instruction',
         'caterer_id',
     ];
+
+    public function ingredient()
+    {
+
+        return $this->belongsToMany(Ingredient::class, 'recepie_has_ingredient', 'recepie', 'ingredient');
+    }
 }
