@@ -55,23 +55,22 @@ class MenuController extends Controller
         $possible_recepies = array();
         $real_recepies = array();
         foreach ($class_info as $key => $class_val) {
-            $possible_recepies[] = array('calories' => $class_val->calories);
-            $real_recepies[] = array('calories' => $class_val->calories);
+            $possible_recepies[] = array('class_data' => $class_val);
+            $real_recepies[] = array('class_data' => $class_val);
             foreach ($recepies as $recepie) {
-                // var_dump($recepie);
                 if ($recepie->calories < $class_val->calories) {
                     $possible_recepies[$key][] = $recepie;
                 }
             } 
             while (count($real_recepies[$key])-1 < 5) {
-                $rand_num = rand(0, abs(count($possible_recepies[$key])-2));
+                $rand_num = rand(1, abs(count($possible_recepies[$key])-2));
                 $real_recepies[$key][] = $possible_recepies[$key][$rand_num];
+                unset($possible_recepies[$key][$rand_num]);
+                $possible_recepies[$key] = array_values($possible_recepies[$key]);
             }
-            var_dump($possible_recepies[$key]);
         }
-        
- 
-        // return $classes;
+        return ["recepies" => $real_recepies];
+
     }
 
     /**

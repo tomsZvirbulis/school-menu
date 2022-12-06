@@ -39,4 +39,4 @@ Route::get('/recepie/{id}', [RecepiesController::class, 'getRecepie']);
 
 // MENU routes
 Route::get('/menu', [MenuController::class, 'index']);
-Route::post('/getlocalmenu', [MenuController::class, 'getLocal'])->name('getLocal');
+Route::get('/getlocalmenu', [MenuController::class, 'getLocal'])->name('getLocal');
