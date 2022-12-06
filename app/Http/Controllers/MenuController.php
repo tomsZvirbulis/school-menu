@@ -62,8 +62,13 @@ class MenuController extends Controller
                     $possible_recepies[$key][] = $recepie;
                 }
             } 
+            unset($possible_recepies[$key]['class_data']);
             while (count($real_recepies[$key])-1 < 5) {
-                $rand_num = rand(1, abs(count($possible_recepies[$key])-2));
+                if (count($possible_recepies[$key]) == 1 && count($real_recepies[$key])-1 == 4) {
+                    $real_recepies[$key][] = $possible_recepies[$key][0];
+                    break;
+                }
+                $rand_num = rand(0, abs(count($possible_recepies[$key])-1));
                 $real_recepies[$key][] = $possible_recepies[$key][$rand_num];
                 unset($possible_recepies[$key][$rand_num]);
                 $possible_recepies[$key] = array_values($possible_recepies[$key]);

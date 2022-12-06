@@ -54,17 +54,14 @@
         function importRecepie(res) {
             console.log(res);
             $(`tbody`).empty()
-            for (let i = 1; i < 6; ++i) {
-                console.log(res.recepies[0][i-1].name);
-                $(`tbody`).append(
-                    `
-                        <tr>
-                            <td>${res.recepies[0].class_data.minYear} - ${res.recepies[0].class_data.maxYear}</td> 
-                            <td>${res.recepies[0][i-1].name}</td>    
-                        </tr>
-                    `
-                )
-            }
+            res.recepies.map((elem) => {
+                let str = `<tr><td>${elem.class_data.minYear} - ${elem.class_data.maxYear}</td>`
+                for (let i = 0; i < 5; ++i) {
+                    str+= `<td>${elem[i].name}</td>`
+                }
+                str+= '</tr>'
+                $(`tbody`).append(str)
+            })
         }
 
         const mixed = () => {
