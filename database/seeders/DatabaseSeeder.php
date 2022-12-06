@@ -6,6 +6,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\Grade;
+use App\Models\Ingredients;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,8 +23,21 @@ class DatabaseSeeder extends Seeder
         }
 
         foreach (range(1,100) as $index) {
-            DB::insert('insert into ingredients (ingredient_category, name) values (?, ?)', [random_int(1, 25) ,Str::random(10)]);
+            Ingredients::insert([
+                'ingredient_category'=>random_int(1, 25),
+                'name'=>Str::random(10),
+            ]);
         }
+
+        foreach (range(1,4) as $index) {
+            Grade::insert([
+                'minYear'=>$index,
+                'maxYear'=>$index+2,
+                'calories'=>$index*1000,
+            ]);
+        }
+
+
 
     }
 

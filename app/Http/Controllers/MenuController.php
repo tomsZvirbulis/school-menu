@@ -64,10 +64,10 @@ class MenuController extends Controller
                 }
             } 
             while (count($real_recepies[$key])-1 < 5) {
-                $rand_num = rand(0, abs(count($real_recepies[$key])-2));
+                $rand_num = rand(0, abs(count($possible_recepies[$key])-2));
                 $real_recepies[$key][] = $possible_recepies[$key][$rand_num];
             }
-            var_dump($real_recepies[$key]);
+            var_dump($possible_recepies[$key]);
         }
         
  

@@ -13,9 +13,8 @@ class Ingredients extends Model
     protected $primaryKey  = 'id';
 
     protected $fillable = [
-        'recepie',
+        'ingredient_category',
         'name',
-        'count',
     ];
 
     public function recepie()

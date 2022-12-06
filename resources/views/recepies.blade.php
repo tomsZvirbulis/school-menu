@@ -123,15 +123,14 @@
                     <div class="col">
                       <div class="form-outline">
                         <label class="form-label" for="ingred-name-${$('#ingred-input > div').length+1}">Ingredient name</label>
-                        <select name='ingred' class='js-example-templating'> 
-                              <option value="">Select a Page...</option>
+                        <select name='ingred-${$('#ingred-input > div').length+1}' class='js-example-templating'> 
+                              <option value="">Select a Ingredient...</option>
                               <?php
                                 foreach ($ingredients as $ingr) {
-                                  echo '<option value="'.$ingr->name.'">'.$ingr->name.'</option>';
+                                  echo '<option value="'.$ingr->id.'">'.$ingr->name.'</option>';
                                 }
                               ?>
                         </select>
-                        // <input name='ingred-name-${$('#ingred-input > div').length+1}' type="text" id="ingred-name-${$('#ingred-input > div').length+1}" class="form-control" />
                       </div>
                     </div>
                     <div class="col">

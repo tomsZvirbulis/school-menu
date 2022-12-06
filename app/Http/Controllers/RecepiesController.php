@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Recepie;
 use App\Models\Instructions;
 use App\Models\School;
+use App\Models\RecepieHasIngredient;
 
 class RecepiesController extends Controller
 {
@@ -66,10 +67,11 @@ class RecepiesController extends Controller
             'caterer_id' => Auth::user()->caterer_id,
         ]);
         $recepie_id = getLastId('recepie');
+
         for ($id = 7; $id < count($decoded_data); $id +=2) {
-            Ingredients::insert([
+            RecepieHasIngredient::insert([
                 'recepie' => $recepie_id[0]->id,
-                'name' => $decoded_data[$id]->value,
+                'ingredient' => $decoded_data[$id]->value,
                 'count' => $decoded_data[$id+1]->value,
             ]);
         }
@@ -79,7 +81,7 @@ class RecepiesController extends Controller
 
     public function delete($id) {
         if (Auth::user()->master == 1 && Auth::user()->caterer_id != null) {
-            Ingredients::where('recepie', $id)->delete();
+            RecepieHasIngredient::where('recepie', $id)->delete();
             Recepie::where('id', $id)->delete();
         } else {
             return response()->json(['error' => 'Insufficient permisions'], 500);

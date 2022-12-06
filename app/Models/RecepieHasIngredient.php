@@ -13,7 +13,7 @@ class RecepieHasIngredient extends Model
 
     protected $fillable = [
         'recepie', 
-        'ingredients',
+        'ingredient',
         'count',
     ];
 }
