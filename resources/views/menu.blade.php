@@ -57,7 +57,7 @@
             res.recepies.map((elem) => {
                 let str = `<tr><td>${elem.class_data.minYear} - ${elem.class_data.maxYear}</td>`
                 for (let i = 0; i < 5; ++i) {
-                    str+= `<td>${elem[i].name}</td>`
+                    str+= `<td><a href='/recepie/${elem[i].id}'>${elem[i].name}</a></td>`
                 }
                 str+= '</tr>'
                 $(`tbody`).append(str)

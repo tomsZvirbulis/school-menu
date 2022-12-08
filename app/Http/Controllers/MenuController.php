@@ -52,26 +52,41 @@ class MenuController extends Controller
             inner join class on class.id = chg.class_id
             inner join grade on grade.id = chg.grade_id and grade.id = '.$grade->grade_id.';')[0];
         }
+
+        if ($class_info)
+
         $possible_recepies = array();
         $real_recepies = array();
         foreach ($class_info as $key => $class_val) {
-            $possible_recepies[] = array('class_data' => $class_val);
-            $real_recepies[] = array('class_data' => $class_val);
+            $temp_array = array();
             foreach ($recepies as $recepie) {
-                if ($recepie->calories < $class_val->calories) {
-                    $possible_recepies[$key][] = $recepie;
+                if ($recepie->calories < $class_val->calories + 100 && $recepie->calories > $class_val->calories - 100) {
+                    $temp_array[] = $recepie;
                 }
             } 
-            unset($possible_recepies[$key]['class_data']);
+
+            if (count($temp_array) < 5) {
+                continue;
+            }
+
+            $possible_recepies[] = array('class_data' => $class_val);
+            $real_recepies[] = array('class_data' => $class_val);
+            $possible_recepies[$key][] = $temp_array;
+
+            if (count($possible_recepies[$key][0]) <= 4) {
+                return response()->json(['error' => 'Not enough class recepies!'], 500);
+            }
+
+            // unset($possible_recepies[$key]['class_data']);
             while (count($real_recepies[$key])-1 < 5) {
-                if (count($possible_recepies[$key]) == 1 && count($real_recepies[$key])-1 == 4) {
-                    $real_recepies[$key][] = $possible_recepies[$key][0];
+                if (count($possible_recepies[$key][0]) == 1 && count($real_recepies[$key])-1 == 4) {
+                    $real_recepies[$key][] = $possible_recepies[$key][0][0];
                     break;
                 }
                 $rand_num = rand(0, abs(count($possible_recepies[$key])-1));
-                $real_recepies[$key][] = $possible_recepies[$key][$rand_num];
-                unset($possible_recepies[$key][$rand_num]);
-                $possible_recepies[$key] = array_values($possible_recepies[$key]);
+                $real_recepies[$key][] = $possible_recepies[$key][0][$rand_num];
+                unset($possible_recepies[$key][0][$rand_num]);
+                $possible_recepies[$key][0] = array_values($possible_recepies[$key][0]);
             }
         }
         return ["recepies" => $real_recepies];

@@ -2,8 +2,10 @@
 
 @section('content')
     <div>
-        @foreach ($data as $recepie)
-            <h1>{{$recepie->name}}</h1>
-        @endforeach
+        @if (isset($data))
+            @foreach ($data as $recepie)
+                <h1>{{$recepie->name}}</h1>
+            @endforeach
+        @endif
     </div>
 @endsection
