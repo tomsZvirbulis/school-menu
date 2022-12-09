@@ -110,13 +110,12 @@ class RecepiesController extends Controller
                     $ingredient = array();
                     $ingredient[] = $ingredients->toArray()[0]['name'];
                     $ingredient[] = $category->toArray()[0]['name'];
-
-                    $data['ingredients'][$key] = $ingr_detail['count'];
+                    $ingredient[] = $ingr_detail['count'];
+                    
                     $data['ingredients'][$key] = $ingredient;
                 }
-                dd($data);
             }
-            return view('recepie', ['recepies' => $recepies, '']);
+            return view('recepie', ['data' => $data]);
         }
     }
     /**

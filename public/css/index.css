@@ -114,3 +114,31 @@ tr > th, tr > td {
 th {
     border: 1px solid black;
 }
+
+
+#recepie-container {
+    padding: 5vw;
+}
+
+#detail-bar {
+    display: flex;
+}
+
+#detail-bar > div {
+    text-align: center;
+    padding: 0 2vw;
+    border-left: 1px solid black;
+    font-size: .8rem;
+}
+
+#instruction > p {
+    margin-top: 1rem;
+}
+
+#detail-bar > div > p {
+    margin: 0;
+}
+
+#detail-bar > div:last-child {
+    border-right: 1px solid black;
+}
