@@ -69,11 +69,12 @@ class RecepiesController extends Controller
         ]);
         $recepie_id = getLastId('recepie');
 
-        for ($id = 7; $id < count($decoded_data); $id +=2) {
+        for ($id = 7; $id < count($decoded_data); $id +=3) {
             RecepieHasIngredient::insert([
                 'recepie' => $recepie_id[0]->id,
                 'ingredient' => $decoded_data[$id]->value,
                 'count' => $decoded_data[$id+1]->value,
+                'measurements' => $decoded_data[$id+2]->value,
             ]);
         }
         return ['msg' => 'recepie added'];
@@ -111,6 +112,7 @@ class RecepiesController extends Controller
                     $ingredient[] = $ingredients->toArray()[0]['name'];
                     $ingredient[] = $category->toArray()[0]['name'];
                     $ingredient[] = $ingr_detail['count'];
+                    $ingredient[] = $ingr_detail['measurements'];
                     
                     $data['ingredients'][$key] = $ingredient;
                 }

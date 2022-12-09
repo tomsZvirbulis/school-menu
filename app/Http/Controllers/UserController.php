@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Classes;
 use App\Models\ClassHasGrade;
 use App\Models\Grade;
+use App\Models\IngredientCategory;
+use App\Models\Ingredients;
 use Illuminate\Http\Request;
 use App\Models\School;
 use Illuminate\Support\Facades\Auth;
@@ -29,13 +31,17 @@ class UserController extends Controller
             if (Auth::user()->caterer_id != null) {
                 $res = School::where("caterer", Auth::user()->caterer_id)->get();
             } else {
-                $class_res = Classes::where('school_id', Auth::user()->school_id)->get();
                 $hasManyClass = Classes::with('grade')->get()->toArray();
                 $resHas = array();
                 foreach ($hasManyClass as $key => $val) {
                     if ($val['school_id'] == Auth::user()->school_id && count($val['grade']) > 0) {
                         $resHas[] = $hasManyClass[$key];
                     }
+                }
+                $categories = IngredientCategory::all();
+                $ingredient = array();
+                foreach ($categories->toArray() as $category) {
+                    $ingredient[$category['name']] = Ingredients::where('ingredient_category', $category['id'])->get()->toArray();
                 }
                 $res = Grade::all();
             }
@@ -45,7 +51,7 @@ class UserController extends Controller
         }
 
         if (isset($resHas)) {
-            return view('user', ['data' => $res, 'class_grade' => $resHas]);
+            return view('user', ['data' => $res, 'class_grade' => $resHas, 'ingredients' => $ingredient]);
         } else {
             return view('user', ['data' => $res]);
         }
@@ -71,6 +77,10 @@ class UserController extends Controller
             return redirect('/user');
             
         }
+    }
+
+    public function addRestriction(Request $request) {
+
     }
 
     /**

@@ -30,6 +30,7 @@ Route::get('user', [UserController::class, 'data']);
 Route::post('/addclass', [UserController::class, 'addClass'])->name('addClass');
 Route::post('/createworker', [WorkerController::class, 'createWorker'])->name('createWorker');
 Route::post('/createschool', [WorkerController::class, 'createSchool'])->name('createSchool');
+Route::post('/addrestriction', [WorkerController::class, 'addRestriction'])->name('addRestriction');
 
 // RECEPIE routes
 Route::get('/recepies', [RecepiesController::class, 'getRecepies']);

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('recepie')->constrained('recepie');
             $table->foreignId('ingredient')->constrained('ingredients');
             $table->integer('count');
+            $table->string('measurements');
         });
     }
 

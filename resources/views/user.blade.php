@@ -290,6 +290,61 @@
             </form>
 
         </div>
+        <div>
+            <form id='restrictions-form' action={{route('addRestriction')}} method='POST'>
+                @csrf
+                
+                <h1>Add restrictions</h1>
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="form-outline">
+                            @if (isset($class_grade) && count($class_grade) > 0)
+                            <select name='grade_id' class="select form-control-lg" required>
+                                @foreach ($class_grade as $class)
+                                    <option value={{ $class['id'] }}>{{ $class['name']}}</option>
+                                @endforeach
+                            </select>
+                            @else
+                                    <h1>No grades</h1>
+                            @endif 
+                            <label class="form-label" for="class_name">Name</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-outline">
+                        <input type="number" id="student_count" class="form-control" name='student_count' />
+                        <label class="form-label" for="student_count">Student count</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="form-outline">
+                        {{dd($ingredients)}}
+                        @if (isset($ingredients) && count($ingredients) > 0)
+
+                        <select name='grade_id' class="select form-control-lg" required>
+                            @foreach ($ingredients as $ingredient)
+                                {{dd($ingredient[0])}}
+                                <option value={{ $ingredient[0]['ingredient_category'] }}><b>{{ $ingredient}}</b></option>
+                                @foreach ($ingredient as $ingr)
+                                    <option value={{ $ingr['id'] }}>{{ $ingr['name']}}</option>
+                                @endforeach
+                            @endforeach
+                        </select>
+                        @else
+                                <h1>No grades</h1>
+                        @endif 
+                        <label class="form-label" for="class_name">Name</label>
+                    </div>
+                </div>
+            
+                <!-- Submit button -->
+                <button onClick='handleSubmit(restriction)' type="submit" class="btn btn-primary btn-block">Add restriction</button>
+            </form>
+        </div>
+        
     </div>
     <script>
         const workerForm = document.getElementById('worker-form');
@@ -315,8 +370,10 @@
             event.preventDefault();
             if (name === 'worker') {
                 ajaxQuery('worker-form', 'createworkers')
-            } else {
+            } else if (name === 'school') {
                 ajaxQuery('school-form', 'createschool')
+            } else if (name === 'restriction') {
+
             }
             
         }
