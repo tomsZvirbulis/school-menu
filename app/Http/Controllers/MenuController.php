@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classes;
 use App\Models\Recepie;
 use App\Models\School;
+use App\Models\Restrictions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,24 @@ class MenuController extends Controller
             return redirect()->route('login');
         }
         return view('menu');
+    }
+
+    public function getRestriction($possible, $restrictions) {
+        $restriction_menu = array();
+        $grade_restrictions = array();
+        $grade_id = DB::select('select id from grade where minYear = '.$possible[0]['class_data']->minYear.' and maxYear= '.$possible[0]['class_data']->maxYear.';');
+        // return var_dump($restrictions);
+        foreach ($restrictions as $restriction) {
+            if ($restriction->grade_id == $grade_id[0]->id) {
+                if ($restriction->ingredients_id == NULL) {
+                    $grade_restrictions[] = $restriction->category_id;
+                } else {
+                    $grade_restrictions[] = 'C_'.$restriction->ingredients_id;
+                }
+                
+            }
+        }
+        return var_dump($grade_restrictions);
     }
 
     public function getLocal() {
@@ -77,6 +96,15 @@ class MenuController extends Controller
                 return response()->json(['error' => 'Not enough class recepies!'], 500);
             }
 
+            $restrictions = DB::select('select res.class_id, chg.grade_id, res.ingredients_id, res.category_id, res.count from restrictions res 
+            inner join class on class.id = res.class_id
+            inner join school sc on sc.id = '.Auth::user()->assigned_school.'
+            inner join class_has_grade chg on chg.class_id = res.class_id;');
+
+            if (count($restrictions) > 0) {
+                return $this->getRestriction($possible_recepies, $restrictions, $recepies);
+            }
+
             // unset($possible_recepies[$key]['class_data']);
             while (count($real_recepies[$key])-1 < 5) {
                 if (count($possible_recepies[$key][0]) == 1 && count($real_recepies[$key])-1 == 4) {
@@ -92,6 +120,7 @@ class MenuController extends Controller
         return ["recepies" => $real_recepies];
 
     }
+
 
     /**
      * Show the form for creating a new resource.
