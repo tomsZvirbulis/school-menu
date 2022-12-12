@@ -321,15 +321,20 @@
                 </div>
                 <div class="row mb-4">
                     <div class="form-outline">
-                        {{dd($ingredients)}}
-                        @if (isset($ingredients) && count($ingredients) > 0)
-
-                        <select name='grade_id' class="select form-control-lg" required>
+                        {{-- {{dd($ingredients)}} --}}
+                        @if (count($ingredients) > 0)
+                        {{-- {{dd($ingredients)}} --}}
+                        <select name='ingredient' class="select">
                             @foreach ($ingredients as $ingredient)
-                                {{dd($ingredient[0])}}
-                                <option value={{ $ingredient[0]['ingredient_category'] }}><b>{{ $ingredient}}</b></option>
-                                @foreach ($ingredient as $ingr)
-                                    <option value={{ $ingr['id'] }}>{{ $ingr['name']}}</option>
+                            {{-- {{dd($ingredients)}} --}}
+                                {{-- @foreach ($ingredient as $ingr)
+                                    {{dd($ingr)}}
+                                @endforeach --}}
+                                <option class='category' value={{ $ingredient[0]['ingredient_category'] }}><b>{{ $ingredient['category']}}</b></option>
+                                @foreach ($ingredient as $ingr) 
+                                    @if (gettype($ingr) != 'string')
+                                        <option value={{ $ingr['id'] }}>{{ $ingr['name']}}</option>
+                                    @endif
                                 @endforeach
                             @endforeach
                         </select>
@@ -347,33 +352,31 @@
         
     </div>
     <script>
-        const workerForm = document.getElementById('worker-form');
-        const schoolForm = document.getElementById('school-form')
 
-        const ajaxQuery = () => {
+        const ajaxQuery = (form, data) => {
             $.ajaxSetup({
                 headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+                $('#submit').html('Please Wait...');
+                $("#submit"). attr("disabled", true);
                 $.ajax({
                         url: "{{url('"+url+"')}}",
                         type: "POST",
-                        data: $('#class-form').serialize(),
+                        data: $('#'+form).serialize(),
                         success: function( response ) {
-                            location.reload()
+                            alert('data sent')
                         }
             });
         }
 
         const handleSubmit = (name) => {
             event.preventDefault();
-            if (name === 'worker') {
-                ajaxQuery('worker-form', 'createworkers')
-            } else if (name === 'school') {
-                ajaxQuery('school-form', 'createschool')
-            } else if (name === 'restriction') {
-
+            if (name === 'class') {
+                ajaxQuery('class-form', 'addclass')
+            } else {
+                ajaxQuery('restrictions-form', 'addrestriction')
             }
             
         }

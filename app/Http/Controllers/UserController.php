@@ -41,7 +41,8 @@ class UserController extends Controller
                 $categories = IngredientCategory::all();
                 $ingredient = array();
                 foreach ($categories->toArray() as $category) {
-                    $ingredient[$category['name']] = Ingredients::where('ingredient_category', $category['id'])->get()->toArray();
+                    $ingredient[] = Ingredients::where('ingredient_category', $category['id'])->get()->toArray();
+                    $ingredient[count($ingredient)-1]['category'] = $category['name'];
                 }
                 $res = Grade::all();
             }
@@ -80,7 +81,11 @@ class UserController extends Controller
     }
 
     public function addRestriction(Request $request) {
-
+        $data = $request->all();
+        return var_dump($data);
+        if (Auth::user()->master == 0) {
+            return response()->json(['error' => 'Insufficient permisions'], 500);
+        }
     }
 
     /**
