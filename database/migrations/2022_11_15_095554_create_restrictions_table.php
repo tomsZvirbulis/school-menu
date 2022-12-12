@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('restrictions', function (Blueprint $table) {
             $table->foreignId('class_id')->constrained('class');
-            $table->foreignId('ingredients_id')->constrained('ingredients');
+            $table->foreignId('ingredients_id')->nullable()->constrained('ingredients');
+            $table->foreignId('category_id')->nullable()->constrained('ingredient_category');
             $table->integer('count');
         });
     }

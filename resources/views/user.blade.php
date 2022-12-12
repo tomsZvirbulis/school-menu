@@ -301,7 +301,7 @@
                     <div class="col">
                         <div class="form-outline">
                             @if (isset($class_grade) && count($class_grade) > 0)
-                            <select name='grade_id' class="select form-control-lg" required>
+                            <select name='class_id' class="select form-control-lg" required>
                                 @foreach ($class_grade as $class)
                                     <option value={{ $class['id'] }}>{{ $class['name']}}</option>
                                 @endforeach
@@ -321,16 +321,11 @@
                 </div>
                 <div class="row mb-4">
                     <div class="form-outline">
-                        {{-- {{dd($ingredients)}} --}}
                         @if (count($ingredients) > 0)
-                        {{-- {{dd($ingredients)}} --}}
                         <select name='ingredient' class="select">
                             @foreach ($ingredients as $ingredient)
-                            {{-- {{dd($ingredients)}} --}}
-                                {{-- @foreach ($ingredient as $ingr)
-                                    {{dd($ingr)}}
-                                @endforeach --}}
-                                <option class='category' value={{ $ingredient[0]['ingredient_category'] }}><b>{{ $ingredient['category']}}</b></option>
+                                {{-- {{var_dump($ingredient)}} --}}
+                                <option class='category' value='C_{{ $ingredient['category'] }}'><b>{{ $ingredient['category']}}</b></option>
                                 @foreach ($ingredient as $ingr) 
                                     @if (gettype($ingr) != 'string')
                                         <option value={{ $ingr['id'] }}>{{ $ingr['name']}}</option>
@@ -339,9 +334,8 @@
                             @endforeach
                         </select>
                         @else
-                                <h1>No grades</h1>
+                                <h1>No ingredients</h1>
                         @endif 
-                        <label class="form-label" for="class_name">Name</label>
                     </div>
                 </div>
             

@@ -7,6 +7,7 @@ use App\Models\ClassHasGrade;
 use App\Models\Grade;
 use App\Models\IngredientCategory;
 use App\Models\Ingredients;
+use App\Models\Restrictions;
 use Illuminate\Http\Request;
 use App\Models\School;
 use Illuminate\Support\Facades\Auth;
@@ -82,10 +83,23 @@ class UserController extends Controller
 
     public function addRestriction(Request $request) {
         $data = $request->all();
-        return var_dump($data);
         if (Auth::user()->master == 0) {
             return response()->json(['error' => 'Insufficient permisions'], 500);
         }
+
+        if (str_contains($request['ingredient'], 'C')) {
+            Restrictions::insert([
+                'class_id' => $request['class_id'], 
+                'category_id' => substr($request['ingredient'], 2),
+                'count' => $request['student_count'],
+            ]);
+        }
+
+        Restrictions::insert([
+            'class_id' => $request['class_id'], 
+            'ingredients_id' => $request['ingredient'],
+            'count' => $request['student_count'],
+        ]);
     }
 
     /**
