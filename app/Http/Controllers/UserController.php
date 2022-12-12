@@ -88,18 +88,21 @@ class UserController extends Controller
         }
 
         if (str_contains($request['ingredient'], 'C')) {
+            $category_id = substr($request['ingredient'], 2);
             Restrictions::insert([
                 'class_id' => $request['class_id'], 
-                'category_id' => substr($request['ingredient'], 2),
+                'category_id' => $category_id,
+                'count' => $request['student_count'],
+            ]);
+        } else {
+            Restrictions::insert([
+                'class_id' => $request['class_id'], 
+                'ingredients_id' => $request['ingredient'],
                 'count' => $request['student_count'],
             ]);
         }
 
-        Restrictions::insert([
-            'class_id' => $request['class_id'], 
-            'ingredients_id' => $request['ingredient'],
-            'count' => $request['student_count'],
-        ]);
+        
     }
 
     /**

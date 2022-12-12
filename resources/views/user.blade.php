@@ -321,16 +321,19 @@
                 </div>
                 <div class="row mb-4">
                     <div class="form-outline">
+                        {{-- {{dd($ingredients)}} --}}
                         @if (count($ingredients) > 0)
                         <select name='ingredient' class="select">
                             @foreach ($ingredients as $ingredient)
                                 {{-- {{var_dump($ingredient)}} --}}
-                                <option class='category' value='C_{{ $ingredient['category'] }}'><b>{{ $ingredient['category']}}</b></option>
-                                @foreach ($ingredient as $ingr) 
-                                    @if (gettype($ingr) != 'string')
-                                        <option value={{ $ingr['id'] }}>{{ $ingr['name']}}</option>
-                                    @endif
-                                @endforeach
+                                @if (count($ingredient) > 1)
+                                    <option class='category' value='C_{{ $ingredient[0]['ingredient_category'] }}'><b>{{ $ingredient['category']}}</b></option>
+                                    @foreach ($ingredient as $ingr) 
+                                        @if (gettype($ingr) != 'string')
+                                            <option value={{ $ingr['id'] }}>{{ $ingr['name']}}</option>
+                                        @endif
+                                    @endforeach
+                                @endif
                             @endforeach
                         </select>
                         @else
