@@ -82,7 +82,6 @@ class UserController extends Controller
     }
 
     public function addRestriction(Request $request) {
-        $data = $request->all();
         if (Auth::user()->master == 0) {
             return response()->json(['error' => 'Insufficient permisions'], 500);
         }

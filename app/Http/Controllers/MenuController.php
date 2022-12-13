@@ -26,6 +26,10 @@ class MenuController extends Controller
     }
 
     public function getRestriction($possible, $restrictions) {
+        // fetches all recepies with restrictions
+        // select * from recepie rec 
+        // inner join recepie_has_ingredient rhi on rhi.recepie = rec.id
+        // inner join restrictions res on res.ingredients_id = rhi.ingredient and rec.caterer_id = 1;
         $restriction_menu = array();
         $grade_restrictions = array();
         $grade_id = DB::select('select id from grade where minYear = '.$possible[0]['class_data']->minYear.' and maxYear= '.$possible[0]['class_data']->maxYear.';');
@@ -33,9 +37,9 @@ class MenuController extends Controller
         foreach ($restrictions as $restriction) {
             if ($restriction->grade_id == $grade_id[0]->id) {
                 if ($restriction->ingredients_id == NULL) {
-                    $grade_restrictions[] = $restriction->category_id;
+                    $grade_restrictions[] = 'C_'.$restriction->category_id;
                 } else {
-                    $grade_restrictions[] = 'C_'.$restriction->ingredients_id;
+                    $grade_restrictions[] = $restriction->ingredients_id;
                 }
                 
             }
