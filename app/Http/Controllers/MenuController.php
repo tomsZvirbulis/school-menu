@@ -27,24 +27,72 @@ class MenuController extends Controller
 
     public function getRestriction($possible, $restrictions) {
         // fetches all recepies with restrictions
-        // select * from recepie rec 
-        // inner join recepie_has_ingredient rhi on rhi.recepie = rec.id
-        // inner join restrictions res on res.ingredients_id = rhi.ingredient and rec.caterer_id = 1;
+        // select * from recepie re where not exists (
+        //     select * from recepie_has_ingredient rhi
+        //         where
+        //         (rhi.recepie = re.id and re.caterer_id = 1)
+        //         and (rhi.ingredient in (1) or rhi.ingredient in (select ingre.id from ingredients ingre where ingredient_category in (3, 24) ))
+        //     );
         $restriction_menu = array();
         $grade_restrictions = array();
         $grade_id = DB::select('select id from grade where minYear = '.$possible[0]['class_data']->minYear.' and maxYear= '.$possible[0]['class_data']->maxYear.';');
         // return var_dump($restrictions);
+        $res_categories = array();
         foreach ($restrictions as $restriction) {
             if ($restriction->grade_id == $grade_id[0]->id) {
                 if ($restriction->ingredients_id == NULL) {
-                    $grade_restrictions[] = 'C_'.$restriction->category_id;
+                    if (array_search($restriction->category_id, $res_categories) == false) {
+                        $res_categories[] = $restriction->category_id;
+                    }
                 } else {
-                    $grade_restrictions[] = $restriction->ingredients_id;
+                    if (array_search($restriction->ingredients_id, $grade_restrictions) == false) {
+                        $grade_restrictions[] = $restriction->ingredients_id;
+                    }
                 }
                 
             }
         }
-        return var_dump($grade_restrictions);
+
+        if (count($res_categories) >= 1) {
+            $res_cat_string = '';
+            foreach ($res_categories as $index => $res_categorie) {
+                if (count($res_categories) == $index+1) {
+                    $res_cat_string .= strval($res_categorie);
+                } else {
+                    $res_cat_string .= strval($res_categorie).',';
+                }
+            }
+        } else {
+            $res_cat_string = 'null';
+        }
+
+        if (count($grade_restrictions) >= 1) {
+            $res_in_string = '';
+            foreach ($grade_restrictions as $index => $grade_restriction) {
+                if (count($grade_restrictions) == $index+1) {
+                    $res_in_string .= strval($grade_restriction);
+                } else {
+                    $res_in_string .= strval($grade_restriction).',';
+                }
+            }
+        } else {
+            $res_in_string = 'null';
+        }
+
+        $res = DB::select('select * from recepie re where not exists (
+                select * from recepie_has_ingredient rhi
+                    where
+                    (rhi.recepie = re.id and re.caterer_id = '.Auth::user()->caterer_id.')
+                    and 
+                    (rhi.ingredient in ('.$res_in_string.') 
+                        or 
+                        rhi.ingredient in 
+                            (select ingre.id from ingredients ingre where ingredient_category in ('.$res_cat_string.'))
+                    )
+                );');
+
+        return var_dump($res);
+        return var_dump($res_categories);
     }
 
     public function getLocal() {
