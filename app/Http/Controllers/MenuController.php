@@ -26,17 +26,10 @@ class MenuController extends Controller
     }
 
     public function getRestriction($possible, $restrictions) {
-        // fetches all recepies with restrictions
-        // select * from recepie re where not exists (
-        //     select * from recepie_has_ingredient rhi
-        //         where
-        //         (rhi.recepie = re.id and re.caterer_id = 1)
-        //         and (rhi.ingredient in (1) or rhi.ingredient in (select ingre.id from ingredients ingre where ingredient_category in (3, 24) ))
-        //     );
+
         $restriction_menu = array();
         $grade_restrictions = array();
         $grade_id = DB::select('select id from grade where minYear = '.$possible[0]['class_data']->minYear.' and maxYear= '.$possible[0]['class_data']->maxYear.';');
-        // return var_dump($restrictions);
         $res_categories = array();
         foreach ($restrictions as $restriction) {
             if ($restriction->grade_id == $grade_id[0]->id) {
@@ -66,6 +59,7 @@ class MenuController extends Controller
             $res_cat_string = 'null';
         }
 
+
         if (count($grade_restrictions) >= 1) {
             $res_in_string = '';
             foreach ($grade_restrictions as $index => $grade_restriction) {
@@ -79,20 +73,29 @@ class MenuController extends Controller
             $res_in_string = 'null';
         }
 
+        $rec_string = '';
+        foreach ($possible[1][0] as $index => $posible) {
+            if (count($possible[1][0]) == $index+1) {
+                $rec_string .= strval($posible->id);
+            } else {
+                $rec_string .= strval($posible->id).',';
+            }
+        }
+
+
         $res = DB::select('select * from recepie re where not exists (
                 select * from recepie_has_ingredient rhi
                     where
-                    (rhi.recepie = re.id and re.caterer_id = '.Auth::user()->caterer_id.')
+                    ((rhi.recepie = re.id and re.caterer_id = '.Auth::user()->caterer_id.')
                     and 
                     (rhi.ingredient in ('.$res_in_string.') 
                         or 
                         rhi.ingredient in 
                             (select ingre.id from ingredients ingre where ingredient_category in ('.$res_cat_string.'))
-                    )
-                );');
+                    ))
+                ) and re.id IN ('.$rec_string.');');
 
-        return var_dump($res);
-        return var_dump($res_categories);
+        return $res;
     }
 
     public function getLocal() {
@@ -119,16 +122,14 @@ class MenuController extends Controller
 
         $class_info = array();
         foreach ($grade_ids as $grade) {
-            $class_info[] = DB::select('select grade.minYear, grade.maxYear, grade.calories, sum(class.student_count) as total_students from class_has_grade chg 
+            $class_info[] = DB::select('select grade.id, grade.minYear, grade.maxYear, grade.calories, sum(class.student_count) as total_students from class_has_grade chg 
             inner join class on class.id = chg.class_id
             inner join grade on grade.id = chg.grade_id and grade.id = '.$grade->grade_id.';')[0];
         }
 
-        if ($class_info)
-
-        $possible_recepies = array();
         $real_recepies = array();
         foreach ($class_info as $key => $class_val) {
+            $possible_recepies = array();
             $temp_array = array();
             foreach ($recepies as $recepie) {
                 if ($recepie->calories < $class_val->calories + 100 && $recepie->calories > $class_val->calories - 100) {
@@ -142,9 +143,9 @@ class MenuController extends Controller
 
             $possible_recepies[] = array('class_data' => $class_val);
             $real_recepies[] = array('class_data' => $class_val);
-            $possible_recepies[$key][] = $temp_array;
+            $possible_recepies[][] = $temp_array;
 
-            if (count($possible_recepies[$key][0]) <= 4) {
+            if (count($possible_recepies[1][0]) <= 4) {
                 return response()->json(['error' => 'Not enough class recepies!'], 500);
             }
 
@@ -153,22 +154,31 @@ class MenuController extends Controller
             inner join school sc on sc.id = '.Auth::user()->assigned_school.'
             inner join class_has_grade chg on chg.class_id = res.class_id;');
 
-            if (count($restrictions) > 0) {
-                return $this->getRestriction($possible_recepies, $restrictions, $recepies);
-            }
 
-            // unset($possible_recepies[$key]['class_data']);
+
+            if (count($restrictions) > 0) {
+                $res = $this->getRestriction($possible_recepies, $restrictions, $recepies);
+                $possible_recepies[]['res_rec'] = array($res);
+            }
+            
+
             while (count($real_recepies[$key])-1 < 5) {
-                if (count($possible_recepies[$key][0]) == 1 && count($real_recepies[$key])-1 == 4) {
-                    $real_recepies[$key][] = $possible_recepies[$key][0][0];
+                if (count($possible_recepies[1][0]) == 1 && count($real_recepies[$key])-1 == 4) {
+                    $real_recepies[$key][] = $possible_recepies[1][0][0];
                     break;
                 }
-                $rand_num = rand(0, abs(count($possible_recepies[$key])-1));
-                $real_recepies[$key][] = $possible_recepies[$key][0][$rand_num];
-                unset($possible_recepies[$key][0][$rand_num]);
-                $possible_recepies[$key][0] = array_values($possible_recepies[$key][0]);
+                $rand_num = rand(0, abs(count($possible_recepies[1])-1));
+                $real_recepies[$key][] = $possible_recepies[1][0][$rand_num];
+                unset($possible_recepies[1][0][$rand_num]);
+                $possible_recepies[1][0] = array_values($possible_recepies[1][0]);
+            }
+            if (isset($possible_recepies[2])) {
+                if (count($possible_recepies[2]['res_rec'][0]) < 1) {
+                    $real_recepies[$key]['res_rec'] = array($possible_recepies[2]['res_rec'][0][1]);
+                }
             }
         }
+        return $real_recepies[0];
         return ["recepies" => $real_recepies];
 
     }
