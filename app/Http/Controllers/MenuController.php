@@ -136,15 +136,15 @@ class MenuController extends Controller
                     $temp_array[] = $recepie;
                 }
             } 
-
+            
             if (count($temp_array) < 5) {
                 continue;
             }
-
+            
             $possible_recepies[] = array('class_data' => $class_val);
-            $real_recepies[] = array('class_data' => $class_val);
+            $real_recepies[$key] = array('class_data' => $class_val);
             $possible_recepies[][] = $temp_array;
-
+            
             if (count($possible_recepies[1][0]) <= 4) {
                 return response()->json(['error' => 'Not enough class recepies!'], 500);
             }
@@ -161,7 +161,7 @@ class MenuController extends Controller
                 $possible_recepies[]['res_rec'] = array($res);
             }
             
-
+    
             while (count($real_recepies[$key])-1 < 5) {
                 if (count($possible_recepies[1][0]) == 1 && count($real_recepies[$key])-1 == 4) {
                     $real_recepies[$key][] = $possible_recepies[1][0][0];
@@ -172,13 +172,18 @@ class MenuController extends Controller
                 unset($possible_recepies[1][0][$rand_num]);
                 $possible_recepies[1][0] = array_values($possible_recepies[1][0]);
             }
+
             if (isset($possible_recepies[2])) {
-                if (count($possible_recepies[2]['res_rec'][0]) < 1) {
-                    $real_recepies[$key]['res_rec'] = array($possible_recepies[2]['res_rec'][0][1]);
+                $real_recepies[$key]['res_rec'][] = null;
+                while (count($real_recepies[$key]['res_rec']) < 5) {
+                    if (count($possible_recepies[2]['res_rec'][0]) > 0) {
+                        $real_recepies[$key]['res_rec'] = array($possible_recepies[2]['res_rec'][0][1]);
+                    }
                 }
+                
             }
         }
-        return $real_recepies[0];
+        return $real_recepies;
         return ["recepies" => $real_recepies];
 
     }
