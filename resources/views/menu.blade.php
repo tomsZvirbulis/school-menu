@@ -3,10 +3,8 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <div id='contain'>
-        <div>
-            <button class='btn btn-primary'>Api</button>
-            <button onClick='handleLocal()' class='btn btn-primary'>Local</button>
-            <button class='btn btn-primary'>Mixed</button>
+        <div id='generate-btn'>
+            <button onClick='handleLocal()' class='btn btn-primary'>Generate menu</button>
         </div>
         @if (isset($recepies))
             @foreach ($recepies as $recepie)
@@ -30,9 +28,6 @@
         </table>
     </div>
     <Script>
-        const api = () => {
-
-        }
 
         const handleLocal = () => {
 
@@ -60,12 +55,14 @@
                     str+= `<td><a href='/recepie/${elem[i].id}'>${elem[i].name}</a></td>`
                 }
                 str+= '</tr>'
+                str+= `<tr><td>${elem.class_data.minYear} - ${elem.class_data.maxYear} restriction</td>`
+                for (let i = 0; i < 5; ++i) {
+                    str+= `<td><a href='/recepie/${elem['res_rec'][i].id}'>${elem['res_rec'][i].name}</a></td>`
+                }
+                str+= '</tr>'
                 $(`tbody`).append(str)
             })
         }
 
-        const mixed = () => {
-
-        }
     </script>
 @endsection

@@ -227,7 +227,9 @@
 @endif
 @if (Auth::user()->school_id !=null)
 <div id="forms">
-    <div>
+    <button type='button' class='btn btn-success' onClick='showClasses()'>Classes</button>
+    <div class='modal hide normal-padding' id='classes-modal'>
+        <button onclick="handleClose()" class='btn btn-danger close-btn'><i class="bi bi-x-lg"></i></button>
         <table>
             <tr>
                 <th>#</th>
@@ -349,6 +351,14 @@
         
     </div>
     <script>
+
+    const showClasses = () => {
+      $('#classes-modal').addClass('show-modal').removeClass('hide')
+    }
+
+    const handleClose = () => {
+      $('#classes-modal').addClass('hide').removeClass('show-modal')
+    }
 
         const ajaxQuery = (form, data) => {
             $.ajaxSetup({

@@ -167,23 +167,25 @@ class MenuController extends Controller
                     $real_recepies[$key][] = $possible_recepies[1][0][0];
                     break;
                 }
-                $rand_num = rand(0, abs(count($possible_recepies[1])-1));
+                $rand_num = rand(0, abs(count($possible_recepies[1][0])-1));
                 $real_recepies[$key][] = $possible_recepies[1][0][$rand_num];
                 unset($possible_recepies[1][0][$rand_num]);
                 $possible_recepies[1][0] = array_values($possible_recepies[1][0]);
             }
 
-            if (isset($possible_recepies[2])) {
-                $real_recepies[$key]['res_rec'][] = null;
+            if (count($possible_recepies[2]) > 0) {
+                $rand = random_int(0, count($possible_recepies[2]['res_rec'][0])-1);
+                $real_recepies[$key]['res_rec'][] = $possible_recepies[2]['res_rec'][0][$rand];
                 while (count($real_recepies[$key]['res_rec']) < 5) {
+                    $rand = random_int(0, count($possible_recepies[2]['res_rec'][0])-1);
                     if (count($possible_recepies[2]['res_rec'][0]) > 0) {
-                        $real_recepies[$key]['res_rec'] = array($possible_recepies[2]['res_rec'][0][1]);
+                        $real_recepies[$key]['res_rec'][] = $possible_recepies[2]['res_rec'][0][$rand];
                     }
                 }
                 
             }
         }
-        return $real_recepies;
+        // return $real_recepies;
         return ["recepies" => $real_recepies];
 
     }

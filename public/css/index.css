@@ -142,3 +142,27 @@ th {
 #detail-bar > div:last-child {
     border-right: 1px solid black;
 }
+
+#generate-btn {
+    padding: 2rem;
+}
+
+#contain > table {
+    margin: 0 auto;
+}
+
+#forms > div > table > tbody > tr > td, #forms > div > table > tbody > tr > th {
+    border: 1px solid black;
+}
+
+#classes-modal {
+    background-color: white;
+    position: absolute;
+    width: 40%;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 4rem;
+    margin: 20vh 0;
+    margin-left: 30vw;
+    height: auto;
+}
