@@ -15,21 +15,23 @@
     <title>Document</title>
 </head>
 <body>
-    <div class=><nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class=><nav class="cus-nav navbar navbar-expand-lg navbar-light bg-light">
         <div class="left">
             <a class="navbar-brand" href="/home">Home</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                <a class="nav-link" href="/recepies">Recepies</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="/menu">Menu</a>
-                </li>
-            </ul>
+            <div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="color-link nav-item active">
+                    <a class="nav-link" href="/recepies">Recepies</a>
+                    </li>
+                    <li class="color-link nav-item">
+                    <a class="nav-link" href="/menu">Menu</a>
+                    </li>
+                </ul>
+                </div>
             </div>
         </div>
           <div class="right">
@@ -45,11 +47,13 @@
                                 @csrf
                             </form>
                         @else
-                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline"><button class="btn btn-primary">Login in</button></a>
+                            <div class='cus-nav'>
+                                <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline"><button class="btn btn-primary">Login in</button></a>
 
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline"><button class='btn btn-primary'>Register</button></a>
-                            @endif
+                                @if (Route::has('register'))
+                                    <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline"><button class='btn btn-primary'>Register</button></a>
+                                @endif
+                            </div>
                         @endauth
                     </div>
                 @endif

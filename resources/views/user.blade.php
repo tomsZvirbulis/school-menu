@@ -227,10 +227,10 @@
 @endif
 @if (Auth::user()->school_id !=null)
 <div id="forms">
-    <button type='button' class='btn btn-success' onClick='showClasses()'>Classes</button>
+    <button type='button' class='clas-btn btn btn-success' onClick='showClasses()'>Classes</button>
     <div class='modal hide normal-padding' id='classes-modal'>
         <button onclick="handleClose()" class='btn btn-danger close-btn'><i class="bi bi-x-lg"></i></button>
-        <table>
+        <table class='table'>
             <tr>
                 <th>#</th>
                 <th>Class</th>

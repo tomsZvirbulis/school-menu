@@ -6,12 +6,7 @@
         <div id='generate-btn'>
             <button onClick='handleLocal()' class='btn btn-primary'>Generate menu</button>
         </div>
-        @if (isset($recepies))
-            @foreach ($recepies as $recepie)
-                <div>{{$recepie}}</div>
-            @endforeach
-        @endif
-        <table id='week-cont'>
+        <table class='table'>
             <thead>
                 <tr>
                     <th>Grade</th>
@@ -55,11 +50,13 @@
                     str+= `<td><a href='/recepie/${elem[i].id}'>${elem[i].name}</a></td>`
                 }
                 str+= '</tr>'
-                str+= `<tr><td>${elem.class_data.minYear} - ${elem.class_data.maxYear} restriction</td>`
-                for (let i = 0; i < 5; ++i) {
-                    str+= `<td><a href='/recepie/${elem['res_rec'][i].id}'>${elem['res_rec'][i].name}</a></td>`
-                }
-                str+= '</tr>'
+                if ('res_rec' in elem) {
+                    str+= `<tr><td>${elem.class_data.minYear} - ${elem.class_data.maxYear} restriction</td>`
+                    for (let i = 0; i < 5; ++i) {
+                        str+= `<td><a href='/recepie/${elem['res_rec'][i].id}'>${elem['res_rec'][i].name}</a></td>`
+                    }
+                    str+= '</tr>'
+                };
                 $(`tbody`).append(str)
             })
         }

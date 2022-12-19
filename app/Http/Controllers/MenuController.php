@@ -150,11 +150,8 @@ class MenuController extends Controller
             }
 
             $restrictions = DB::select('select res.class_id, chg.grade_id, res.ingredients_id, res.category_id, res.count from restrictions res 
-            inner join class on class.id = res.class_id
-            inner join school sc on sc.id = '.Auth::user()->assigned_school.'
+            inner join school sc on sc.id = '.Auth::user()->assigned_school.' and res.class_id = '.$class_val->id.'
             inner join class_has_grade chg on chg.class_id = res.class_id;');
-
-
 
             if (count($restrictions) > 0) {
                 $res = $this->getRestriction($possible_recepies, $restrictions, $recepies);
@@ -173,16 +170,18 @@ class MenuController extends Controller
                 $possible_recepies[1][0] = array_values($possible_recepies[1][0]);
             }
 
-            if (count($possible_recepies[2]) > 0) {
-                $rand = random_int(0, count($possible_recepies[2]['res_rec'][0])-1);
-                $real_recepies[$key]['res_rec'][] = $possible_recepies[2]['res_rec'][0][$rand];
-                while (count($real_recepies[$key]['res_rec']) < 5) {
+            if (array_key_exists(2, $possible_recepies)) {
+                if (count($possible_recepies[2]) > 0) {
                     $rand = random_int(0, count($possible_recepies[2]['res_rec'][0])-1);
-                    if (count($possible_recepies[2]['res_rec'][0]) > 0) {
-                        $real_recepies[$key]['res_rec'][] = $possible_recepies[2]['res_rec'][0][$rand];
+                    $real_recepies[$key]['res_rec'][] = $possible_recepies[2]['res_rec'][0][$rand];
+                    while (count($real_recepies[$key]['res_rec']) < 5) {
+                        $rand = random_int(0, count($possible_recepies[2]['res_rec'][0])-1);
+                        if (count($possible_recepies[2]['res_rec'][0]) > 0) {
+                            $real_recepies[$key]['res_rec'][] = $possible_recepies[2]['res_rec'][0][$rand];
+                        }
                     }
+                    
                 }
-                
             }
         }
         // return $real_recepies;

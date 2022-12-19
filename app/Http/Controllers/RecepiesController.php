@@ -27,6 +27,8 @@ class RecepiesController extends Controller
     public function getRecepies() {
         if (!Auth::user()) {
             return redirect()->route('login');
+        } else if (isset(Auth::user()->school_id)) {
+            return view('recepies');
         }
         if (Auth::user()->caterer_id !== null) {
             $res = Recepie::where('caterer_id', Auth::user()->caterer_id)->get();

@@ -13,21 +13,10 @@ html {
     display: flex;
 }
 
-.right {
-    margin-left: auto;
-    height: 100%;
-    text-align: center;
-    display: flex;
-}
-
-#recepie-table {
-    margin-top: 2rem;
-    width: 80%;
-}
-
 .navbar {
-    padding: 1rem;
-    height: 5rem;
+    padding: 1rem !important;
+    height: 5rem !important;
+    align-items: normal !important;
 }
 
 .loged-in {
@@ -64,7 +53,7 @@ html {
 }
 
 .show-modal {
-    display: flex;
+    display: flex !important;
 }
 
 .recepies {
@@ -103,18 +92,6 @@ html {
     align-items: flex-end;
 }
 
-tr {
-    border: 1px solid black;
-}
-
-tr > th, tr > td {
-    padding: .5rem;
-}
-
-th {
-    border: 1px solid black;
-}
-
 
 #recepie-container {
     padding: 5vw;
@@ -151,10 +128,6 @@ th {
     margin: 0 auto;
 }
 
-#forms > div > table > tbody > tr > td, #forms > div > table > tbody > tr > th {
-    border: 1px solid black;
-}
-
 #classes-modal {
     background-color: white;
     position: absolute;
@@ -165,4 +138,32 @@ th {
     margin: 20vh 0;
     margin-left: 30vw;
     height: auto;
+}
+
+#forms {
+    padding: 1rem;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+.cus-nav {
+    justify-content: space-between !important;
+}
+
+.show > ul, .collapsing > ul{
+    border-radius: 5px;
+    margin-top: 10px;
+    background-color: #6c757d;
+    padding: 1rem;
+}
+
+.show > ul > .color-link > a{
+    color: white !important;
+}
+
+.clas-btn {
+    width: 100px;
 }

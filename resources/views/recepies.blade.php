@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-@if ($recepies)
+@if (isset($recepies))
     <div class="recepies">
         <button type="button" class="btn btn-success" onclick="addRecepie()">Add recepie</button>
         <div id='recepie-modal' class='modal hide normal-padding'>
@@ -67,22 +67,22 @@
                 <button type="submit" class="btn btn-primary btn-block mb-4">Add</button>
               </form>
         </div>
-        <table id='recepie-table'>
+        <table class="table">
             <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Cook time</th>
-              <th>Prep time</th>
-              <th>Calories</th>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Cook time</th>
+              <th scope="col">Prep time</th>
+              <th scope="col">Calories</th>
+              <th scope='col'></th>
             </tr>
             @foreach ($recepies as $key => $recepie)
                 <tr>
-                    <td>{{$key+1}}</td>
+                    <th scope="row">{{$key+1}}</th>
                     <td><a href='/recepie/{{$recepie->id}}'>{{$recepie->name}}</a></td>
                     <td>{{$recepie->cook_time}} min</td>
                     <td>{{$recepie->prep_time}} min</td>
                     <td>{{$recepie->calories}}</td>
-                    <td><button class="btn btn-warning"><i class="bi bi-pencil-square"></i></button></td>
                     <td><button onClick='handleRecepieDelete({{$recepie->id}})' class="btn btn-danger"><i class="bi bi-x-lg"></i></button></td>
                 </tr>
             @endforeach
@@ -203,7 +203,7 @@
     })
 </script>
 @endif
-@if (!$recepies) 
+@if (!isset($recepies)) 
 <div>
   <h1>You can't view recepies</h1>
 </div>
