@@ -45,15 +45,15 @@
             console.log(res);
             $(`tbody`).empty()
             if (Object.keys(res.recepies).length == 1) {
-                let str = `<tr><td>${res.recepies[1].class_data.minYear} - ${res.recepies[1].class_data.maxYear}</td>`
+                let str = `<tr><td>${res.recepies[0].class_data.minYear} - ${res.recepies[0].class_data.maxYear}</td>`
                     for (let i = 0; i < 5; ++i) {
-                        str+= `<td><a href='/recepie/${res.recepies[1][i].id}'>${res.recepies[1][i].name}</a></td>`
+                        str+= `<td><a href='/recepie/${res.recepies[0][i].id}'>${res.recepies[0][i].name}</a></td>`
                     }
                     str+= '</tr>'
-                    if ('res_rec' in res.recepies[1]) {
-                        str+= `<tr><td>${res.recepies[1].class_data.minYear} - ${res.recepies[1].class_data.maxYear} restriction</td>`
+                    if ('res_rec' in res.recepies[0]) {
+                        str+= `<tr><td>${res.recepies[0].class_data.minYear} - ${res.recepies[0].class_data.maxYear} restriction</td>`
                         for (let i = 0; i < 5; ++i) {
-                            str+= `<td><a href='/recepie/${res.recepies[1]['res_rec'][i].id}'>${res.recepies[1]['res_rec'][i].name}</a></td>`
+                            str+= `<td><a href='/recepie/${res.recepies[0]['res_rec'][i].id}'>${res.recepies[0]['res_rec'][i].name}</a></td>`
                         }
                         str+= '</tr>'
                     };

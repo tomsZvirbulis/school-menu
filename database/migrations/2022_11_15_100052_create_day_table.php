@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('menu', function (Blueprint $table) {
+        Schema::create('day', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('school_id');
-            $table->foreign('school_id')->references('id')->on('school');
+            $table->string('name');
+            $table->integer('day_index');
+            $table->unsignedBigInteger('menu_id');
+            $table->foreign('menu_id')->references('id')->on('menu');
+            $table->unsignedBigInteger('recepie');
+            $table->foreign('recepie')->references('id')->on('recepie');
         });
     }
 

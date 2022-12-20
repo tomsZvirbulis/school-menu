@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classes;
+use App\Models\Days;
+use App\Models\Menu;
 use App\Models\Recepie;
 use App\Models\School;
 use App\Models\Restrictions;
@@ -23,6 +25,76 @@ class MenuController extends Controller
             return redirect()->route('login');
         }
         return view('menu');
+    }
+
+    public function saveMenu($recepies) {
+        foreach ($recepies as $recepie) {
+            $norm_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 0)->get();
+            if (count($norm_res) < 1) {
+                Menu::insert([
+                    'school_id'=> Auth::user()->assigned_school,
+                    'class_id' => $recepie['class_data']->id,
+                    'restricted' => 0,
+                    'last_updated' => date("Y-m-d H:i:s"),
+                ]);
+            }
+
+            $norm_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 0)->get();
+            
+            $days = Days::where('menu_id', $norm_res[0]->id)->get();
+
+            $day_name = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday');
+            if (count($days) < 1) {
+                for ($index = 0; $index < 5; ++$index) {
+                    Days::insert([
+                        'name' => $day_name[$index],
+                        'day_index' => $index+1,
+                        'menu_id' => $norm_res[0]->id,
+                        'recepie' => $recepie[$index]->id,
+                    ]);
+                }
+            } else {
+                for ($index = 0; $index < 5; ++$index) {
+                    $day = Days::where('menu_id', $norm_res[0]->id)->where('day_index', $index+1)->get();
+                    $day[0]->recepie = $recepie[$index]->id;
+                    $day[0]->save();
+                }
+            }
+
+            
+            if (array_key_exists('res_rec', $recepie)) {
+                $restric_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 1)->get();
+                if (count($restric_res) < 1) {
+                    Menu::insert([
+                        'school_id'=> Auth::user()->assigned_school,
+                        'class_id' => $recepie['class_data']->id,
+                        'restricted' => 1,
+                        'last_updated' => date("Y-m-d H:i:s"),
+                    ]);
+                }
+                $restric_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 1)->get();
+            
+                $days = Days::where('menu_id', $restric_res[0]->id)->get();
+                $day_name = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday');
+                if (count($days) < 1) {
+                    for ($index = 0; $index < 5; ++$index) {
+                        Days::insert([
+                            'name' => $day_name[$index],
+                            'day_index' => $index+1,
+                            'menu_id' => $restric_res[0]->id,
+                            'recepie' => $recepie[$index]->id,
+                        ]);
+                    }
+                } else {
+                    for ($index = 0; $index < 5; ++$index) {
+                        $day = Days::where('menu_id', $restric_res[0]->id)->where('day_index', $index+1)->get();
+                        $day[0]->recepie = $recepie[$index]->id;
+                        $day[0]->save();
+                    }
+                }
+
+            }
+        }
     }
 
     public function getRestriction($possible, $restrictions) {
@@ -110,7 +182,6 @@ class MenuController extends Controller
         if (count($recepies) < 5) {
             return response()->json(['error' => 'Not enought recepies!'], 500);
         }
-        $schools = School::where('id', Auth::user()->assigned_school)->get();
         $classes = Classes::where('school_id', Auth::user()->assigned_school)->get();
         if (count($classes) < 1) {
             return response()->json(['error' => 'No school classes!'], 500);
@@ -169,7 +240,6 @@ class MenuController extends Controller
                 unset($possible_recepies[1][0][$rand_num]);
                 $possible_recepies[1][0] = array_values($possible_recepies[1][0]);
             }
-
             if (array_key_exists(2, $possible_recepies)) {
                 if (count($possible_recepies[2]) > 0) {
                     $rand = random_int(0, count($possible_recepies[2]['res_rec'][0])-1);
@@ -184,9 +254,9 @@ class MenuController extends Controller
                 }
             }
         }
-        // return $real_recepies;
-        return ["recepies" => $real_recepies];
 
+        // return $this->savemenu($real_recepies);
+        return ["recepies" => $real_recepies];
     }
 
 
