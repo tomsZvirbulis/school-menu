@@ -72,5 +72,8 @@
             logoutForm.submit();
         }
     </script>
+    <div id='footer'>
+
+    </div>
 </body>
 </html>

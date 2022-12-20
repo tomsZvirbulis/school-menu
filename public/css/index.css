@@ -167,3 +167,29 @@ a {
 .clas-btn {
     width: 100px;
 }
+
+#welcome {
+    box-shadow: inset 100vw 100vh rgba(0, 0, 0, .35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    height: 500px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('https://images.unsplash.com/photo-1493770348161-369560ae357d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
+}
+
+body, html {
+    height: 100%;
+}
+
+#welcome-cont {
+    color: white;
+}
+
+#footer {
+    height: 200px;
+    background-color: rgba(0, 0, 0, .5);
+}

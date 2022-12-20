@@ -44,21 +44,38 @@
         function importRecepie(res) {
             console.log(res);
             $(`tbody`).empty()
-            res.recepies.map((elem) => {
-                let str = `<tr><td>${elem.class_data.minYear} - ${elem.class_data.maxYear}</td>`
-                for (let i = 0; i < 5; ++i) {
-                    str+= `<td><a href='/recepie/${elem[i].id}'>${elem[i].name}</a></td>`
-                }
-                str+= '</tr>'
-                if ('res_rec' in elem) {
-                    str+= `<tr><td>${elem.class_data.minYear} - ${elem.class_data.maxYear} restriction</td>`
+            if (Object.keys(res.recepies).length == 1) {
+                let str = `<tr><td>${res.recepies[1].class_data.minYear} - ${res.recepies[1].class_data.maxYear}</td>`
                     for (let i = 0; i < 5; ++i) {
-                        str+= `<td><a href='/recepie/${elem['res_rec'][i].id}'>${elem['res_rec'][i].name}</a></td>`
+                        str+= `<td><a href='/recepie/${res.recepies[1][i].id}'>${res.recepies[1][i].name}</a></td>`
                     }
                     str+= '</tr>'
-                };
-                $(`tbody`).append(str)
-            })
+                    if ('res_rec' in res.recepies[1]) {
+                        str+= `<tr><td>${res.recepies[1].class_data.minYear} - ${res.recepies[1].class_data.maxYear} restriction</td>`
+                        for (let i = 0; i < 5; ++i) {
+                            str+= `<td><a href='/recepie/${res.recepies[1]['res_rec'][i].id}'>${res.recepies[1]['res_rec'][i].name}</a></td>`
+                        }
+                        str+= '</tr>'
+                    };
+                    $(`tbody`).append(str)
+            } else {
+                res.recepies.map(elem => {
+                    console.log(elem);
+                    let str = `<tr><td>${elem.class_data.minYear} - ${elem.class_data.maxYear}</td>`
+                    for (let i = 0; i < 5; ++i) {
+                        str+= `<td><a href='/recepie/${elem[i].id}'>${elem[i].name}</a></td>`
+                    }
+                    str+= '</tr>'
+                    if ('res_rec' in elem) {
+                        str+= `<tr><td>${elem.class_data.minYear} - ${elem.class_data.maxYear} restriction</td>`
+                        for (let i = 0; i < 5; ++i) {
+                            str+= `<td><a href='/recepie/${elem['res_rec'][i].id}'>${elem['res_rec'][i].name}</a></td>`
+                        }
+                        str+= '</tr>'
+                    };
+                    $(`tbody`).append(str)
+                })
+            }
         }
 
     </script>
