@@ -44,6 +44,10 @@ class MenuController extends Controller
             $temp_recepie = array();
             foreach ($recepies as $recepie) {
                 $temp_recepie[]['id'] = $recepie->id;
+                $rec = Recepie::where('id', $recepie->recepie)->get();
+                    foreach ($rec as $re) {
+                        $temp_recepie[count($temp_recepie)-1]['recepie_name'] = $re->name;
+                    }
                 $temp_recepie[count($temp_recepie)-1]['name'] = $recepie->name;
                 $temp_recepie[count($temp_recepie)-1]['day_index'] = $recepie->day_index;
                 $temp_recepie[count($temp_recepie)-1]['menu_id'] = $recepie->menu_id;
@@ -59,6 +63,10 @@ class MenuController extends Controller
                 $temp_recepie = array();
                 foreach ($recepies as $recepie) {
                     $temp_recepie[]['id'] = $recepie->id;
+                    $rec = Recepie::where('id', $recepie->recepie)->get();
+                    foreach ($rec as $re) {
+                        $temp_recepie[count($temp_recepie)-1]['recepie_name'] = $re->name;
+                    }
                     $temp_recepie[count($temp_recepie)-1]['name'] = $recepie->name;
                     $temp_recepie[count($temp_recepie)-1]['day_index'] = $recepie->day_index;
                     $temp_recepie[count($temp_recepie)-1]['menu_id'] = $recepie->menu_id;
@@ -82,6 +90,7 @@ class MenuController extends Controller
     public function saveMenu($recepies) {
         $result = array();
         foreach ($recepies as $recepie) {
+            // return $recepie['res_rec'];
             $norm_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 0)->get();
             if (count($norm_res) < 1) {
                 Menu::insert([
@@ -136,13 +145,13 @@ class MenuController extends Controller
                             'name' => $day_name[$index],
                             'day_index' => $index+1,
                             'menu_id' => $restric_res[0]->id,
-                            'recepie' => $recepie[$index]->id,
+                            'recepie' => $recepie['res_rec'][$index]->id,
                         ]);
                     }
                 } else {
                     for ($index = 0; $index < 5; ++$index) {
                         $day = Days::where('menu_id', $restric_res[0]->id)->where('day_index', $index+1)->get();
-                        $day[0]->recepie = $recepie[$index]->id;
+                        $day[0]->recepie = $recepie['res_rec'][$index]->id;
                         $day[0]->save();
                     }
                 }

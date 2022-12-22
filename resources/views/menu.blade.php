@@ -2,9 +2,6 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
-    @if (isset($menu))
-        {{var_dump($menu)}}
-    @endif
     <div id='contain'>
         <div id='generate-btn'>
             <button onClick='handleLocal()' class='btn btn-primary'>Generate menu</button>
@@ -21,7 +18,25 @@
                 </tr>
             </thead>
             <tbody>
-
+                @if (isset($menu))
+                    @foreach ($menu as $item)
+                        {{-- {{dd($menu)}} --}}
+                        <tr>
+                            <td>{{$item['class_info']->minYear}} - {{$item['class_info']->maxYear}}</td>
+                            @foreach ($item[0] as $recepie)
+                                <td><a href={{'/recepie/'.$recepie['recepie']}}>{{$recepie['recepie_name']}}</a></td>
+                            @endforeach
+                        </tr>
+                            @if (count($item) > 2)
+                                <tr>
+                                    <td>{{$item['class_info']->minYear}} - {{$item['class_info']->maxYear}} restricted</td>
+                                    @foreach ($item[1] as $res_recepie)
+                                        <td><a href={{'/recepie/'.$res_recepie['recepie']}}>{{$res_recepie['recepie_name']}}</a></td>
+                                    @endforeach
+                                </tr>
+                            @endif
+                    @endforeach
+                @endif
             </tbody>
         </table>
     </div>
