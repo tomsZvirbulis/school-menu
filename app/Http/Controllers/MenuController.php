@@ -28,6 +28,7 @@ class MenuController extends Controller
     }
 
     public function saveMenu($recepies) {
+
         foreach ($recepies as $recepie) {
             $norm_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 0)->get();
             if (count($norm_res) < 1) {
@@ -75,7 +76,6 @@ class MenuController extends Controller
                 $restric_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 1)->get();
             
                 $days = Days::where('menu_id', $restric_res[0]->id)->get();
-                $day_name = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday');
                 if (count($days) < 1) {
                     for ($index = 0; $index < 5; ++$index) {
                         Days::insert([
