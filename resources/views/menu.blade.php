@@ -2,6 +2,9 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    @if (isset($menu))
+        {{var_dump($menu)}}
+    @endif
     <div id='contain'>
         <div id='generate-btn'>
             <button onClick='handleLocal()' class='btn btn-primary'>Generate menu</button>

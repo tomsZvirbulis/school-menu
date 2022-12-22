@@ -19,16 +19,68 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getRecepies() {
+        $menus = Menu::where('school_id', Auth::user()->assigned_school)->get();
+
+        $menu_result = array();
+        if (count($menus) < 1) {
+            return null;
+        }
+        foreach ($menus as $menu) {
+            if ($menu->restricted == 1) {
+                continue;
+            }
+
+            $grade_id = DB::select('select chg.grade_id from class
+            inner join class_has_grade chg on chg.class_id = '.$menu->class_id.';');
+
+            $menu_result[]['class_info'] = DB::select('select grade.id, grade.minYear, grade.maxYear, grade.calories, sum(class.student_count) as total_students from class_has_grade chg 
+            inner join class on class.id = chg.class_id
+            inner join grade on grade.id = chg.grade_id and grade.id = '.$grade_id[0]->grade_id.';')[0];
+
+            $recepies = Days::where('menu_id', $menu->id)->get();
+
+            $temp_recepie = array();
+            foreach ($recepies as $recepie) {
+                $temp_recepie[]['id'] = $recepie->id;
+                $temp_recepie[count($temp_recepie)-1]['name'] = $recepie->name;
+                $temp_recepie[count($temp_recepie)-1]['day_index'] = $recepie->day_index;
+                $temp_recepie[count($temp_recepie)-1]['menu_id'] = $recepie->menu_id;
+                $temp_recepie[count($temp_recepie)-1]['recepie'] = $recepie->recepie;
+            }
+
+            $menu_result[count($menu_result)-1][] = $temp_recepie;
+
+            $restricted_menus = Menu::where('restricted', 1)->where('class_id', $menu->class_id)->get();
+
+            foreach ($restricted_menus as $restricted_menu) {
+                $recepies = Days::where('menu_id', $restricted_menu->id)->get();
+                $temp_recepie = array();
+                foreach ($recepies as $recepie) {
+                    $temp_recepie[]['id'] = $recepie->id;
+                    $temp_recepie[count($temp_recepie)-1]['name'] = $recepie->name;
+                    $temp_recepie[count($temp_recepie)-1]['day_index'] = $recepie->day_index;
+                    $temp_recepie[count($temp_recepie)-1]['menu_id'] = $recepie->menu_id;
+                    $temp_recepie[count($temp_recepie)-1]['recepie'] = $recepie->recepie;
+                }
+                $menu_result[count($menu_result)-1][] = $temp_recepie;
+            }
+        }
+
+        return $menu_result;
+    }
+
     public function index()
     {
         if (!Auth::user()) {
             return redirect()->route('login');
         }
-        return view('menu');
+        return view('menu', ['menu' => $this->getRecepies()]);
     }
 
     public function saveMenu($recepies) {
-
+        $result = array();
         foreach ($recepies as $recepie) {
             $norm_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 0)->get();
             if (count($norm_res) < 1) {
@@ -62,6 +114,8 @@ class MenuController extends Controller
                 }
             }
 
+            $days = Days::where('menu_id', $norm_res[0]->id)->get();
+            $result[] = $days;
             
             if (array_key_exists('res_rec', $recepie)) {
                 $restric_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 1)->get();
@@ -93,8 +147,12 @@ class MenuController extends Controller
                     }
                 }
 
+                $days = Days::where('menu_id', $restric_res[0]->id)->get();
+                $result[] = $days;
+
             }
         }
+        return $result;
     }
 
     public function getRestriction($possible, $restrictions) {
@@ -255,7 +313,7 @@ class MenuController extends Controller
             }
         }
 
-        // return $this->savemenu($real_recepies);
+        $this->savemenu($real_recepies);
         return ["recepies" => $real_recepies];
     }
 
