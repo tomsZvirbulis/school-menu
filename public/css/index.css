@@ -89,7 +89,7 @@ html {
 }
 
 .ingr-cont {
-    align-items: flex-end;
+    align-items: flex-start;
 }
 
 
@@ -166,6 +166,10 @@ a {
 
 .clas-btn {
     width: 100px;
+}
+
+.ingr-ms {
+    margin-top: 1rem;
 }
 
 #welcome {
