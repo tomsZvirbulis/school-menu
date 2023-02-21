@@ -35,7 +35,8 @@ class MenuController extends Controller
             $grade_id = DB::select('select chg.grade_id from class
             inner join class_has_grade chg on chg.class_id = '.$menu->class_id.';');
 
-            $menu_result[]['class_info'] = DB::select('select grade.id, grade.minYear, grade.maxYear, grade.calories, sum(class.student_count) as total_students from class_has_grade chg 
+            $menu_result[]['class_info'] = DB::select('
+            select grade.id, grade.minYear, grade.maxYear, grade.calories, sum(class.student_count) as total_students from class_has_grade chg 
             inner join class on class.id = chg.class_id
             inner join grade on grade.id = chg.grade_id and grade.id = '.$grade_id[0]->grade_id.';')[0];
 
@@ -100,11 +101,8 @@ class MenuController extends Controller
                     'last_updated' => date("Y-m-d H:i:s"),
                 ]);
             }
-
             $norm_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 0)->get();
-            
             $days = Days::where('menu_id', $norm_res[0]->id)->get();
-
             $day_name = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday');
             if (count($days) < 1) {
                 for ($index = 0; $index < 5; ++$index) {
@@ -122,10 +120,8 @@ class MenuController extends Controller
                     $day[0]->save();
                 }
             }
-
             $days = Days::where('menu_id', $norm_res[0]->id)->get();
             $result[] = $days;
-            
             if (array_key_exists('res_rec', $recepie)) {
                 $restric_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 1)->get();
                 if (count($restric_res) < 1) {
@@ -137,7 +133,6 @@ class MenuController extends Controller
                     ]);
                 }
                 $restric_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 1)->get();
-            
                 $days = Days::where('menu_id', $restric_res[0]->id)->get();
                 if (count($days) < 1) {
                     for ($index = 0; $index < 5; ++$index) {
@@ -155,10 +150,8 @@ class MenuController extends Controller
                         $day[0]->save();
                     }
                 }
-
                 $days = Days::where('menu_id', $restric_res[0]->id)->get();
                 $result[] = $days;
-
             }
         }
         return $result;
@@ -220,8 +213,6 @@ class MenuController extends Controller
                 $rec_string .= strval($posible->id).',';
             }
         }
-
-
         $res = DB::select('select * from recepie re where not exists (
                 select * from recepie_has_ingredient rhi
                     where
@@ -241,7 +232,6 @@ class MenuController extends Controller
         if (Auth::user()->caterer_id == null) {
             return response()->json(['error' => 'Insufficient permisions!'], 500);
         }
-
         if (Auth::user()->assigned_school == null) {
             return response()->json(['error' => 'You are not a worker!'], 500);
         }
@@ -286,7 +276,6 @@ class MenuController extends Controller
             if (count($possible_recepies[1][0]) <= 4) {
                 return response()->json(['error' => 'Not enough class recepies!'], 500);
             }
-
             $restrictions = DB::select('select res.class_id, chg.grade_id, res.ingredients_id, res.category_id, res.count from restrictions res 
             inner join school sc on sc.id = '.Auth::user()->assigned_school.' and res.class_id = '.$class_val->id.'
             inner join class_has_grade chg on chg.class_id = res.class_id;');
@@ -295,7 +284,6 @@ class MenuController extends Controller
                 $res = $this->getRestriction($possible_recepies, $restrictions, $recepies);
                 $possible_recepies[]['res_rec'] = array($res);
             }
-            
     
             while (count($real_recepies[$key])-1 < 5) {
                 if (count($possible_recepies[1][0]) == 1 && count($real_recepies[$key])-1 == 4) {

@@ -51,7 +51,7 @@
                 <div class="row mb-4">
                   <div class="col">
                     <div class="form-outline">
-                      <label for="instructions" class="form-label">Example textarea</label>
+                      <label for="instructions" class="form-label">Instructions</label>
                       <textarea class="form-control" name='instructions' id="instructions" rows="3"></textarea>
                     </div>
                   </div>
