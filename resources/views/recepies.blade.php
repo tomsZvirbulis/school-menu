@@ -138,22 +138,24 @@
                         <label class="form-label" for="count-${$('#ingred-input > div').length+1}">Count</label>
                         <input name='count-${$('#ingred-input > div').length+1}' type="number" id="count-${$('#ingred-input > div').length+1}" class="form-control" />
                       </div>
-                      <label class="form-label" for="mes-${$('#ingred-input > div').length+1}">Measurements</label>
-                      <select name='mes-${$('#ingred-input > div').length+1}'> 
-                              <option value="tbsp">tablespoon</option>
-                              <option value="tsp">teaspoon</option>
-                              <option value="oz">Table ounce</option>
-                              <option value="fl. oz">fluid ounce</option>
-                              <option value="c">cup</option>
-                              <option value="qt">quart</option>
-                              <option value="pt">pint</option>
-                              <option value="gal">gallon</option>
-                              <option value="lb">pound</option>
-                              <option value="mL">milliliter</option>
-                              <option value="g">grams</option>
-                              <option value="kg">kilogram</option>
-                              <option value="l">liter</option>
-                        </select>
+                      <div class="ingr-ms">
+                        <label class="form-label" for="mes-${$('#ingred-input > div').length+1}">Measurements</label>
+                        <select name='mes-${$('#ingred-input > div').length+1}'> 
+                                <option value="tbsp">tablespoon</option>
+                                <option value="tsp">teaspoon</option>
+                                <option value="oz">Table ounce</option>
+                                <option value="fl. oz">fluid ounce</option>
+                                <option value="c">cup</option>
+                                <option value="qt">quart</option>
+                                <option value="pt">pint</option>
+                                <option value="gal">gallon</option>
+                                <option value="lb">pound</option>
+                                <option value="mL">milliliter</option>
+                                <option value="g">grams</option>
+                                <option value="kg">kilogram</option>
+                                <option value="l">liter</option>
+                          </select>
+                      </div>
                     </div>
                     <button style='width: 2.5rem;' onClick='closeIngred(${$('#ingred-input > div').length+1})' class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
                 </div></div>`
