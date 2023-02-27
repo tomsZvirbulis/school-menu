@@ -1,6 +1,7 @@
 @extends('layouts.main')
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+<link rel="stylesheet" href="{{ asset('css/list.css') }}">
 @if (isset($recepies))
     <div class="recepies">
         <button type="button" class="btn btn-success" onclick="addRecepie()">Add recepie</button>
@@ -67,8 +68,8 @@
                 <button type="submit" class="btn btn-primary btn-block mb-4">Add</button>
               </form>
         </div>
-        <table class="table">
-            <tr>
+        <table class="regular-table table">
+            <tr class="reg-table-hr">
               <th scope="col">#</th>
               <th scope="col">Name</th>
               <th scope="col">Cook time</th>
