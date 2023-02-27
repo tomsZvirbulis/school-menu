@@ -1,6 +1,19 @@
+:root {
+    --primary-bg-color: #c67c41;
+    --primary-text-color: white;
+}
+
 html {
     overflow-x: hidden;
     overflow-y: scroll;
+}
+
+body, html {
+    height: 100%;
+}
+
+body {
+    background-color: var(--primary-bg-color);
 }
 
 .normal-padding {
@@ -185,9 +198,7 @@ a {
     background-image: url('https://images.unsplash.com/photo-1493770348161-369560ae357d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
 }
 
-body, html {
-    height: 100%;
-}
+
 
 #welcome-cont {
     color: white;

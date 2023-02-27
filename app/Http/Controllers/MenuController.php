@@ -57,8 +57,8 @@ class MenuController extends Controller
 
             $menu_result[count($menu_result)-1][] = $temp_recepie;
 
-            $restricted_menus = Menu::where('restricted', 1)->where('class_id', $menu->class_id)->get();
-
+            $restricted_menus = $this->getRestrictedRecepies($menu->class_id);
+            
             foreach ($restricted_menus as $restricted_menu) {
                 $recepies = Days::where('menu_id', $restricted_menu->id)->get();
                 $temp_recepie = array();
@@ -77,7 +77,15 @@ class MenuController extends Controller
             }
         }
 
+        
+
         return $menu_result;
+    }
+
+    public function getRestrictedRecepies($class_id) {
+        $restricted_recepies = Menu::where('restricted', 1)->where('class_id', $class_id)->get();
+
+        return($restricted_recepies);
     }
 
     public function index()
@@ -91,7 +99,6 @@ class MenuController extends Controller
     public function saveMenu($recepies) {
         $result = array();
         foreach ($recepies as $recepie) {
-            // return $recepie['res_rec'];
             $norm_res = Menu::where('school_id', Auth::user()->assigned_school)->where('class_id', $recepie['class_data']->id)->where('restricted', 0)->get();
             if (count($norm_res) < 1) {
                 Menu::insert([
@@ -110,13 +117,13 @@ class MenuController extends Controller
                         'name' => $day_name[$index],
                         'day_index' => $index+1,
                         'menu_id' => $norm_res[0]->id,
-                        'recepie' => $recepie[$index]->id,
+                        'recepie' => $recepie["recepies"][$index]->id,
                     ]);
                 }
             } else {
                 for ($index = 0; $index < 5; ++$index) {
                     $day = Days::where('menu_id', $norm_res[0]->id)->where('day_index', $index+1)->get();
-                    $day[0]->recepie = $recepie[$index]->id;
+                    $day[0]->recepie = $recepie["recepies"][$index]->id;
                     $day[0]->save();
                 }
             }
@@ -272,7 +279,7 @@ class MenuController extends Controller
             $possible_recepies[] = array('class_data' => $class_val);
             $real_recepies[$key] = array('class_data' => $class_val);
             $possible_recepies[][] = $temp_array;
-            
+
             if (count($possible_recepies[1][0]) <= 4) {
                 return response()->json(['error' => 'Not enough class recepies!'], 500);
             }
@@ -285,16 +292,20 @@ class MenuController extends Controller
                 $possible_recepies[]['res_rec'] = array($res);
             }
     
-            while (count($real_recepies[$key])-1 < 5) {
+            $rec_array = array();
+            while (count($rec_array) < 5) {
                 if (count($possible_recepies[1][0]) == 1 && count($real_recepies[$key])-1 == 4) {
                     $real_recepies[$key][] = $possible_recepies[1][0][0];
                     break;
                 }
                 $rand_num = rand(0, abs(count($possible_recepies[1][0])-1));
-                $real_recepies[$key][] = $possible_recepies[1][0][$rand_num];
+
+                $rec_array[] = $possible_recepies[1][0][$rand_num];
                 unset($possible_recepies[1][0][$rand_num]);
                 $possible_recepies[1][0] = array_values($possible_recepies[1][0]);
             }
+            $real_recepies[$key]["recepies"] = $rec_array;
+
             if (array_key_exists(2, $possible_recepies)) {
                 if (count($possible_recepies[2]) > 0) {
                     $rand = random_int(0, count($possible_recepies[2]['res_rec'][0])-1);

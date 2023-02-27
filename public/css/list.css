@@ -1,0 +1,80 @@
+:root {
+  --primary-text-color: rgba(255, 255, 255, .6);
+  --secondary-text-color: rgba(255, 255, 255, .9);
+  --primary-background-color: rgba(54, 54, 54, 1);
+  --secondary-background-color: rgba(34, 34, 34, 1);
+}
+
+.c-block-row {
+  background-color: var(--primary-background-color);
+  margin: 2.5% 5%;
+  border-radius: 8.5px;
+  padding: .7%;
+  color: var(--primary-text-color);
+}
+
+.c-block-table {
+}
+
+.c-content-block {
+  width: 100%;
+}
+
+.res-columns {
+  margin-top: 1rem;
+}
+
+.c-content-block > div {
+  display: flex;
+}
+
+.c-content-block > .c-columns > div,
+.c-content-block > div > p {
+  width:19.66%;
+  font-weight: 600;
+}
+
+.c-columns > span,
+.c-content-block > div > span {
+  width: 10%;
+  font-weight: 600;
+}
+
+.c-row-title {
+  margin: 0;
+}
+
+.c-row-block-title {
+  margin: 0;
+  width: max-content;
+}
+
+.c-block-title {
+  padding: .7%;
+  background-color: var(--secondary-background-color);
+  border-radius: 6px;
+  margin-right: 2.8%;
+  border: .1px solid rgba(255, 255, 255, .2);
+}
+
+.c-columns {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.c-columns > div > a {
+  color: rgba(255, 255, 255, .2);
+  padding: .2%;
+}
+
+.c-columns > div > a:hover {
+  color: rgba(255, 255, 255, .9);
+  transition: .5s;
+}
+
+.c-block-table > .left {
+  align-items: center;
+  justify-content: flex-start;
+}
+
