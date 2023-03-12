@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\DB;
 
 class MenuController extends \App\Http\Controllers\Controller
 {
-
     /**
      * RecepiesController
      */
@@ -36,6 +35,8 @@ class MenuController extends \App\Http\Controllers\Controller
     public function index() {
         if (!Auth::user()) {
             return redirect()->route('login');
+        } elseif (!Auth::user()->assigned_school) {
+            return view('menu');
         }
         return view('menu', ['menu' => $this->initMenu()]);
     }
@@ -292,7 +293,6 @@ class MenuController extends \App\Http\Controllers\Controller
             $this->saveMenu($this->recepies);
         } elseif ($this->menuExists() == true) {
             $this->updateMenu($this->recepies);
-            // dd(['recepies' => $this->getMenu()]);
             return ['recepies' => $this->getMenu()];
         };
     }
