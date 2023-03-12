@@ -1,0 +1,16 @@
+.f-field > div > label {
+  transform: translate3d(10px, 11px, 0);
+  background-color: white;
+  padding: 0 4px;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1;
+}
+
+#recepie-modal {
+  padding: 3% 2%;
+}
+
+#recepie-modal > button {
+  margin: 0;
+}

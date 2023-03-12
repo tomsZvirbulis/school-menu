@@ -73,6 +73,10 @@ body {
     padding: 3rem;
 }
 
+.recepies > button {
+    margin-bottom: 2%;
+}
+
 #recepie-modal {
     background-color: white;
     position: absolute;

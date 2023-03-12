@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Grade;
+use App\Models\Days;
 use App\Models\Ingredients;
 
 class DatabaseSeeder extends Seeder
@@ -34,6 +35,14 @@ class DatabaseSeeder extends Seeder
                 'minYear'=>$index,
                 'maxYear'=>$index+2,
                 'calories'=>$index*1000,
+            ]);
+        }
+
+        $days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+        foreach (range(1,5) as $index) {
+            Days::insert([
+                'name'=>$days[$index-1],
+                'day_index'=>$index,
             ]);
         }
 

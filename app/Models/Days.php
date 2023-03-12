@@ -20,4 +20,9 @@ class Days extends Model
         'menu_id',
         'recepie',
     ];
+
+    public function menu()
+    {
+        return $this->belongsToMany(Menu::class, 'menu_has_day', 'menu', 'day', 'recepie');
+    }
 }

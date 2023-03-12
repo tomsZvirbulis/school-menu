@@ -2,6 +2,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 <link rel="stylesheet" href="{{ asset('css/list.css') }}">
+<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 @if (isset($recepies))
     <div class="recepies">
         <button type="button" class="btn btn-success" onclick="addRecepie()">Add recepie</button>
@@ -11,46 +12,46 @@
               @csrf
                 <!-- 2 column grid layout with text inputs for the first and last names -->
                 <div class="row mb-4">
-                  <div class="col">
+                  <div class="f-field col">
                     <div class="form-outline">
-                      <input name='recepie-name' type="text" id="recepie-name" class="form-control" />
                       <label class="form-label" for="recepie-name">Recepie name</label>
+                      <input name='recepie-name' type="text" id="recepie-name" class="form-control" />
                     </div>
                   </div>
                 </div>
 
                 <div class="row mb-4">
-                    <div class="col">
+                    <div class="f-field col">
                       <div class="form-outline">
-                        <input name='prep-time' type="number" id="prep-time" class="form-control" />
                         <label class="form-label" for="prep-time">Prep time</label>
+                        <input name='prep-time' type="number" id="prep-time" class="form-control" />
                       </div>
                     </div>
-                    <div class="col">
+                    <div class="f-field col">
                       <div class="form-outline">
-                        <input name='cook-time' type="number" id="cook-time" class="form-control" />
                         <label class="form-label" for="cook-time">Cook time</label>
+                        <input name='cook-time' type="number" id="cook-time" class="form-control" />
                       </div>
                     </div>
                 </div>
               
                 <div class="row mb-4">
-                    <div class="col">
+                    <div class="f-field col">
                       <div class="form-outline">
-                        <input name='calories' type="number" id="calories" class="form-control" />
                         <label class="form-label" for="calories">Calories</label>
+                        <input name='calories' type="number" id="calories" class="form-control" />
                       </div>
                     </div>
-                    <div class="col">
+                    <div class="f-field col">
                       <div class="form-outline">
-                        <input name='servings' type="number" id="servings" class="form-control" />
                         <label class="form-label" for="servings">Servings</label>
+                        <input name='servings' type="number" id="servings" class="form-control" />
                       </div>
                     </div>
                 </div>
 
                 <div class="row mb-4">
-                  <div class="col">
+                  <div class="f-field col">
                     <div class="form-outline">
                       <label for="instructions" class="form-label">Instructions</label>
                       <textarea class="form-control" name='instructions' id="instructions" rows="3"></textarea>

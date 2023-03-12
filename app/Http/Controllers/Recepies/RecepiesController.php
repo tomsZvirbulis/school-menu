@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Recepies;
 
 use App\Models\Ingredients;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +12,7 @@ use App\Models\School;
 use App\Models\RecepieHasIngredient;
 use App\Models\IngredientCategory;
 
-class RecepiesController extends Controller
+class RecepiesController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,6 +22,106 @@ class RecepiesController extends Controller
     public function index()
     {
         return view('recepies');
+    }
+
+    /**
+     * @return list
+     */
+    public function getAllRecepies() {
+        $rawRecepies = Recepie::where("caterer_id", Auth::user()->caterer_id)->get();
+        $recepies = array();
+        foreach ($rawRecepies as $rawRecepie) {
+            $recepies[] = $rawRecepie->getAttributes();
+        };
+        return $recepies; 
+    }
+
+    /** 
+     * @param int
+     * @param int
+     * @return list
+     */
+    public function getRecepieInCalorie($minCal, $maxCal) {
+        $rawRecepies = Recepie::where("caterer_id", Auth::user()->caterer_id)->whereBetween('calories',[$minCal, $maxCal])->get();
+        $recepies = array();
+        foreach ($rawRecepies as $rawRecepie) {
+            $recepies[] = $rawRecepie->getAttributes();
+        };
+        return $recepies;
+    }
+
+    /** 
+     * @param list
+     * @return list
+     */
+    public function getRestrictedRecepies($restrictions) {
+        $restrictions = implode(",", $restrictions);
+        $rawRecepies = DB::select("
+        select
+            recepie.*
+        FROM
+            recepie
+        WHERE 
+            recepie.id NOT IN (select
+            recepie.id
+        from
+            recepie
+        inner join
+            recepie_has_ingredient rhi on rhi.recepie = recepie.id
+        where 
+            caterer_id = ".Auth::user()->caterer_id." and (rhi.ingredient IN ({$restrictions}))
+        group by
+            recepie.id);
+        ");
+
+        return $this->objectToArray($rawRecepies);
+
+    }
+
+        /** 
+     * @param array
+     * @return array
+     */
+    public function getRestrictInCal($restrictions, $minCal, $maxCal) {
+        $restrictions = implode(",", $restrictions);
+        $rawRecepies = DB::select("
+        select
+            recepie.*
+        FROM
+            recepie
+        WHERE 
+            (recepie.calories between {$minCal} and $maxCal)
+        AND
+            recepie.id NOT IN (select
+            recepie.id
+        from
+            recepie
+        inner join
+            recepie_has_ingredient rhi on rhi.recepie = recepie.id
+        where 
+            caterer_id = ".Auth::user()->caterer_id." and (rhi.ingredient IN ({$restrictions}))
+        group by
+            recepie.id);
+        ");
+
+        return $this->objectToArray($rawRecepies);
+
+    }
+
+     /**
+     * @param array
+     * @return array
+     */
+    public function objectToArray($list) {
+        $result = array();
+        foreach ($list as $index => $elem) {
+            if (gettype($elem) == "object") {
+                foreach ($elem as $key=>$value) {
+                    $result[$index][$key] = $value;
+                }
+            }
+        }
+        return $result;
     }
 
     public function getRecepies() {

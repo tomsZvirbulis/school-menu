@@ -5,16 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Menu extends Model
+class MenuHasDay extends Model
 {
     use HasFactory;
 
-    protected $table = 'menu';
-    protected $primaryKey = 'id';
+    protected $table = 'menu_has_day';
+
+    public $timestamps = false;
+
     protected $fillable = [
-        'school_id', 
-        'grade_id',
-        'restricted',
-        'last_updated',
+        'menu', 
+        'day',
+        'recepie',
     ];
 }

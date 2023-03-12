@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('day', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->integer('day_index');
+        Schema::create('menu_has_day', function (Blueprint $table) {
+            $table->foreignId('menu')->constrained('menu');
+            $table->foreignId('day')->constrained('day');
+            $table->foreignId('recepie')->constrained('recepie');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('menu_has_day');
     }
 };

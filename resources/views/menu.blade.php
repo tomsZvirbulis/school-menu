@@ -12,7 +12,7 @@
                     @foreach ($menu as $item)
                         <div class='c-block-row left'>
                             <div class="c-block-title">
-                                <h2 class="c-row-title c-row-block-title">{{$item['class_info']->minYear}} - {{$item['class_info']->maxYear}}</h2>
+                                <h2 class="c-row-title c-row-block-title">{{$item['data']['minYear']}} - {{$item['data']['maxYear']}}</h2>
                             </div>
                             <div class="c-content-block">
                                 <div>
@@ -26,16 +26,16 @@
                                 @if (count($item) >= 1)
                                     <div class="c-columns">
                                         <span>Normal</span>
-                                        @foreach ($item[0] as $recepie)
-                                            <div><a href={{'recepie/'.$recepie['recepie']}}>{{$recepie['recepie_name']}}</a></div>
+                                        @foreach ($item["recepies"] as $recepie)
+                                            <div><a href={{'recepie/'.$recepie['id']}}>{{$recepie['name']}}</a></div>
                                         @endforeach
                                     </div>
                                 @endif
                                 @if (count($item) > 2)
                                     <div class="res-columns c-columns">
                                         <span>Restricted</span>
-                                        @foreach ($item[1] as $res_recepie)
-                                            <div><a href={{'recepie/'.$res_recepie['recepie']}}>{{$res_recepie['recepie_name']}}</a></div>
+                                        @foreach ($item["res_rec"] as $res_recepie)
+                                            <div><a href={{'recepie/'.$res_recepie['id']}}>{{$res_recepie['name']}}</a></div>
                                         @endforeach
                                     </div>
                                 @endif
@@ -67,11 +67,11 @@
         function importRecepie(res) {
             if (Object.keys(res.recepies).length >= 1) {
                 $(`.c-block-table`).empty()
-                console.log(res.recepies)
-                res.recepies.forEach((element, index) => {
+                Object.keys(res.recepies).forEach((key) => {
+                    let element = res.recepies[key]
                     let text = "<div class='c-block-row left'>"
                     for (const data in element) {
-                        if (data == "class_data") {
+                        if (data == "data") {
                             text += `
                             <div class="c-block-title">
                                 <h2 class="c-row-title c-row-block-title">${element[data].minYear} - ${element[data].maxYear}</h2>

@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\MenuController;
+use App\Http\Controllers\Menu\MenuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkerController;
-use App\Http\Controllers\RecepiesController;
+use App\Http\Controllers\Recepies\RecepiesController;
 use Illuminate\Support\Facades\Route;
 
 /*

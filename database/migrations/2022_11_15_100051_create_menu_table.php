@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('school_id');
             $table->foreign('school_id')->references('id')->on('school');
-            $table->unsignedBigInteger('class_id');
-            $table->foreign('class_id')->references('id')->on('class');
+            $table->unsignedBigInteger('grade_id');
+            $table->foreign('grade_id')->references('id')->on('grade');
             $table->boolean('restricted')->default(0);
             $table->timestamp('last_updated')->nullable();
         });
