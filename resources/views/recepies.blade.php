@@ -82,8 +82,8 @@
                 <tr>
                     <th scope="row">{{$key+1}}</th>
                     <td><a href='recepie/{{$recepie->id}}'>{{$recepie->name}}</a></td>
-                    <td>{{$recepie->cook_time}} min</td>
-                    <td>{{$recepie->prep_time}} min</td>
+                    <td>{{floor($recepie->cook_time / 60)}} h {{$recepie->cook_time % 60}} min</td>
+                    <td>{{floor($recepie->prep_time / 60)}} h {{$recepie->prep_time % 60}} min</td>
                     <td>{{$recepie->calories}}</td>
                     <td><button onClick='handleRecepieDelete({{$recepie->id}})' class="btn btn-danger"><i class="bi bi-x-lg"></i></button></td>
                 </tr>

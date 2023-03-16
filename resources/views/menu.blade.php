@@ -4,9 +4,11 @@
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 <link rel="stylesheet" href="{{ asset('css/list.css') }}">
     <div id='contain'>
-        <div id='generate-btn'>
-            <button onClick='handleLocal()' class='btn btn-primary'>Generate menu</button>
-        </div>
+        @if (Auth::user()->assigned_school)
+            <div id='generate-btn'>
+                <button onClick='handleLocal()' class='btn btn-primary'>Generate menu</button>
+            </div>
+        @endif
             <div class="c-block-table">
                 @if (isset($menu))
                     @foreach ($menu as $item)
