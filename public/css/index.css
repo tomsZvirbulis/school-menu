@@ -8,12 +8,12 @@ html {
     overflow-y: scroll;
 }
 
-body, html {
-    height: 100%;
-}
-
 body {
     background-color: var(--primary-bg-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
 }
 
 .normal-padding {
@@ -227,7 +227,7 @@ a {
     justify-content: center;
     text-align: center;
     padding: 1rem;
-    height: 500px;
+    height: calc(100vh - 55px - 150px);;
     background-size: cover;
     background-repeat: no-repeat;
     background-image: url('https://images.unsplash.com/photo-1493770348161-369560ae357d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
@@ -240,6 +240,6 @@ a {
 }
 
 #footer {
-    height: 200px;
+    height: 150px;
     background-color: rgba(0, 0, 0, .5);
 }

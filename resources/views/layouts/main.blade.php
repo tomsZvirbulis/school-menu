@@ -15,55 +15,58 @@
     <title>Document</title>
 </head>
 <body>
-    <div class=><nav class="cus-nav navbar navbar-expand-lg navbar-light bg-light">
-        <div class="left">
-            <a class="navbar-brand" href="/home">Home</a>
-            <div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav mr-auto">
-                    <li class="color-link nav-item active">
-                    <a class="nav-link" href="/recepies">Recepies</a>
-                    </li>
-                    <li class="color-link nav-item">
-                    <a class="nav-link" href="/menu">Menu</a>
-                    </li>
-                </ul>
-                </div>
-            </div>
-        </div>
-          <div class="right">
-            <span class="navbar-text">
-                @if (Route::has('login'))
-                    <div class="hidden fixed top-0 right-0 sm:block">
-                        @auth
-                            <div class="loged-in">
-                                <h3><a href='user'>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a></h3>
-                                <button onClick="handleLogout()" class='btn btn-danger'><i class="bi bi-box-arrow-right"></i></button>
-                            </div>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                                @csrf
-                            </form>
-                        @else
-                            <div class='cus-nav'>
-                                <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline"><button class="btn btn-primary cus-btn">Login</button></a>
-
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline"><button class='btn btn-primary cus-btn'>Register</button></a>
-                                @endif
-                            </div>
-                        @endauth
+    <div class="content-area">
+        <div class=>
+            <nav class="cus-nav navbar navbar-expand-lg navbar-light bg-light">
+                <div class="left">
+                    <a class="navbar-brand" href="/home">Home</a>
+                    <div>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarText">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="color-link nav-item active">
+                            <a class="nav-link" href="/recepies">Recepies</a>
+                            </li>
+                            <li class="color-link nav-item">
+                            <a class="nav-link" href="/menu">Menu</a>
+                            </li>
+                        </ul>
+                        </div>
                     </div>
-                @endif
-            </span>
-          </div>
-          
+                </div>
+            <div class="right">
+                <span class="navbar-text">
+                    @if (Route::has('login'))
+                        <div class="hidden fixed top-0 right-0 sm:block">
+                            @auth
+                                <div class="loged-in">
+                                    <h3><a href='user'>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a></h3>
+                                    <button onClick="handleLogout()" class='btn btn-danger'><i class="bi bi-box-arrow-right"></i></button>
+                                </div>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                </form>
+                            @else
+                                <div class='cus-nav'>
+                                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline"><button class="btn btn-primary cus-btn">Login</button></a>
+
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline"><button class='btn btn-primary cus-btn'>Register</button></a>
+                                    @endif
+                                </div>
+                            @endauth
+                        </div>
+                    @endif
+                </span>
+            </div>
+        </nav>
         </div>
-      </nav>
+        <div class="views">
+            @yield('content')
+        </div>
     </div>
-    @yield('content')
     <script>
         const logoutForm = document.getElementById('logout-form')
 

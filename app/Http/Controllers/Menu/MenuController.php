@@ -132,6 +132,13 @@ class MenuController extends \App\Http\Controllers\Controller
             $this->recepies[array_key_last($this->recepies)]["recepies"] = $this->randomList($normRecepies, 5, $classData);
             if (count($restrictions) > 0) {
                 $resRecepies = $this->recepiesController->getRestrictInCal($restrictions, ($classData->calories)-100, ($classData->calories)+100);
+                if (count($resRecepies) < 5) {
+                    $calAdded = 200;
+                    while(count($resRecepies) >= 5 || $calAdded = 1100) {
+                        $resRecepies = $this->recepiesController->getRestrictInCal($restrictions, ($classData->calories)-100, ($classData->calories)+100);
+                        $calAdded +=100;
+                    }
+                }
                 $this->recepies[array_key_last($this->recepies)]["res_rec"] = $this->randomList($resRecepies, 5, $classData);
             }
         }
