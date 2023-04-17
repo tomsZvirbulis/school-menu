@@ -37,9 +37,6 @@ tr:not(.reg-table-hr) > td, tr:not(.reg-table-hr) > th {
   color: var(--primary-text-color);
 }
 
-.c-block-table {
-}
-
 .c-content-block {
   width: 100%;
 }

@@ -11,6 +11,7 @@ use App\Models\Instructions;
 use App\Models\School;
 use App\Models\RecepieHasIngredient;
 use App\Models\IngredientCategory;
+use App\Models\User;
 
 class RecepiesController extends \App\Http\Controllers\Controller
 {
@@ -195,32 +196,35 @@ class RecepiesController extends \App\Http\Controllers\Controller
     public function getRecepie($id) {
 
         if (Auth::user()->caterer_id) {
-            $data = array();
-            $recepies = Recepie::where('id', $id)->get();
-            if ($recepies->toArray()[0]['caterer_id'] == Auth::user()->caterer_id) {
-                foreach ($recepies->toArray() as $recepie) {
-                    $data['recepies'] = $recepie;
-                }
-                $instructions = Instructions::where('id', $data['recepies']['instruction'])->get();
-                $data['instruction'] = $instructions->toArray()[0]['instruction'];
-                $ingr_has_recepie = RecepieHasIngredient::where('recepie', $data['recepies']['id'])->get();
-
-                foreach ($ingr_has_recepie->toArray() as $key => $ingr_detail) {
-
-                    $ingredients = Ingredients::where('id', $ingr_detail['ingredient'])->get();
-                    $category = IngredientCategory::where('id', $ingredients->toArray()[0]['ingredient_category'])->get();
-
-                    $ingredient = array();
-                    $ingredient[] = $ingredients->toArray()[0]['name'];
-                    $ingredient[] = $category->toArray()[0]['name'];
-                    $ingredient[] = $ingr_detail['count'];
-                    $ingredient[] = $ingr_detail['measurements'];
-                    
-                    $data['ingredients'][$key] = $ingredient;
-                }
-            }
-            return view('recepie', ['data' => $data]);
+            $caterer_id = Auth::user()->caterer_id;
+        } else if (Auth::user()->school_id) {
+            $caterer_id = User::where('assigned_school', Auth::user()->school_id)->get()->toArray()[0]['caterer_id'];
         }
+        $data = array();
+        $recepies = Recepie::where('id', $id)->get();
+        if ($recepies->toArray()[0]['caterer_id'] == $caterer_id) {
+            foreach ($recepies->toArray() as $recepie) {
+                $data['recepies'] = $recepie;
+            }
+            $instructions = Instructions::where('id', $data['recepies']['instruction'])->get();
+            $data['instruction'] = $instructions->toArray()[0]['instruction'];
+            $ingr_has_recepie = RecepieHasIngredient::where('recepie', $data['recepies']['id'])->get();
+
+            foreach ($ingr_has_recepie->toArray() as $key => $ingr_detail) {
+
+                $ingredients = Ingredients::where('id', $ingr_detail['ingredient'])->get();
+                $category = IngredientCategory::where('id', $ingredients->toArray()[0]['ingredient_category'])->get();
+
+                $ingredient = array();
+                $ingredient[] = $ingredients->toArray()[0]['name'];
+                $ingredient[] = $category->toArray()[0]['name'];
+                $ingredient[] = $ingr_detail['count'];
+                $ingredient[] = $ingr_detail['measurements'];
+                    
+                $data['ingredients'][$key] = $ingredient;
+            }
+        }
+        return view('recepie', ['data' => $data]);
     }
     /**
      * Show the form for creating a new resource.

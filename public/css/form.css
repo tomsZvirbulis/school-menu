@@ -9,6 +9,7 @@
 
 #recepie-modal {
   padding: 3% 2%;
+  min-width: 300px !important;
 }
 
 #recepie-modal > button {

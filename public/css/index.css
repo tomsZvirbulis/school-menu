@@ -26,9 +26,17 @@ body {
     display: flex;
 }
 
+.right {
+    display: flex;
+}
+
+.right > span {
+    padding: 2.5px 0 !important;
+}
+
 .navbar {
-    padding: 1rem !important;
-    height: 5rem !important;
+    padding: 5px !important;
+    height: 45px !important;
     align-items: normal !important;
 }
 
@@ -40,8 +48,11 @@ body {
 }
 
 .loged-in > button {
-    width: 3rem;
-    height: 3rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .loged-in > h3 {
@@ -84,13 +95,18 @@ body {
     border: 1px solid black;
     border-radius: 15px;
     padding: 4rem;
-    margin: 20vh 0;
-    margin-left: 30vw;
     height: auto;
+    top: 10%;
+    left: 30vw;
+    max-width: 600px;
 }
 
 .close-btn {
     margin-bottom: 2rem;
+}
+
+.cus-btn {
+    padding: 2px 7px !important;
 }
 
 .error {
@@ -109,6 +125,9 @@ body {
     align-items: flex-start;
 }
 
+.ingr-cont > button {
+    align-self: center;
+}
 
 #recepie-container {
     padding: 5vw;
@@ -170,6 +189,10 @@ a {
     justify-content: space-between !important;
 }
 
+.cus-nav, ::after, ::before {
+    box-sizing: unset !important;
+}
+
 .show > ul, .collapsing > ul{
     border-radius: 5px;
     margin-top: 10px;
@@ -185,8 +208,16 @@ a {
     width: 100px;
 }
 
+.ingred-add:not(:last-child) {
+    border-bottom: 1px solid gray;
+}
+
 .ingr-ms {
-    margin-top: 1rem;
+    margin-top: 7px;
+}
+
+.form-label {
+    margin-bottom: 2px !important;
 }
 
 #welcome {

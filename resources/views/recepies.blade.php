@@ -120,7 +120,7 @@
 
     $('#ingred-btn').click(function () {
         event.preventDefault();
-        let str = `<div id='ingred-cont-${$('#ingred-input > div').length+1}'><h2 class="form-label">Ingredient #${$('#ingred-input > div').length+1}</h2><div class="row mb-4">
+        let str = `<div id='ingred-cont-${$('#ingred-input > div').length+1}' class='ingred-add'><h2 class="form-label">Ingredient #${$('#ingred-input > div').length+1}</h2><div class="row mb-4">
             <div class="ingr-cont row mb-4">
                     <div class="col">
                       <div class="form-outline">

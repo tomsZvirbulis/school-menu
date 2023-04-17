@@ -49,7 +49,7 @@ class UserController extends Controller
             }
             
         } else {
-            $res = array();
+            return view('home');
         }
 
         if (isset($resHas)) {

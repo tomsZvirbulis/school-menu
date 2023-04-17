@@ -4,10 +4,12 @@
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 <link rel="stylesheet" href="{{ asset('css/list.css') }}">
     <div id='contain'>
-        @if (Auth::user()->assigned_school)
-            <div id='generate-btn'>
-                <button onClick='handleLocal()' class='btn btn-primary'>Generate menu</button>
-            </div>
+        @if (Auth::user()->assigned_school || Auth::user()->school_id)
+            @if (Auth::user()->assigned_school)
+                <div id='generate-btn'>
+                    <button onClick='handleLocal()' class='btn btn-primary'>Generate menu</button>
+                </div>
+            @endif
         @endif
             <div class="c-block-table">
                 @if (isset($menu))
@@ -48,7 +50,6 @@
             </div>
     </div>
     <Script>
-
         const handleLocal = () => {
 
             $.ajax({
@@ -67,6 +68,7 @@
         }
 
         function importRecepie(res) {
+            console.log(res)
             if (Object.keys(res.recepies).length >= 1) {
                 $(`.c-block-table`).empty()
                 Object.keys(res.recepies).forEach((key) => {

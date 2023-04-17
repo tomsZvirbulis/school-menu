@@ -35,7 +35,7 @@ class MenuController extends \App\Http\Controllers\Controller
     public function index() {
         if (!Auth::user()) {
             return redirect()->route('login');
-        } elseif (!Auth::user()->assigned_school) {
+        } elseif (!Auth::user()->school_id && !Auth::user()->assigned_school) {
             return view('menu');
         }
         return view('menu', ['menu' => $this->initMenu()]);
@@ -45,11 +45,20 @@ class MenuController extends \App\Http\Controllers\Controller
      * @return array|null
      */
     public function initMenu() {
-        if ($this->menuExists() == false) {
+        if (Auth::user()->school_id) {
+            $id = Auth::user()->school_id;
+        } elseif (Auth::user()->assigned_school) {
+            $id = Auth::user()->assigned_school;
+        }
+        if ($id && $this->menuExists($id) == false) {
             $this->getLocal();
-            return $this->getMenu();
-        } elseif ($this->menuExists() == true) {
-            return $this->getMenu();
+            return $this->getMenu(Auth::user()->assigned_school);
+        } elseif ($id && $this->menuExists($id) == true) {
+            if (Auth::user()->school_id) {
+                return $this->getMenu(Auth::user()->school_id);    
+            } else {
+                return $this->getMenu(Auth::user()->assigned_school);
+            }
         } else {
             return null;
         }
@@ -105,13 +114,11 @@ class MenuController extends \App\Http\Controllers\Controller
     /** 
      * @return bool
      */
-    public function menuExists() {
-        if (Auth::user()->assigned_school) {
-            if (count(Menu::where("school_id", Auth::user()->assigned_school)->get()) == 0) {
-                return FALSE;
-            };
-            return TRUE;
-        }
+    public function menuExists($school_id) {
+        if (count(Menu::where("school_id", $school_id)->get()) == 0) {
+            return FALSE;
+        };
+        return TRUE;
     }
 
     /** 
@@ -188,9 +195,9 @@ class MenuController extends \App\Http\Controllers\Controller
     /** 
      * @return array
      */
-    public function getMenu() {
+    public function getMenu($school_id) {
         $completeMenu = array();
-        $menus = Menu::where("school_id", Auth::user()->assigned_school)->orderBy('grade_id', 'asc')->get();
+        $menus = Menu::where("school_id", $school_id)->orderBy('grade_id', 'asc')->get();
 
         foreach ($menus as $index => $menu) {
             $menu = $menu->getAttributes();
@@ -276,6 +283,10 @@ class MenuController extends \App\Http\Controllers\Controller
 
     public function getLocal() {
         $this->menuErrors();
+        if (Auth::user()->school_id !== null) {
+            // return dd($this->getMenu(Auth::user()->school_id));
+            return ['recepies' => $this->getMenu(Auth::user()->school_id)];
+        }
 
         $grade_ids = DB::select('select distinct(chg.grade_id) from school
         inner join class on class.school_id = '.Auth::user()->assigned_school.'
@@ -289,11 +300,16 @@ class MenuController extends \App\Http\Controllers\Controller
         foreach ($class_info as $class_value) {
             $this->createGradeMenu($this->restrictionIngredient($this->classRestrictions($class_value->id)), $class_value);
         };
-        if ($this->menuExists() == false) {
+        if (Auth::user()->school_id) {
+            $id = Auth::user()->school_id;
+        } elseif (Auth::user()->assigned_school) {
+            $id = Auth::user()->assigned_school;
+        }
+        if ($this->menuExists($id) == false) {
             $this->saveMenu($this->recepies);
-        } elseif ($this->menuExists() == true) {
+        } elseif ($this->menuExists($id) == true) {
             $this->updateMenu($this->recepies);
-            return ['recepies' => $this->getMenu()];
+            return ['recepies' => $this->getMenu(Auth::user()->assigned_school)];
         };
     }
 }
