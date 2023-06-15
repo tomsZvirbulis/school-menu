@@ -14,37 +14,40 @@
             <div class="c-block-table">
                 @if (isset($menu))
                     @foreach ($menu as $item)
-                        <div class='c-block-row left'>
-                            <div class="c-block-title">
-                                <h2 class="c-row-title c-row-block-title">{{$item['data']['minYear']}} - {{$item['data']['maxYear']}}</h2>
-                            </div>
-                            <div class="c-content-block">
-                                <div>
-                                    <span></span>
-                                    <p>Monday</p>
-                                    <p>Tuesday</p>
-                                    <p>Wednesday</p>
-                                    <p>Thursday</p>
-                                    <p>Friday</p>
+                        {{-- {{dd(count($item) >=2)}} --}}
+                        @if (count($item) >=2)
+                            <div class='c-block-row'>
+                                <div class="c-block-title">
+                                    <h2 class="c-row-title c-row-block-title">{{$item['data']['minYear']}} - {{$item['data']['maxYear']}}</h2>
                                 </div>
-                                @if (count($item) >= 1)
+                                <div class="c-content-block">
                                     <div class="c-columns">
-                                        <span>Normal</span>
-                                        @foreach ($item["recepies"] as $recepie)
-                                            <div><a href={{'recepie/'.$recepie['id']}}>{{$recepie['name']}}</a></div>
-                                        @endforeach
+                                        <div></div>
+                                        <p>Monday</p>
+                                        <p>Tuesday</p>
+                                        <p>Wednesday</p>
+                                        <p>Thursday</p>
+                                        <p>Friday</p>
                                     </div>
-                                @endif
-                                @if (count($item) > 2)
-                                    <div class="res-columns c-columns">
-                                        <span>Restricted</span>
-                                        @foreach ($item["res_rec"] as $res_recepie)
-                                            <div><a href={{'recepie/'.$res_recepie['id']}}>{{$res_recepie['name']}}</a></div>
-                                        @endforeach
-                                    </div>
-                                @endif
+                                    @if (count($item) >= 2)
+                                        <div class="c-columns">
+                                            <div>Normal</div>
+                                            @foreach ($item["recepies"] as $recepie)
+                                                <div><a href={{'recepie/'.$recepie['id']}}>{{$recepie['name']}}</a></div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                    @if (count($item) >= 3)
+                                        <div class="res-columns c-columns">
+                                            <div>Restricted</div>
+                                            @foreach ($item["res_rec"] as $res_recepie)
+                                                <div><a href={{'recepie/'.$res_recepie['id']}}>{{$res_recepie['name']}}</a></div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     @endforeach
                 @endif
             </div>
@@ -68,7 +71,7 @@
         }
 
         function importRecepie(res) {
-            console.log(res)
+            console.log(res.recepies)
             if (Object.keys(res.recepies).length >= 1) {
                 $(`.c-block-table`).empty()
                 Object.keys(res.recepies).forEach((key) => {

@@ -5,11 +5,11 @@
 
 html {
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto
 }
 
 body {
-    background-color: var(--primary-bg-color);
+    background-color: var(--primary-bg-color) !important;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -22,6 +22,10 @@ body {
     box-sizing: border-box;
 }
 
+.content-area {
+    background-color: var(--primary-bg-color);
+}
+
 .left {
     display: flex;
 }
@@ -32,6 +36,10 @@ body {
 
 .right > span {
     padding: 2.5px 0 !important;
+}
+
+.restriction-from-container {
+    background: white;
 }
 
 .navbar {
@@ -168,7 +176,7 @@ body {
     background-color: white;
     position: absolute;
     width: 40%;
-    border: 1px solid black;
+    border: 1px solid #c2c2c2;
     border-radius: 15px;
     padding: 4rem;
     margin: 20vh 0;
@@ -241,5 +249,5 @@ a {
 
 #footer {
     height: 150px;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgb(61, 60, 59);
 }

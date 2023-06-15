@@ -1,6 +1,7 @@
 .reg-worker {
     display: flex;
     justify-content: center;
+    background-color: white;
 }
 
 .reg-worker > form {
@@ -9,6 +10,7 @@
 
 .reg-school {
     margin-bottom: 1rem;
+    background-color: white;
 }
 
 .user {

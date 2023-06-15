@@ -30,6 +30,7 @@ tr:not(.reg-table-hr) > td, tr:not(.reg-table-hr) > th {
 }
 
 .c-block-row {
+  display: flex;
   background-color: var(--primary-background-color);
   margin: 2.5% 5%;
   border-radius: 8.5px;
@@ -94,8 +95,39 @@ tr:not(.reg-table-hr) > td, tr:not(.reg-table-hr) > th {
   transition: .5s;
 }
 
-.c-block-table > .left {
+.c-block-table > .c-block-row {
   align-items: center;
   justify-content: flex-start;
 }
 
+@media only screen and (max-width: 1024px) {
+  .c-block-row {
+    display: block;
+  }
+
+  .c-block-title {
+    padding-left: 45%;
+    margin-right: 0;
+  }
+
+  .c-content-block {
+    display: flex;
+  }
+
+  .c-content-block > div {
+    display: block;
+  }
+
+  .c-columns > div {
+    height: 24px;
+    margin-bottom: 1rem;
+  }
+
+  .c-columns > a {
+    margin-bottom: 1rem;
+  }
+
+  .res-columns {
+    margin-top: 0;
+  }
+}

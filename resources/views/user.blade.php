@@ -15,13 +15,13 @@
                 <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
-                        <input type="text" id="form6Example1" name='first_name' class="form-control" />
+                        <input type="text" id="form6Example1 school_first_name" name='first_name' class="form-control" required />
                         <label class="form-label" for="form6Example1">First name</label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-outline">
-                        <input type="text" id="form6Example2" class="form-control" name='last_name' />
+                        <input type="text" id="form6Example2 school_surname" class="form-control" name='last_name' required />
                         <label class="form-label" for="form6Example2">Last name</label>
                         </div>
                     </div>
@@ -29,14 +29,14 @@
             
                 <!-- Email input -->
                 <div class="form-outline mb-4">
-                    <input type="email" id="form6Example5" name='email' class="form-control" />
+                    <input type="email" id="form6Example5 school_email" name='email' class="form-control" required />
                     <label class="form-label" for="form6Example5">Email</label>
                 </div>
 
                 <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
-                        <input type="text" id="form6Example1" name='school_name' class="form-control" />
+                        <input type="text" id="form6Example1" name='school_name' class="form-control" required />
                         <label class="form-label" for="form6Example1">School name</label>
                         </div>
                     </div>
@@ -105,20 +105,20 @@
                 <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
-                        <input type="password" id="form6Example1" name='password' class="form-control" />
+                        <input type="password" id="form6Example1 school_password" name='password' class="form-control" required />
                         <label class="form-label" for="form6Example1">Password</label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-outline">
-                        <input type="password" id="form6Example2" name='confirm_password' class="form-control" />
+                        <input type="password" id="form6Example2 school_password_confirmation" name='confirm_password' class="form-control" required/>
                         <label class="form-label" for="form6Example2">Confirm password</label>
                         </div>
                     </div>
                 </div>
             
                 <!-- Submit button -->
-                <button onClick='handleSubmit(school)' type="submit" class="btn btn-primary btn-block">Register school</button>
+                <button id="school_sub" onClick='handleSubmit(school)' type="submit" class="btn btn-primary btn-block">Register school</button>
             </form>
         </div>
     </div>
@@ -134,13 +134,13 @@
                 <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
-                        <input type="text" id="form6Example1" name='first_name' class="form-control" />
+                        <input type="text" id="form6Example1" name='first_name' class="form-control" required />
                         <label class="form-label" for="form6Example1">First name</label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-outline">
-                        <input type="text" id="form6Example2" class="form-control" name='last_name' />
+                        <input type="text" id="form6Example2" class="form-control" name='last_name' required />
                         <label class="form-label" for="form6Example2">Last name</label>
                         </div>
                     </div>
@@ -148,20 +148,20 @@
             
                 <!-- Email input -->
                 <div class="form-outline mb-4">
-                <input type="email" id="form6Example5" name='email' class="form-control" />
+                <input type="email" id="form6Example5" name='email' class="form-control" required />
                 <label class="form-label" for="form6Example5">Email</label>
                 </div>
 
                 <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
-                        <input type="password" id="form6Example1" name='password' class="form-control" />
+                        <input type="password" id="form6Example1" name='password' class="form-control" required />
                         <label class="form-label" for="form6Example1">Password</label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-outline">
-                        <input type="password" id="form6Example2" name='confirm_password' class="form-control" />
+                        <input type="password" id="form6Example2" name='confirm_password' class="form-control" required />
                         <label class="form-label" for="form6Example2">Confirm password</label>
                         </div>
                     </div>
@@ -263,13 +263,13 @@
                 <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
-                        <input type="text" id="class_name" name='class_name' class="form-control" />
+                        <input type="text" id="class_name" name='class_name' class="form-control" required />
                         <label class="form-label" for="class_name">Name</label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-outline">
-                        <input type="number" id="student_count" class="form-control" name='student_count' />
+                        <input type="number" id="student_count" class="form-control" name='student_count' required />
                         <label class="form-label" for="student_count">Student count</label>
                         </div>
                     </div>
@@ -292,11 +292,11 @@
             </form>
 
         </div>
-        <div>
+        <div class="restriction-from-container">
             <form id='restrictions-form' action={{route('addRestriction')}} method='POST'>
                 @csrf
                 
-                <h1>Add restrictions</h1>
+                <h1>Add allergies</h1>
                 <!-- 2 column grid layout with text inputs for the first and last names -->
 
                 <div class="row mb-4">
@@ -311,12 +311,12 @@
                             @else
                                     <h1>No grades</h1>
                             @endif 
-                            <label class="form-label" for="class_name">Name</label>
+                            <label class="form-label" for="class_name">Class</label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-outline">
-                        <input type="number" id="student_count" class="form-control" name='student_count' />
+                        <input type="number" id="student_count" class="form-control" name='student_count' required />
                         <label class="form-label" for="student_count">Student count</label>
                         </div>
                     </div>
@@ -325,7 +325,7 @@
                     <div class="form-outline">
                         {{-- {{dd($ingredients)}} --}}
                         @if (count($ingredients) > 0)
-                        <select name='ingredient' class="select">
+                        <select name='ingredient' class="select" required>
                             @foreach ($ingredients as $ingredient)
                                 {{-- {{var_dump($ingredient)}} --}}
                                 @if (count($ingredient) > 1)

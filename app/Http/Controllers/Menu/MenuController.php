@@ -102,7 +102,7 @@ class MenuController extends \App\Http\Controllers\Controller
             return response()->json(['error' => 'You are not a worker!'], 500);
         }
         $recepies = DB::select('select * from recepie where caterer_id ='.Auth::user()->caterer_id);
-        if (count($recepies) < 5) {
+        if (count($recepies) <= 5) {
             return response()->json(['error' => 'Not enought recepies!'], 500);
         }
         $classes = Classes::where('school_id', Auth::user()->assigned_school)->get();
@@ -126,7 +126,6 @@ class MenuController extends \App\Http\Controllers\Controller
      */
     public function createGradeMenu($restrictions, $classData) {
         $normRecepies = $this->recepiesController->getRecepieInCalorie(($classData->calories)-100, ($classData->calories)+100);
-
         if (count($normRecepies) > 0) {
             $this->recepies[]["data"] = $classData;
             $this->recepies[array_key_last($this->recepies)]["recepies"] = $this->randomList($normRecepies, 5, $classData);
@@ -134,7 +133,7 @@ class MenuController extends \App\Http\Controllers\Controller
                 $resRecepies = $this->recepiesController->getRestrictInCal($restrictions, ($classData->calories)-100, ($classData->calories)+100);
                 if (count($resRecepies) < 5) {
                     $calAdded = 200;
-                    while(count($resRecepies) >= 5 || $calAdded = 1100) {
+                    while(count($resRecepies) >= 5 || $calAdded != 1100) {
                         $resRecepies = $this->recepiesController->getRestrictInCal($restrictions, ($classData->calories)-100, ($classData->calories)+100);
                         $calAdded +=100;
                     }
@@ -167,6 +166,7 @@ class MenuController extends \App\Http\Controllers\Controller
      * @param array
      */
     public function saveMenu($menu) {
+        // dd($menu);
         foreach ($menu as $item) {
             if (array_key_exists('recepies', $item)) {
                 $menuId = Menu::insertGetId([
@@ -182,7 +182,7 @@ class MenuController extends \App\Http\Controllers\Controller
                     ]);
                 }
             }
-            if (count($item['res_rec']) > 0) {
+            if ($item['res_rec'] != null && count($item['res_rec']) > 0) {
                 $resMenuId = Menu::insertGetId([
                     'school_id' => Auth::user()->assigned_school,
                     'grade_id' => $item['data']->id, 
@@ -256,7 +256,9 @@ class MenuController extends \App\Http\Controllers\Controller
      * @param array
      */
     public function updateMenu($menus) {
+
         foreach ($menus as $menu) {
+
             $dbMenus = Menu::where("grade_id", $menu["data"]->id)->get();
             if (count($dbMenus) == 0) {
                 $this->saveMenu([$menu]);
@@ -273,28 +275,35 @@ class MenuController extends \App\Http\Controllers\Controller
                     continue;
                 }
             }
+
             foreach ($dbMenus as $dbMenu) {
                 if ($dbMenu->getAttributes()['restricted'] == 1) {
                     $recepies = 'res_rec';
                 } else {
                     $recepies = 'recepies';
                 }
-                foreach ($menu[$recepies] as $index => $recepie) {
+
+                if (array_key_exists($recepies, $menu)) {
+                    foreach ($menu[$recepies] as $index => $recepie) {
                     MenuHasDay::where('menu', $dbMenu->getAttributes()['id'])
                                 ->where('day', $index+1)
                                 ->update(['recepie' => $recepie['id']]);
+                    }
                 }
+                
             }
         }
     }
 
     public function getLocal() {
-        $this->menuErrors();
+        if ($this->menuErrors()) {
+            return $this->menuErrors();
+        };
+        
         if (Auth::user()->school_id !== null) {
-            // return dd($this->getMenu(Auth::user()->school_id));
             return ['recepies' => $this->getMenu(Auth::user()->school_id)];
         }
-
+        
         $grade_ids = DB::select('select distinct(chg.grade_id) from school
         inner join class on class.school_id = '.Auth::user()->assigned_school.'
         inner join class_has_grade chg on chg.class_id = class.id;');
@@ -307,6 +316,7 @@ class MenuController extends \App\Http\Controllers\Controller
         foreach ($class_info as $class_value) {
             $this->createGradeMenu($this->restrictionIngredient($this->classRestrictions($class_value->id)), $class_value);
         };
+
         if (Auth::user()->school_id) {
             $id = Auth::user()->school_id;
         } elseif (Auth::user()->assigned_school) {
@@ -319,4 +329,5 @@ class MenuController extends \App\Http\Controllers\Controller
             return ['recepies' => $this->getMenu(Auth::user()->assigned_school)];
         };
     }
+
 }

@@ -186,6 +186,16 @@ class RecepiesController extends \App\Http\Controllers\Controller
 
     public function delete($id) {
         if (Auth::user()->master == 1 && Auth::user()->caterer_id != null) {
+            $menus = DB::select('select menu.id from menu 
+            inner join menu_has_day mhd on mhd.menu = menu.id and recepie = '.$id.';');
+
+            if ($menus) {
+                foreach ($menus as $menu) {
+                    DB::delete('delete from menu_has_day where menu = '.$menu->id.';');
+                    DB::delete('delete from menu where id = '.$menu->id.';');
+                };
+            };
+
             RecepieHasIngredient::where('recepie', $id)->delete();
             Recepie::where('id', $id)->delete();
         } else {

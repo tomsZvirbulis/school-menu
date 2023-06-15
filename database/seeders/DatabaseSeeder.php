@@ -19,15 +19,66 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        foreach (range(1, 25) as $index) {
-            DB::insert('insert into ingredient_category (name) values (?)', [Str::random(10)]);
-        }
 
-        foreach (range(1,100) as $index) {
-            Ingredients::insert([
-                'ingredient_category'=>random_int(1, 25),
-                'name'=>Str::random(10),
-            ]);
+        $food_categories = [
+            "Fruit" => [
+                "apple",
+                "mangoe",
+                "pineapple",
+                "strawberry",
+                "grape",
+                "oranges",
+                "pear",
+                "peach",
+                "plums",
+                "raspberry"
+            ],
+            "Vegetable" => [
+                "asparagus",
+                "beet",
+                "cabbage",
+                "carrot",
+                "broccoli",
+                "cauliflower",
+                "corn",
+                "onion",
+                "pea",
+                "bell pepper",
+                "leek",
+                "green bean"
+            ],
+            "Dairy" => [
+                "milk",
+                "milk powder",
+                "cheese",
+                "butter",
+                "margarine",
+                "yogurt",
+                "cream",
+                "ice cream"
+            ],
+            "Nuts" => [
+                "Brazil nuts",
+                "almonds",
+                "cashews",
+                "macadamia nuts",
+                "pistachios",
+                "pine nuts",
+                "walnuts",
+                "peanuts"
+            ]
+        ];
+
+        $food_index = 1;
+        foreach ($food_categories as $category => $products) {
+            DB::insert('insert into ingredient_category (name) values (?)', [$category]);
+            foreach ($products as $product) {
+                Ingredients::insert([
+                    'ingredient_category'=>$food_index,
+                    'name'=> $product
+                ]);
+            }
+            $food_index += 1;
         }
 
         foreach (range(1,4) as $index) {

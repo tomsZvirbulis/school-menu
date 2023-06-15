@@ -32,7 +32,7 @@
                 <hr>
                 <ul>
                     @foreach ($data['ingredients'] as $ingredient)
-                        <li>{{$ingredient[2]}}{{$ingredient[3]}} {{$ingredient[0]}}</li>
+                        <li>{{$ingredient[2]}} {{$ingredient[3]}} {{$ingredient[0]}}</li>
 
                     @endforeach
                 </ul>

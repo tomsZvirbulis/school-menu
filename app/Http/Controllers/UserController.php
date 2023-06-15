@@ -28,7 +28,9 @@ class UserController extends Controller
     }
 
     public function data() {
-        if (Auth::user()->master == 1) {
+        if (!Auth::user()) {
+            return view('home');
+        } else if (Auth::user()->master == 1) {
             if (Auth::user()->caterer_id != null) {
                 $res = School::where("caterer", Auth::user()->caterer_id)->get();
             } else {
@@ -100,8 +102,8 @@ class UserController extends Controller
                 'count' => $request['student_count'],
             ]);
         }
+        return redirect('/user');
 
-        
     }
 
     /**

@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{ asset('css/form.css') }}">
 @if (isset($recepies))
     <div class="recepies">
-        <button type="button" class="btn btn-success" onclick="addRecepie()">Add recepie</button>
+        <button id="add_rec" type="button" class="btn btn-success" onclick="addRecepie()">Add recepie</button>
         <div id='recepie-modal' class='modal hide normal-padding'>
             <button onclick="handleClose()" class='btn btn-danger close-btn'><i class="bi bi-x-lg"></i></button>
             <form id='recepie-form' action{{route('createRecepie')}} method='POST'>
@@ -66,7 +66,7 @@
                 
               
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">Add</button>
+                <button id='sub_rec_btn' type="submit" class="btn btn-primary btn-block mb-4">Add</button>
               </form>
         </div>
         <table class="regular-table table">
@@ -125,7 +125,7 @@
                     <div class="col">
                       <div class="form-outline">
                         <label class="form-label" for="ingred-name-${$('#ingred-input > div').length+1}">Ingredient name</label>
-                        <select name='ingred-${$('#ingred-input > div').length+1}' class='js-example-templating'> 
+                        <select name='ingred-${$('#ingred-input > div').length+1}' class='js-example-templating form-control'> 
                               <option value="">Select a Ingredient...</option>
                               <?php
                                 foreach ($ingredients as $ingr) {
@@ -142,7 +142,8 @@
                       </div>
                       <div class="ingr-ms">
                         <label class="form-label" for="mes-${$('#ingred-input > div').length+1}">Measurements</label>
-                        <select name='mes-${$('#ingred-input > div').length+1}'> 
+                        <select class="form-control" name='mes-${$('#ingred-input > div').length+1}'> 
+                                <option value="am">Amount</option>
                                 <option value="tbsp">tablespoon</option>
                                 <option value="tsp">teaspoon</option>
                                 <option value="oz">Table ounce</option>
@@ -209,7 +210,7 @@
 @endif
 @if (!isset($recepies)) 
 <div>
-  <h1>You can't view recepies</h1>
+  <h1 style="text-align:center">You can't view recepies</h1>
 </div>
 @endif
 @endsection

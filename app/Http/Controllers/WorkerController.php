@@ -36,6 +36,7 @@ class WorkerController extends Controller
             function getLastId($tableName) {
                 return DB::select('select id from '.$tableName.' order by id DESC limit 1;');
             }
+            
             Address::insert([
                 'address' => request('address'),   
                 'address2' => request('address2'),
@@ -46,6 +47,10 @@ class WorkerController extends Controller
             ]);
             $addressId = getLastId('address');
             $caterer = Auth::user()->caterer_id;
+
+            if ($this->duplicateSchools(request('email')) == true) {
+                return redirect('/user');
+            }
             
             if (request('password') === request('confirm_password')) {
                 $hashed = Hash::make(request('password'));
@@ -86,9 +91,15 @@ class WorkerController extends Controller
                 return redirect('/user');
             };
         }
+    }
 
-        
+    public function duplicateSchools($email) {
+            $user = DB::select('SELECT * FROM users where email = "'.$email.'";');
+            if ($user) {
+                return true;
+            }
 
+            return false;
     }
 
     /**

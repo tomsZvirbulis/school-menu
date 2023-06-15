@@ -129,10 +129,15 @@
       
                       </div>
                   </div>
-                  
+
+                  @if ($errors->any())
+                  @foreach ($errors->all() as $error)
+                    <div class="error">{{ $error }}</div>
+                  @endforeach
+                  @endif
     
                   <div class="mt-4 pt-2">
-                    <input class="btn btn-primary btn-lg" type="submit" value="Register" />
+                    <input id="sub-btn" class="btn btn-primary btn-lg" type="submit" value="Register" />
                   </div>
                   
                   <div class='mt-4 pt-2'>
@@ -146,10 +151,4 @@
         </div>
       </div>
     </section>
-
-    @if ($errors->any())
-      @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-      @endforeach
-    @endif
 @endsection
