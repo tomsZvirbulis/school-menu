@@ -143,12 +143,15 @@ class RecepiesController extends \App\Http\Controllers\Controller
     }
 
     public function createRecepies(Request $request) {
+
         if (Auth::user()->master !== 1) {
             return response()->json(['error' => 'Insufficient permisions'], 500);
         }
+
         $raw_data = $request->all();
         $decoded_data = json_decode($raw_data['data']);
-        if (count($decoded_data)-1 <= 5) {
+
+        if (count($decoded_data)-1 <= 6) {
             return response()->json(['error' => 'Ingredient needed'], 500);
         }
 

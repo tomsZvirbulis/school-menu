@@ -61,12 +61,10 @@
 
                 <button type="button" class="btn btn-success" id='ingred-btn'>Add ingredient</button>
                 <div id='ingred-input'>
-
                 </div>
-                
-              
                 <!-- Submit button -->
                 <button id='sub_rec_btn' type="submit" class="btn btn-primary btn-block mb-4">Add</button>
+                <div style="color: red" id='error-msg'></div>
               </form>
         </div>
         <table class="regular-table table">
@@ -183,6 +181,7 @@
           $(`[name=${dat.name}]`).addClass('error-input')
         } else {
           $(`[name=${dat.name}]`).removeClass('error-input')
+          $('#error-msg').append('')
         }
       })
       if (error === 0) {
@@ -201,7 +200,11 @@
             location.reload()
           },
           error: function(response) {
-            alert(response.responseJSON.error)
+            if (response.responseJSON.error === "Ingredient needed") {
+              $('#error-msg').append(response.responseJSON.error);
+            } else {
+              alert(response.responseJSON.error)
+            }
           }
         });
       }
