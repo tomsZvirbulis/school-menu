@@ -76,7 +76,7 @@ class MenuController extends \App\Http\Controllers\Controller
         inner join class_has_grade chg on chg.class_id = res.class_id;');
     }
 
-    public function restrictionIngredient($restrictions) {
+    public function restrictionIngredient($restrictions) { 
         $tempRestrictions = array();
         foreach ($restrictions as $restriction) {
             if ($restriction->ingredients_id) {
@@ -166,7 +166,6 @@ class MenuController extends \App\Http\Controllers\Controller
      * @param array
      */
     public function saveMenu($menu) {
-        // dd($menu);
         foreach ($menu as $item) {
             if (array_key_exists('recepies', $item)) {
                 $menuId = Menu::insertGetId([
@@ -282,7 +281,6 @@ class MenuController extends \App\Http\Controllers\Controller
                 } else {
                     $recepies = 'recepies';
                 }
-
                 if (array_key_exists($recepies, $menu)) {
                     foreach ($menu[$recepies] as $index => $recepie) {
                     MenuHasDay::where('menu', $dbMenu->getAttributes()['id'])
@@ -290,7 +288,6 @@ class MenuController extends \App\Http\Controllers\Controller
                                 ->update(['recepie' => $recepie['id']]);
                     }
                 }
-                
             }
         }
     }

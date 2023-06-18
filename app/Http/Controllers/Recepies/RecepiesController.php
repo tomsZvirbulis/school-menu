@@ -93,6 +93,8 @@ class RecepiesController extends \App\Http\Controllers\Controller
         WHERE 
             (recepie.calories between {$minCal} and $maxCal)
         AND
+            recepie.caterer_id = ".Auth::user()->caterer_id."
+        AND
             recepie.id NOT IN (select
             recepie.id
         from

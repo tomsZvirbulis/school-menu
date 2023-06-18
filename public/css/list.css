@@ -58,6 +58,7 @@ tr:not(.reg-table-hr) > td, tr:not(.reg-table-hr) > th {
 
 .c-columns > span,
 .c-content-block > div > span {
+  margin-bottom: 1rem;
   width: 10%;
   font-weight: 600;
 }
@@ -129,5 +130,10 @@ tr:not(.reg-table-hr) > td, tr:not(.reg-table-hr) > th {
 
   .res-columns {
     margin-top: 0;
+  }
+
+  .c-content-block > .c-columns > div,
+  .c-content-block > div > p {
+    width: 100%;
   }
 }
