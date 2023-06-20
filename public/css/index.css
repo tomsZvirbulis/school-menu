@@ -251,3 +251,9 @@ a {
     height: 150px;
     background-color: rgb(61, 60, 59);
 }
+
+@media only screen and (max-width: 1024px) {
+    .loged-in {
+        gap: .5rem;
+    }
+  }

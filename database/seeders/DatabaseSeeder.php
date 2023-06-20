@@ -45,7 +45,9 @@ class DatabaseSeeder extends Seeder
                 "pea",
                 "bell pepper",
                 "leek",
-                "green bean"
+                "green bean",
+                "potato",
+                "cucumber"
             ],
             "Dairy" => [
                 "milk",
@@ -55,7 +57,8 @@ class DatabaseSeeder extends Seeder
                 "margarine",
                 "yogurt",
                 "cream",
-                "ice cream"
+                "ice cream",
+                "pasta"
             ],
             "Nuts" => [
                 "Brazil nuts",
@@ -66,6 +69,10 @@ class DatabaseSeeder extends Seeder
                 "pine nuts",
                 "walnuts",
                 "peanuts"
+            ],
+            "Grain" => [
+                "Rice",
+                "Buckwheat"
             ]
         ];
 
