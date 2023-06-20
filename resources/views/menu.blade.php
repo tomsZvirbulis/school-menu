@@ -84,8 +84,8 @@
                                 <h2 class="c-row-title c-row-block-title">${element[data].minYear} - ${element[data].maxYear}</h2>
                             </div>
                             <div class="c-content-block">
-                                <div>
-                                    <span></span>
+                                <div class="c-columns">
+                                    <div class="generate-empty"></div>
                                     <p>Monday</p>
                                     <p>Tuesday</p>
                                     <p>Wednesday</p>
@@ -96,7 +96,7 @@
                         } else if (data == "recepies") {
                             text += `
                                 <div class="c-columns">
-                                    <span>Normal</span>
+                                    <div>Normal</div>
                                 `
                             element[data].forEach(recepie => {
                                 text += `
@@ -108,7 +108,7 @@
                         } else if (data == "res_rec") {
                             text += `
                                     <div class="res-columns c-columns">
-                                        <span>Restricted</span>
+                                        <div>Restricted</div>
                                 `
                             element[data].forEach(recepie => {
                                 text += `<div><a href=${'recepie/'+ recepie.id}>${recepie.name}</a></div>`

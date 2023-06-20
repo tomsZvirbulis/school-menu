@@ -101,6 +101,12 @@ tr:not(.reg-table-hr) > td, tr:not(.reg-table-hr) > th {
   justify-content: flex-start;
 }
 
+.generate-empty {
+  height: 24px;
+  width: 19.66%;
+  margin-bottom: 1rem;
+}
+
 @media only screen and (max-width: 1024px) {
   .c-block-row {
     display: block;
